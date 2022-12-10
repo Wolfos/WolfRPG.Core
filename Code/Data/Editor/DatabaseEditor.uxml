@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:ScrollView style="width: 182px; height: 646px; left: 0; top: 0; right: auto; bottom: 0; align-items: stretch; background-color: rgba(0, 0, 0, 0.33);">
+        <ui:Button text="New Category" display-tooltip-when-elided="true" name="NewCategory" />
+    </ui:ScrollView>
+</ui:UXML>

@@ -1,0 +1,18 @@
+{
+  "name": "nl.eestudio.wolfrpg.core",
+  "version": "0.1.0",
+  "displayName": "WolfRPG.Core",
+  "description": "WolfRPG Core Module",
+  "unity": "2021.3",
+  "documentationUrl": "",
+  "changelogUrl": "",
+  "licensesUrl": "",
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.0.2"
+  },
+  "author": {
+    "name": "eeStudio",
+    "email": "",
+    "url": "http://eestudio.nl"
+  }
+}
