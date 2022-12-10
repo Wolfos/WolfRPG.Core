@@ -1,0 +1,16 @@
+{
+    "name": "WolfRPG.Core.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:185b1bff81d510640aa7885704058061"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
