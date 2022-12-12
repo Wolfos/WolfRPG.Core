@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace WolfRPG.Core
 {
 	[Serializable]
 	public class RPGObject: IRPGObject
 	{
-		public Guid Guid;
+		public Guid Guid = Guid.NewGuid();
 		public string Name;
 		
 		private Dictionary<Type, IRPGComponent> _components = new();
@@ -18,7 +19,8 @@ namespace WolfRPG.Core
 				component = (T)_components[typeof(T)];
 				return true;
 			}
-
+			
+			Debug.LogError($"No component of type {typeof(T)} was present on object {Name}");
 			component = new();
 			return false;
 		}

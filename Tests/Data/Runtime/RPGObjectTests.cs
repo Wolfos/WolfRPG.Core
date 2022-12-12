@@ -33,6 +33,8 @@ namespace WolfRPG.Core.Tests.Data.Runtime
 		public void GetComponent_ComponentDoesNotExist_ReturnsFalse()
 		{
 			var target = new RPGObject();
+			
+			LogAssert.Expect(LogType.Error, "No component of type WolfRPG.Core.Tests.Data.Runtime.TestComponent was present on object ");
 			var actual = target.GetComponent<TestComponent>(out _);
 			
 			Assert.AreEqual(false, actual);
@@ -42,6 +44,8 @@ namespace WolfRPG.Core.Tests.Data.Runtime
 		public void GetComponent_ComponentDoesNotExist_ComponentNotNull()
 		{
 			var target = new RPGObject();
+			
+			LogAssert.Expect(LogType.Error, "No component of type WolfRPG.Core.Tests.Data.Runtime.TestComponent was present on object ");
 			target.GetComponent<TestComponent>(out var component);
 			
 			Assert.NotNull(component);
