@@ -10,54 +10,40 @@ namespace WolfRPG.Core.Tests.Data.Runtime
 	public class RPGObjectTests
 	{
 		[Test]
-		public void GetComponent_ComponentExists_ReturnsTrue()
+		public void AddComponent_ReturnsComponentThatIsNotNull()
 		{
 			var target = new RPGObject();
-			target.AddComponent<TestComponent>();
-			var actual = target.GetComponent<TestComponent>(out _);
-			
-			Assert.IsTrue(actual);
+			var actual = target.AddComponent<TestComponent>();
+			Assert.IsNotNull(actual);
 		}
 		
 		[Test]
-		public void GetComponent_ComponentExists_SetsComponent()
+		public void GetComponent_ComponentExists_ReturnsComponent()
 		{
 			var target = new RPGObject();
 			var expected = target.AddComponent<TestComponent>();
-			target.GetComponent<TestComponent>(out var actual);
+			var actual = target.GetComponent<TestComponent>();
 			
 			Assert.AreEqual(expected, actual);
 		}
 		
 		[Test]
-		public void GetComponent_ComponentDoesNotExist_ReturnsFalse()
+		public void GetComponent_ComponentDoesNotExist_LogsError()
 		{
 			var target = new RPGObject();
 			
 			LogAssert.Expect(LogType.Error, "No component of type WolfRPG.Core.Tests.Data.Runtime.TestComponent was present on object ");
-			var actual = target.GetComponent<TestComponent>(out _);
-			
-			Assert.AreEqual(false, actual);
+			var actual = target.GetComponent<TestComponent>();
 		}
 		
 		[Test]
-		public void GetComponent_ComponentDoesNotExist_ComponentNotNull()
+		public void GetComponent_ComponentDoesNotExist_ReturnsNull()
 		{
 			var target = new RPGObject();
 			
 			LogAssert.Expect(LogType.Error, "No component of type WolfRPG.Core.Tests.Data.Runtime.TestComponent was present on object ");
-			target.GetComponent<TestComponent>(out var component);
-			
-			Assert.NotNull(component);
-		}
-
-		[Test]
-		public void AddComponent_ReturnsComponent()
-		{
-			var target = new RPGObject();
-			var actual = target.AddComponent<TestComponent>();
-			
-			Assert.AreEqual(typeof(TestComponent), actual.GetType());
+			var actual = target.GetComponent<TestComponent>();
+			Assert.IsNull(actual);
 		}
 	}
 }
