@@ -1,44 +1,14 @@
-#tabs {
-    flex-basis: 10%;
-    flex-direction: row;
-    background-color: rgb(229, 223, 223);
-    -unity-font-style: bold;
-    font-size: 14px;
-}
-
-/* Sets each label in tabs to have the same size. */
-.tab {
-    flex-grow: 1;
-}
-
-/* Adds background color for the selected tab */
-.currentlySelectedTab {
-    background-color: rgb(173, 166, 166);
-}
-
-/* Style for tabContent */
-#tabContent {
-    flex-basis: 90%;
-    background-color: rgb(255, 255, 255);
-    font-size: 20px;
-}
-
-/* Hides the unselected tab content */
-.unselectedContent {
-    display: none;
-}
-
 .ObjectList
 {
-    background-color: rgba(0, 0, 0, 25);
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 .Inspector
 {
-    background-color: rgba(0, 0, 0, 25);
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 .Component
 {
-    background-color: rgba(0, 0, 0, 25);
+    background-color: rgba(0, 0, 0, 0.2);
 }

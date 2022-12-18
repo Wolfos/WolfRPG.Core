@@ -7,10 +7,12 @@ namespace WolfRPG.Core
 	[Serializable]
 	public class RPGObject: IRPGObject
 	{
-		public Guid Guid = Guid.NewGuid();
+		public Guid Guid { get; set; }
+		
 		public string Name;
 		
 		private Dictionary<Type, IRPGComponent> _components = new();
+
 
 		public T AddComponent<T>() where T : class, IRPGComponent, new()
 		{
