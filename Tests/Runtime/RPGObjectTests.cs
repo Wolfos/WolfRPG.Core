@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
+﻿using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace WolfRPG.Core.Tests.Data.Runtime
+namespace WolfRPG.Core.Tests.Runtime
 {
 	public class RPGObjectTests
 	{
@@ -32,7 +29,7 @@ namespace WolfRPG.Core.Tests.Data.Runtime
 		{
 			var target = new RPGObject();
 			
-			LogAssert.Expect(LogType.Error, "No component of type WolfRPG.Core.Tests.Data.Runtime.TestComponent was present on object ");
+			LogAssert.Expect(LogType.Error, "No component of type WolfRPG.Core.Tests.Runtime.TestComponent was present on object ");
 			var actual = target.GetComponent<TestComponent>();
 		}
 		
@@ -41,7 +38,7 @@ namespace WolfRPG.Core.Tests.Data.Runtime
 		{
 			var target = new RPGObject();
 			
-			LogAssert.Expect(LogType.Error, "No component of type WolfRPG.Core.Tests.Data.Runtime.TestComponent was present on object ");
+			LogAssert.Expect(LogType.Error, "No component of type WolfRPG.Core.Tests.Runtime.TestComponent was present on object ");
 			var actual = target.GetComponent<TestComponent>();
 			Assert.IsNull(actual);
 		}

@@ -2,10 +2,11 @@
 using Moq;
 using NUnit.Framework;
 
-namespace WolfRPG.Core.Tests.Data.Runtime
+namespace WolfRPG.Core.Tests.Runtime
 {
 	public class RPGDatabaseTests
 	{
+		
 		[Test]
 		public void AddObject_CallsDefaultDatabase()
 		{

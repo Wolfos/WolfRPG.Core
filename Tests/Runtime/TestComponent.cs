@@ -1,4 +1,4 @@
-﻿namespace WolfRPG.Core.Tests.Data.Runtime
+﻿namespace WolfRPG.Core.Tests.Runtime
 {
 	public class TestComponent: IRPGComponent
 	{
