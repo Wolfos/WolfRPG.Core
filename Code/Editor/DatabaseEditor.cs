@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Settings;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -14,6 +16,8 @@ namespace WolfRPG.Core
 
         private ObjectField _databaseAssetField;
         private TextAsset _databaseAsset;
+        private AddressableAssetSettings _addressableSettings;
+        private AddressableAssetGroup _assetGroup;
 
         [MenuItem("WolfRPG/Database Editor")]
         public static void Open()
@@ -25,7 +29,7 @@ namespace WolfRPG.Core
         public void CreateGUI()
         {
             _databaseFactory = new RPGDatabaseFactory();
-            
+
             VisualElement root = rootVisualElement;
             
             // Workaround because you can't add stylesheets from a package path
@@ -42,6 +46,17 @@ namespace WolfRPG.Core
             uxml.style.flexShrink = 1;
             root.Add(uxml);
             uxml.styleSheets.Add(styleSheet);
+            
+            if (AddressableAssetSettingsDefaultObject.SettingsExists)
+            {
+                _addressableSettings = AddressableAssetSettingsDefaultObject.Settings;
+            }
+            else
+            {
+                DisplayWarning("Addressables has not been setup for this project. Please create the addressables settings from the Addressables Groups window and reopen the WolfRPG editor");
+                root.Query<GroupBox>("Editor").First().SetEnabled(false);
+                return;
+            }
             
             var newAssetButton = root.Query<Button>("NewAssetButton").First();
             newAssetButton.clicked += OnCreateNewAssetButtonClicked;
@@ -60,14 +75,37 @@ namespace WolfRPG.Core
             }
         }
 
+        private void DisplayWarning(string text)
+        {
+            var warning = rootVisualElement.Query<Label>("Warning").First();
+            warning.text = text;
+            warning.style.display = DisplayStyle.Flex;
+        }
+
+        private void HideWarning()
+        {
+            var warning = rootVisualElement.Query<Label>("Warning").First();
+            warning.style.display = DisplayStyle.None;
+        }
+        
+        private void DisplayError(string text)
+        {
+            var error = rootVisualElement.Query<Label>("Error").First();
+            error.text = text;
+            error.style.display = DisplayStyle.Flex;
+        }
+
+        private void HideError()
+        {
+            var error = rootVisualElement.Query<Label>("Error").First();
+            error.style.display = DisplayStyle.None;
+        }
+
         private void OnCreateNewAssetButtonClicked()
         {
-            _database = _databaseFactory.CreateNewDatabase(out var guid);
+            _database = _databaseFactory.CreateNewDatabase(out _databaseAsset);
 
-            if (guid == null) return;
-            
-            var path = AssetDatabase.GUIDToAssetPath(guid.Value);
-            _databaseAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
+            if (_databaseAsset == null) return;
             
             _databaseAssetField.SetValueWithoutNotify(_databaseAsset);
         }

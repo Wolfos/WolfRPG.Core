@@ -85,7 +85,7 @@ namespace WolfRPG.Core.Tests.Runtime
 			var rpgObject = new RPGObject();
 
 			target.AddObjectInstance(rpgObject);
-			var actual = target.GetObjectInstance(Guid.NewGuid());
+			var actual = target.GetObjectInstance(Guid.NewGuid().ToString());
 			Assert.IsNull(actual);
 		}
 		

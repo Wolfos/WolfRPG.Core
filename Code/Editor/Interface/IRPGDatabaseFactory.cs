@@ -6,7 +6,7 @@ namespace WolfRPG.Core
 {
 	public interface IRPGDatabaseFactory
 	{
-		IRPGDatabase CreateNewDatabase(out Nullable<GUID> guid);
+		IRPGDatabase CreateNewDatabase(out TextAsset asset);
 		IRPGDatabase GetDefaultDatabase(out TextAsset asset);
 	}
 }

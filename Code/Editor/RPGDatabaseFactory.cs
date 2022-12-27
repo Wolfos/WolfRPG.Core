@@ -2,7 +2,9 @@
 using System.IO;
 using Newtonsoft.Json;
 using UnityEditor;
+using UnityEditor.AddressableAssets;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace WolfRPG.Core
 {
@@ -11,12 +13,12 @@ namespace WolfRPG.Core
 		public static string DefaultRelativeDatabasePath = "WolfRPG/DefaultDatabase.json";
 		public string DefaultDatabasePath = $"{Application.dataPath}/{DefaultRelativeDatabasePath}";
 
-		public IRPGDatabase CreateNewDatabase(out Nullable<GUID> guid)
+		public IRPGDatabase CreateNewDatabase(out TextAsset asset)
 		{
 			if (File.Exists(DefaultDatabasePath))
 			{
 				Debug.LogWarning($"File {DefaultDatabasePath} already exists");
-				guid = null;
+				asset = null;
 				return null;
 			}
 
@@ -32,21 +34,42 @@ namespace WolfRPG.Core
 
 			AssetDatabase.Refresh();
 
-			guid = AssetDatabase.GUIDFromAssetPath($"Assets/{DefaultRelativeDatabasePath}");
+			var guid = AssetDatabase.GUIDFromAssetPath($"Assets/{DefaultRelativeDatabasePath}");
+			asset = AssetDatabase.LoadAssetAtPath<TextAsset>($"Assets/{DefaultRelativeDatabasePath}");
+			
+			// Add to addressables
+			var addressableSettings = AddressableAssetSettingsDefaultObject.Settings;
+			var assetGroup = addressableSettings.FindGroup("WolfRPG");
+			if (assetGroup == null)
+			{
+				assetGroup = addressableSettings.CreateGroup("WolfRPG", false, false, false,
+					new() {addressableSettings.DefaultGroup.Schemas[0]});
+			}
+
+			var entry = addressableSettings.CreateOrMoveEntry(guid.ToString(), assetGroup);
+			addressableSettings.AddLabel(RPGDatabaseAsset.LabelDefault);
+			addressableSettings.AddLabel(RPGDatabaseAsset.Label);
+			entry.labels.Add(RPGDatabaseAsset.LabelDefault);
+			entry.labels.Add(RPGDatabaseAsset.Label);
+			
 			return newDatabase;
 		}
 
 		public IRPGDatabase GetDefaultDatabase(out TextAsset asset)
 		{
-			if (File.Exists(DefaultDatabasePath) == false)
+			try
 			{
-				Debug.LogWarning($"File {DefaultDatabasePath} doesn't exist");
+				var operation = Addressables.LoadAssetAsync<TextAsset>(RPGDatabaseAsset.LabelDefault);
+				asset = operation.WaitForCompletion();
+				
+				return JsonConvert.DeserializeObject<RPGDatabase>(asset.text);
+			}
+			catch (InvalidKeyException)
+			{
+				Debug.LogWarning($"No default database found");
 				asset = null;
 				return null;
 			}
-
-			asset = AssetDatabase.LoadAssetAtPath<TextAsset>($"Assets/{DefaultRelativeDatabasePath}");
-			return JsonConvert.DeserializeObject<RPGDatabase>(asset.text);
 		}
 	}
 }

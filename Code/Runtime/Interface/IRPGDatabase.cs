@@ -5,6 +5,6 @@ namespace WolfRPG.Core
 	public interface IRPGDatabase
 	{
 		bool AddObjectInstance(IRPGObject rpgObject);
-		IRPGObject GetObjectInstance(Guid guid);
+		IRPGObject GetObjectInstance(string guid);
 	}
 }

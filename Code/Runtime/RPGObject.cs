@@ -7,7 +7,7 @@ namespace WolfRPG.Core
 	[Serializable]
 	public class RPGObject: IRPGObject
 	{
-		public Guid Guid { get; set; }
+		public string Guid { get; set; }
 		
 		public string Name;
 		

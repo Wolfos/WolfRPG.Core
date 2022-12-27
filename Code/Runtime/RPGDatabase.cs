@@ -6,7 +6,7 @@ namespace WolfRPG.Core
 	public class RPGDatabase: IRPGDatabase
 	{
 		public static IRPGDatabase DefaultDatabase { get; set; }
-		private readonly Dictionary<Guid, IRPGObject> _objects = new();
+		public Dictionary<string, IRPGObject> Objects = new();
 
 
 		public static bool AddObject(IRPGObject rpgObject)
@@ -14,28 +14,28 @@ namespace WolfRPG.Core
 			return DefaultDatabase.AddObjectInstance(rpgObject);
 		}
 		
-		public static IRPGObject GetObject(Guid guid)
+		public static IRPGObject GetObject(string guid)
 		{
 			return DefaultDatabase.GetObjectInstance(guid);
 		}
 
 		public bool AddObjectInstance(IRPGObject rpgObject)
 		{
-			if (_objects.ContainsKey(rpgObject.Guid))
+			if (Objects.ContainsKey(rpgObject.Guid))
 			{
 				return false;
 			}
 			
-			_objects.Add(rpgObject.Guid, rpgObject);
+			Objects.Add(rpgObject.Guid, rpgObject);
 			
 			return true;
 		}
 
-		public IRPGObject GetObjectInstance(Guid guid)
+		public IRPGObject GetObjectInstance(string guid)
 		{
-			if (_objects.ContainsKey(guid))
+			if (Objects.ContainsKey(guid))
 			{
-				return _objects[guid];
+				return Objects[guid];
 			}
 
 			return null;

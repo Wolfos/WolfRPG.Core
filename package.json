@@ -8,8 +8,10 @@
   "changelogUrl": "",
   "licensesUrl": "",
   "dependencies": {
+	"com.unity.settings-manager": "2.0.1",
     "com.unity.nuget.newtonsoft-json": "3.0.2",
-    "com.unity.test-framework": "1.1.31"
+    "com.unity.test-framework": "1.1.31",
+	"com.unity.addressables": "1.21.2"
   },
   "author": {
     "name": "eeStudio",
