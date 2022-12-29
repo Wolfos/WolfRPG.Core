@@ -7,6 +7,7 @@ namespace WolfRPG.Core
 	[Serializable]
 	public class RPGObject: IRPGObject
 	{
+		public const string Label = "WolfRPG Object";
 		public string Guid { get; set; }
 		
 		public string Name;

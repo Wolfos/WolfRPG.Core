@@ -33,7 +33,7 @@ namespace WolfRPG.Core
 			File.WriteAllText(DefaultDatabasePath, json);
 
 			AssetDatabase.Refresh();
-
+			
 			var guid = AssetDatabase.GUIDFromAssetPath($"Assets/{DefaultRelativeDatabasePath}");
 			asset = AssetDatabase.LoadAssetAtPath<TextAsset>($"Assets/{DefaultRelativeDatabasePath}");
 			

@@ -12,6 +12,7 @@ namespace WolfRPG.Core
     {
         private ScrollView _objectList;
         private IRPGDatabaseFactory _databaseFactory;
+        private IRPGObjectFactory _objectFactory;
         private IRPGDatabase _database;
 
         private ObjectField _databaseAssetField;
@@ -29,8 +30,9 @@ namespace WolfRPG.Core
         public void CreateGUI()
         {
             _databaseFactory = new RPGDatabaseFactory();
+            _objectFactory = new RPGObjectFactory();
 
-            VisualElement root = rootVisualElement;
+            var root = rootVisualElement;
             
             // Workaround because you can't add stylesheets from a package path
            var styleSheet =
@@ -112,12 +114,16 @@ namespace WolfRPG.Core
 
         private void OnCreateNewObjectClicked()
         {
-            var newObject = new RPGObject();
-            newObject.Name = "New Object";//$"New Object {_objects.Count + 1}";
-            _database.AddObjectInstance(newObject);
+            var database = (RPGDatabase) _database;
+            
+            var name = $"New Object {database.Objects.Count + 1}";
+            
+            var newObject = (RPGObject)_objectFactory.CreateNewObject(name);
+            
+            database.AddObjectInstance(newObject);
 
             var label = new Label(newObject.Name);
-            //label.RegisterCallback<ClickEvent>(_ => OnObjectClicked(_objects.Count - 1));
+            label.RegisterCallback<ClickEvent>(_ => OnObjectClicked(database.Objects.Count - 1));
             _objectList.Add(label);
         }
 
