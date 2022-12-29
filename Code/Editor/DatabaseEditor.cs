@@ -125,6 +125,8 @@ namespace WolfRPG.Core
             var label = new Label(newObject.Name);
             label.RegisterCallback<ClickEvent>(_ => OnObjectClicked(database.Objects.Count - 1));
             _objectList.Add(label);
+            
+            _databaseFactory.SaveDefaultDatabase();
         }
 
         private void OnObjectClicked(int objectIndex)

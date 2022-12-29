@@ -30,7 +30,7 @@ namespace WolfRPG.Core
 			return database;
 		}
 
-		public void CreateFrom(RPGDatabase database)
+		public void CreateFrom(IRPGDatabase database)
 		{
 			ObjectReferences = new();
 			foreach (var obj in database.Objects)

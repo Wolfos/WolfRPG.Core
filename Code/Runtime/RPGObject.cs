@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace WolfRPG.Core
@@ -12,6 +13,7 @@ namespace WolfRPG.Core
 		
 		public string Name;
 		
+		[JsonProperty]
 		private Dictionary<Type, IRPGComponent> _components = new();
 
 

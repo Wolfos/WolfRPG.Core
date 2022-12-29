@@ -24,6 +24,12 @@ namespace WolfRPG.Core
 				AssetDatabase.CreateFolder("Assets/WolfRPG", "Objects");
 			}
 
+			if (File.Exists($"{DefaultPath}/{name}.json"))
+			{
+				Debug.LogError($"Object with name {name} already exists");
+				return null;
+			}
+
 			var newObject = new RPGObject
 			{
 				Name = name

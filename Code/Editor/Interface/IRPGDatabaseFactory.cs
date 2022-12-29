@@ -6,5 +6,6 @@ namespace WolfRPG.Core
 	{
 		IRPGDatabase CreateNewDatabase(out TextAsset asset);
 		IRPGDatabase GetDefaultDatabase(out TextAsset asset);
+		void SaveDefaultDatabase();
 	}
 }

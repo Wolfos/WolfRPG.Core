@@ -28,8 +28,10 @@ namespace WolfRPG.Core
 			}
 
 			var newDatabase = new RPGDatabase();
+			var dbAsset = new RPGDatabaseAsset();
+			dbAsset.CreateFrom(newDatabase);
 
-			var json = JsonConvert.SerializeObject(newDatabase, Formatting.Indented);
+			var json = JsonConvert.SerializeObject(dbAsset, Formatting.Indented);
 			File.WriteAllText(DefaultDatabasePath, json);
 
 			AssetDatabase.Refresh();
@@ -62,14 +64,34 @@ namespace WolfRPG.Core
 				var operation = Addressables.LoadAssetAsync<TextAsset>(RPGDatabaseAsset.LabelDefault);
 				asset = operation.WaitForCompletion();
 				
-				return JsonConvert.DeserializeObject<RPGDatabase>(asset.text);
+				var databaseAsset = JsonConvert.DeserializeObject<RPGDatabaseAsset>(asset.text);
+				var database = databaseAsset.Get();
+				RPGDatabase.DefaultDatabase = database;
+				
+				return database;
 			}
-			catch (InvalidKeyException)
+			catch
 			{
 				Debug.LogWarning($"No default database found");
 				asset = null;
 				return null;
 			}
+		}
+
+		public void SaveDefaultDatabase()
+		{
+			var operation = Addressables.LoadAssetAsync<TextAsset>(RPGDatabaseAsset.LabelDefault);
+			var asset = operation.WaitForCompletion();
+			var relativePath = AssetDatabase.GetAssetPath(asset);
+			var absolutePath = $"{Path.GetDirectoryName(Application.dataPath)}/{relativePath}";
+			
+			var databaseAsset = new RPGDatabaseAsset();
+			if (RPGDatabase.DefaultDatabase == null) GetDefaultDatabase(out _);
+			
+			databaseAsset.CreateFrom(RPGDatabase.DefaultDatabase);
+
+			var json = JsonConvert.SerializeObject(databaseAsset);
+			File.WriteAllText(absolutePath, json);
 		}
 	}
 }
