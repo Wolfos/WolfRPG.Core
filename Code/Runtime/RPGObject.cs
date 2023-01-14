@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
 
+
 namespace WolfRPG.Core
 {
 	[Serializable]
@@ -21,7 +22,7 @@ namespace WolfRPG.Core
 		{
 			var newComponent = new T();
 			_components.Add(typeof(T), newComponent);
-			
+
 			return newComponent;
 		}
 		

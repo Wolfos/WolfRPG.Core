@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/WolfRPG.uss?fileID=7433441132597879392&amp;guid=fc76d4011481ed44cab5d9bb0c5cf77c&amp;type=3#WolfRPG" />
+    <ui:ScrollView style="flex-grow: 1;">
+        <ui:TextField picking-mode="Ignore" label="Name" value="Mana Potion" text="Mana Potion" name="NameField" />
+        <ui:Foldout text="Item" class="Component" style="margin-top: 10px;">
+            <ui:TextField picking-mode="Ignore" label="Value" value="filler text" text="10" />
+        </ui:Foldout>
+        <ui:Foldout text="Consumable" class="Component" style="margin-top: 10px;" />
+        <ui:Button text="New Component" display-tooltip-when-elided="true" style="margin-top: 20px;" />
+    </ui:ScrollView>
+</ui:UXML>
