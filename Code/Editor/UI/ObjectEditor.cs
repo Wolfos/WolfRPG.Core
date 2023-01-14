@@ -10,7 +10,7 @@ namespace WolfRPG.Core
     public class ObjectEditor
     {
         public Action SelectedObjectUpdated { get; set; }
-        public RPGObject SelectedObject { get; private set; }
+        public IRPGObject SelectedObject { get; private set; }
         
         private TextField _nameField;
         private TemplateContainer _container;
@@ -30,7 +30,7 @@ namespace WolfRPG.Core
             return _container;
         }
         
-        public void SelectObject(RPGObject rpgObject)
+        public void SelectObject(IRPGObject rpgObject)
         {
             SelectedObject = rpgObject;
 
@@ -52,7 +52,8 @@ namespace WolfRPG.Core
 
         private void AddNewComponent(Type type)
         {
-            
+            var newComponent = (IRPGComponent)Activator.CreateInstance(type);
+            SelectedObject.AddComponent(newComponent);
         }
 
         private void OnNewComponentButtonPressed()
@@ -69,9 +70,21 @@ namespace WolfRPG.Core
                 .SelectMany(assembly => assembly.GetTypes())
                 .Where(type => typeof(IRPGComponent).IsAssignableFrom(type));
             
-            // TODO: Exclude components we already have
-            
+            var typeList = new List<Type>();
             foreach (var type in types)
+            {
+                // Exclude components we already have
+                if (SelectedObject.HasComponent(type)) continue;
+                // Exclude IRPGComponent itself
+                if(type == typeof(IRPGComponent)) continue;
+
+                typeList.Add(type);
+            }
+
+            // Sort alphabetically
+            typeList.OrderBy(t => t.ToString());
+            
+            foreach (var type in typeList)
             {
                 componentList.Add(type.ToString());
             }
@@ -79,11 +92,19 @@ namespace WolfRPG.Core
             var popupField = new PopupField<string>("", componentList, 0);
             _container.Add(popupField);
 
-            var button = new Button(() =>
+            var button = new Button();
+            button.clicked += () =>
             {
-                
-            });
+                var type = typeList[popupField.index];
+                AddNewComponent(type);
+                _addingComponent = false;
+
+                _container.Remove(button);
+                _container.Remove(popupField);
+            };
+            
             button.text = "Add";
+            _container.Add(button);
         }
     }
 }

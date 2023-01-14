@@ -4,15 +4,15 @@
         <ui:Label text="Addressables has not yet been enabled for this project. Please open &quot;Window&gt;Asset Management&gt;Addressables&gt;Groups&quot; and generate the data" display-tooltip-when-elided="true" name="Warning" style="color: rgb(255, 197, 0); display: none; margin-top: 5px;" />
         <ui:Label text="Addressables has not yet been enabled for this project. Please open &quot;Window&gt;Asset Management&gt;Addressables&gt;Groups&quot; and generate the data" display-tooltip-when-elided="true" name="Error" style="color: rgb(255, 30, 0); display: none; margin-top: 5px; visibility: visible;" />
     </ui:GroupBox>
-    <ui:GroupBox name="Editor" style="height: 100%; width: 100%; min-width: 100%; min-height: 100%; flex-grow: 1; flex-shrink: 1;">
-        <ui:GroupBox name="Buttons" style="flex-direction: row; align-items: flex-start; opacity: 1; visibility: visible; overflow: visible; margin-top: 1px; height: auto; padding-top: 0; padding-bottom: 0;">
-            <ui:Button text="Save" display-tooltip-when-elided="true" name="SaveButton" focusable="true" style="height: 34px; width: 44px;" />
+    <ui:GroupBox name="Editor" style="height: 100%; width: 100%; min-width: 100%; min-height: 100%; flex-grow: 1; flex-shrink: 1; margin-top: 0; margin-left: 0; padding-left: 0;">
+        <ui:GroupBox name="Buttons" style="flex-direction: row; align-items: flex-start; opacity: 1; visibility: visible; overflow: visible; margin-top: 0; height: auto; padding-top: 0; padding-bottom: 0; margin-left: 0; padding-left: 0;">
+            <ui:Button text="Save" display-tooltip-when-elided="true" name="SaveButton" focusable="true" style="height: 34px; width: 93px; margin-left: 0; padding-left: 6px;" />
         </ui:GroupBox>
-        <ui:GroupBox name="GroupBox" style="flex-direction: row; align-items: flex-start; opacity: 1; visibility: visible; overflow: visible; margin-top: 1px; height: auto; padding-top: 0; padding-bottom: 0;">
-            <uie:ObjectField label="Database Asset" type="UnityEngine.TextAsset, UnityEngine.CoreModule" name="DatabaseAssetField" style="width: 355px;" />
+        <ui:GroupBox name="GroupBox" style="flex-direction: row; align-items: flex-start; opacity: 1; visibility: visible; overflow: visible; margin-top: 1px; height: auto; padding-top: 0; padding-bottom: 0; margin-left: 0; padding-left: 0;">
+            <uie:ObjectField label="Database Asset" type="UnityEngine.TextAsset, UnityEngine.CoreModule" name="DatabaseAssetField" style="width: 355px; margin-left: 0;" />
             <ui:Button text="New" display-tooltip-when-elided="true" name="NewAssetButton" focusable="true" />
         </ui:GroupBox>
-        <ui:GroupBox style="align-items: flex-start; flex-direction: row; left: 0; top: auto; right: 0; bottom: 0; height: auto; width: auto; position: relative; flex-grow: 1; max-height: none; opacity: 1; flex-wrap: nowrap; flex-shrink: 1;">
+        <ui:GroupBox style="align-items: flex-start; flex-direction: row; left: 0; top: auto; right: 0; bottom: 0; height: auto; width: auto; position: relative; flex-grow: 1; max-height: none; opacity: 1; flex-wrap: nowrap; flex-shrink: 1; margin-left: 0; padding-left: 0;">
             <ui:GroupBox style="width: 20%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; height: 100%; padding-bottom: 0; padding-top: 0; padding-left: 0; flex-grow: 1; flex-shrink: 1;">
                 <ui:ScrollView name="ObjectList" type="UnityEngine.TextAsset, UnityEngine.CoreModule" class="ObjectList" style="height: 100%; width: auto; right: 0; top: 0; left: 0; bottom: 0; position: relative; flex-shrink: 1; flex-grow: 1; visibility: visible;">
                     <ui:Button text="New Object" display-tooltip-when-elided="true" name="NewObject" style="opacity: 1; visibility: visible; display: flex; margin-left: 0; margin-right: 0; margin-top: 0;" />

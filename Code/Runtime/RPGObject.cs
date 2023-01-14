@@ -12,7 +12,7 @@ namespace WolfRPG.Core
 		public const string Label = "WolfRPG Object";
 		public string Guid { get; set; }
 		
-		public string Name;
+		public string Name { get; set; }
 		
 		[JsonProperty]
 		private Dictionary<Type, IRPGComponent> _components = new();
@@ -25,7 +25,12 @@ namespace WolfRPG.Core
 
 			return newComponent;
 		}
-		
+
+		public void AddComponent(IRPGComponent component)
+		{
+			_components.Add(component.GetType(), component);
+		}
+
 		public T GetComponent<T>() where T : class, IRPGComponent, new()
 		{
 			if (_components.ContainsKey(typeof(T)))
@@ -35,6 +40,16 @@ namespace WolfRPG.Core
 			
 			Debug.LogError($"No component of type {typeof(T)} was present on object {Name}");
 			return null;
+		}
+
+		public bool HasComponent<T>()
+		{
+			return _components.ContainsKey(typeof(T));
+		}
+
+		public bool HasComponent(Type type)
+		{
+			return _components.ContainsKey(type);
 		}
 	}
 }
