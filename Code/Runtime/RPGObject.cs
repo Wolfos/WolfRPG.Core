@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -50,6 +51,11 @@ namespace WolfRPG.Core
 		public bool HasComponent(Type type)
 		{
 			return _components.ContainsKey(type);
+		}
+
+		public List<IRPGComponent> GetAllComponents()
+		{
+			return _components.Select(kvp => kvp.Value).ToList();
 		}
 	}
 }

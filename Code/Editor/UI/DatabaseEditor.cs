@@ -85,7 +85,7 @@ namespace WolfRPG.Core
             // TODO: This is a placeholder to test loading
             _objectEditorContainer.Add(_objectEditor.CreateUI());
 
-            _objectEditor.SelectedObjectUpdated += OnSelectedObjectUpdated;
+            _objectEditor.OnSelectedObjectUpdated += OnSelectedObjectUpdated;
 
             _database = _databaseFactory.GetDefaultDatabase(out _databaseAsset);
             if (_database != null)

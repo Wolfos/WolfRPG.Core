@@ -2,10 +2,7 @@
     <Style src="project://database/Assets/WolfRPG.uss?fileID=7433441132597879392&amp;guid=fc76d4011481ed44cab5d9bb0c5cf77c&amp;type=3#WolfRPG" />
     <ui:ScrollView style="flex-grow: 1;">
         <ui:TextField picking-mode="Ignore" label="Name" value="Mana Potion" text="Mana Potion" name="NameField" />
-        <ui:Foldout text="Item" class="Component" style="margin-top: 10px;">
-            <ui:TextField picking-mode="Ignore" label="Value" value="filler text" text="10" />
-        </ui:Foldout>
-        <ui:Foldout text="Consumable" class="Component" style="margin-top: 10px;" />
+        <ui:GroupBox name="ObjectList" />
         <ui:Button text="New Component" display-tooltip-when-elided="true" name="NewComponentButton" style="margin-top: 20px;" />
     </ui:ScrollView>
 </ui:UXML>

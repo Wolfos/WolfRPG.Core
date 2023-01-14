@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WolfRPG.Core
 {
@@ -11,5 +12,6 @@ namespace WolfRPG.Core
 		T GetComponent<T>() where T : class, IRPGComponent, new();
 		bool HasComponent<T>();
 		bool HasComponent(Type type);
+		List<IRPGComponent> GetAllComponents();
 	}
 }
