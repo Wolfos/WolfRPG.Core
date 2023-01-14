@@ -6,6 +6,6 @@
             <ui:TextField picking-mode="Ignore" label="Value" value="filler text" text="10" />
         </ui:Foldout>
         <ui:Foldout text="Consumable" class="Component" style="margin-top: 10px;" />
-        <ui:Button text="New Component" display-tooltip-when-elided="true" style="margin-top: 20px;" />
+        <ui:Button text="New Component" display-tooltip-when-elided="true" name="NewComponentButton" style="margin-top: 20px;" />
     </ui:ScrollView>
 </ui:UXML>

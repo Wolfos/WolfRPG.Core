@@ -83,7 +83,7 @@ namespace WolfRPG.Core
             _objectEditorContainer = root.Query<GroupBox>("ObjectEditor").First();
             
             // TODO: This is a placeholder to test loading
-            _objectEditorContainer.Add(_objectEditor.GetUI());
+            _objectEditorContainer.Add(_objectEditor.CreateUI());
 
             _objectEditor.SelectedObjectUpdated += OnSelectedObjectUpdated;
 
