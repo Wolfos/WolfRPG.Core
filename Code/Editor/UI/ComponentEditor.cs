@@ -33,6 +33,15 @@ namespace WolfRPG.Core
 					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
 					this.Add(field);
 				}
+				// long
+				else if (propertyType == typeof(long))
+				{
+					var field = new LongField();
+					field.label = property.Name;
+					field.value = (long)property.GetValue(component);
+					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
+					this.Add(field);
+				}
 				// String
 				else if (propertyType == typeof(string))
 				{
