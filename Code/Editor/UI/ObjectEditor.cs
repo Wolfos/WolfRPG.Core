@@ -82,11 +82,8 @@ namespace WolfRPG.Core
             var components = SelectedObject.GetAllComponents();
             foreach (var component in components)
             {
-                var foldout = new Foldout
-                {
-                    text = component.GetType().Name
-                };
-                _objectList.Add(foldout);
+                var componentEditor = new ComponentEditor(component);
+                _objectList.Add(componentEditor);
             }
         }
 
