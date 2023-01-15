@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Linq;
+using UnityEditor;
+using UnityEditor.AddressableAssets;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace WolfRPG.Core
 {
@@ -158,17 +163,45 @@ namespace WolfRPG.Core
 					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
 					this.Add(field);
 				}
-				// UnityEngine.Object
-				// TODO: Support via Addressables instead, as we can't reference prefabs directly via JSON
-				// else if (propertyType.BaseType == typeof(Object))
-				// {
-				// 	var field = new ObjectField();
-				// 	field.label = property.Name;
-				// 	field.value = (Object)property.GetValue(component);
-				// 	field.objectType = propertyType;
-				// 	field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
-				// 	this.Add(field);
-				// }
+				else if (propertyType == typeof(AssetReference))
+				{
+					// AssetReferenceAttribute is required to set the type
+					var attributes = property.GetCustomAttributes(typeof(AssetReferenceAttribute), true);
+					if (attributes.Any())
+					{
+						var attribute = (AssetReferenceAttribute)attributes.First();
+						var field = new ObjectField();
+						field.label = property.Name;
+						field.value = (Object) property.GetValue(component);
+						field.objectType = attribute.Type;
+						field.RegisterValueChangedCallback((evt) =>
+						{
+							var obj = evt.newValue;
+							if (obj == null) return;
+							
+							var path = AssetDatabase.GetAssetPath(obj);
+							var guid = AssetDatabase.GUIDFromAssetPath(path).ToString();
+
+							var settings = AddressableAssetSettingsDefaultObject.Settings;
+							var entry = settings.FindAssetEntry(guid);
+
+							if (entry == null)
+							{
+								Debug.LogError("Asset needs to be addressable");
+								field.SetValueWithoutNotify(null);
+								return;
+							}
+							
+							var reference = new AssetReference
+							{
+								Guid = guid
+							};
+							property.SetValue(component, reference);
+						});
+						
+						this.Add(field);
+					}
+				}
 			}
 		}
 	}

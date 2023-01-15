@@ -21,8 +21,12 @@ namespace WolfRPG.Core
 		public Gradient MyGradient { get; set; }
 		public MyEnum MyEnum { get; set; }
 		public LayerMask MyLayerMask { get; set; }
-		// Not supported yet
-		//public GameObject MyPrefab { get; set; }
+		
+		[AssetReference(typeof(GameObject))]
+		public AssetReference MyPrefab { get; set; }
+		
+		[AssetReference(typeof(Sprite))]
+		public AssetReference MySprite { get; set; }
 	}
 
 	public enum MyEnum
