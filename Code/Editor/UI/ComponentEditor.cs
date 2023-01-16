@@ -172,7 +172,12 @@ namespace WolfRPG.Core
 						var attribute = (AssetReferenceAttribute)attributes.First();
 						var field = new ObjectField();
 						field.label = property.Name;
-						field.value = (Object) property.GetValue(component);
+						var reference = (AssetReference)property.GetValue(component);
+						if (reference != null && reference.Guid != String.Empty)
+						{
+							field.value = reference.GetAsset<Object>();
+						}
+
 						field.objectType = attribute.Type;
 						field.RegisterValueChangedCallback((evt) =>
 						{
