@@ -7,6 +7,10 @@ namespace WolfRPG.Core
 	{
 		public static IRPGDatabase DefaultDatabase { get; set; }
 		public Dictionary<string, IRPGObject> Objects { get; set; } = new();
+		public List<string> Categories { get; set; } = new()
+		{
+			"Default"
+		};
 
 		public static bool AddObject(IRPGObject rpgObject)
 		{

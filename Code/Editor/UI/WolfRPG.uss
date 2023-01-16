@@ -12,3 +12,15 @@
 {
     background-color: rgba(0, 0, 0, 0.2);
 }
+
+#Tabs
+{
+    flex-direction: row;
+    background-color: rgba(0.5, 0.5, 0.5, 0.2);
+}
+
+.SelectedTab
+{
+    -unity-font-style: bold;
+    background-color: #383838;
+}

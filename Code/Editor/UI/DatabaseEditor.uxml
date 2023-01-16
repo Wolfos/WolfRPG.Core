@@ -12,7 +12,10 @@
             <uie:ObjectField label="Database Asset" type="UnityEngine.TextAsset, UnityEngine.CoreModule" name="DatabaseAssetField" style="width: 355px; margin-left: 0;" />
             <ui:Button text="New" display-tooltip-when-elided="true" name="NewAssetButton" focusable="true" />
         </ui:GroupBox>
-        <ui:GroupBox style="align-items: flex-start; flex-direction: row; left: 0; top: auto; right: 0; bottom: 0; height: auto; width: auto; position: relative; flex-grow: 1; max-height: none; opacity: 1; flex-wrap: nowrap; flex-shrink: 1; margin-left: 0; padding-left: 0;">
+        <ui:GroupBox name="Tabs" style="padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 5px; margin-bottom: 5px;">
+            <ui:Button text="+" display-tooltip-when-elided="true" name="NewTabButton" style="background-color: rgba(88, 88, 88, 0); margin-left: 0;" />
+        </ui:GroupBox>
+        <ui:GroupBox style="align-items: flex-start; flex-direction: row; left: 0; top: auto; right: 0; bottom: 0; height: auto; width: auto; position: relative; flex-grow: 1; max-height: none; opacity: 1; flex-wrap: nowrap; flex-shrink: 1; margin-left: 0; padding-left: 0; margin-top: 0;">
             <ui:GroupBox style="width: 20%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; height: 100%; padding-bottom: 0; padding-top: 0; padding-left: 0; flex-grow: 1; flex-shrink: 1;">
                 <ui:ScrollView name="ObjectList" type="UnityEngine.TextAsset, UnityEngine.CoreModule" class="ObjectList" style="height: 100%; width: auto; right: 0; top: 0; left: 0; bottom: 0; position: relative; flex-shrink: 1; flex-grow: 1; visibility: visible;">
                     <ui:Button text="New Object" display-tooltip-when-elided="true" name="NewObject" style="opacity: 1; visibility: visible; display: flex; margin-left: 0; margin-right: 0; margin-top: 0;" />

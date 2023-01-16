@@ -7,6 +7,7 @@ namespace WolfRPG.Core
 	{
 		string Name { get; set; }
 		string Guid { get; set; }
+		int Category { get; set; }
 		T AddComponent<T>() where T : class, IRPGComponent, new();
 		void AddComponent(IRPGComponent component);
 		T GetComponent<T>() where T : class, IRPGComponent, new();
