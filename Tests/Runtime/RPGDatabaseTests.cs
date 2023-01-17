@@ -38,6 +38,7 @@ namespace WolfRPG.Core.Tests.Runtime
 		{
 			var target = new RPGDatabase();
 			var rpgObject = new RPGObject();
+			rpgObject.Guid = Guid.NewGuid().ToString();
 
 			var actual = target.AddObjectInstance(rpgObject);
 			Assert.IsTrue(actual);
@@ -48,6 +49,7 @@ namespace WolfRPG.Core.Tests.Runtime
 		{
 			var target = new RPGDatabase();
 			var rpgObject = new RPGObject();
+			rpgObject.Guid = Guid.NewGuid().ToString();
 
 			target.AddObjectInstance(rpgObject);
 			var actual = target.AddObjectInstance(rpgObject);
@@ -59,6 +61,7 @@ namespace WolfRPG.Core.Tests.Runtime
 		{
 			var target = new RPGDatabase();
 			var rpgObject = new RPGObject();
+			rpgObject.Guid = Guid.NewGuid().ToString();
 			var rpgObject2 = new RPGObject();
 			rpgObject2.Guid = rpgObject.Guid;
 
@@ -72,6 +75,7 @@ namespace WolfRPG.Core.Tests.Runtime
 		{
 			var target = new RPGDatabase();
 			var expected = new RPGObject();
+			expected.Guid = Guid.NewGuid().ToString();
 
 			target.AddObjectInstance(expected);
 			var actual = target.GetObjectInstance(expected.Guid);
@@ -83,6 +87,7 @@ namespace WolfRPG.Core.Tests.Runtime
 		{
 			var target = new RPGDatabase();
 			var rpgObject = new RPGObject();
+			rpgObject.Guid = Guid.NewGuid().ToString();
 
 			target.AddObjectInstance(rpgObject);
 			var actual = target.GetObjectInstance(Guid.NewGuid().ToString());

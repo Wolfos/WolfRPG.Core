@@ -1,9 +1,9 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
-using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -20,10 +20,13 @@ namespace WolfRPG.Core
         private AddressableAssetSettings _addressableSettings;
         private AddressableAssetGroup _assetGroup;
 
+        private VisualElement _root;
         private ScrollView _objectList;
         private ObjectField _databaseAssetField;
         private TextAsset _databaseAsset;
         private Button _newObjectButton;
+        private Button _newAssetButton;
+        private Button _saveButton;
         private GroupBox _objectEditorContainer;
         private List<Label> _objectButtons = new();
         private GroupBox _tabContainer;
@@ -46,7 +49,7 @@ namespace WolfRPG.Core
             _databaseFactory = new RPGDatabaseFactory();
             _objectFactory = new RPGObjectFactory();
 
-            var root = rootVisualElement;
+            _root = rootVisualElement;
             
             // Workaround because you can't add stylesheets from a package path in the editor
            var styleSheet =
@@ -60,7 +63,7 @@ namespace WolfRPG.Core
             VisualElement uxml = visualTree.Instantiate();
             uxml.style.flexGrow = 1;
             uxml.style.flexShrink = 1;
-            root.Add(uxml);
+            _root.Add(uxml);
             uxml.styleSheets.Add(styleSheet);
             
             if (AddressableAssetSettingsDefaultObject.SettingsExists)
@@ -70,42 +73,55 @@ namespace WolfRPG.Core
             else
             {
                 DisplayWarning("Addressables has not been setup for this project. Please create the addressables settings from the Addressables Groups window and reopen the WolfRPG editor");
-                root.Query<GroupBox>("Editor").First().SetEnabled(false);
+                _root.Query<GroupBox>("Editor").First().SetEnabled(false);
                 return;
             }
             
-            var newAssetButton = root.Query<Button>("NewAssetButton").First();
-            newAssetButton.clicked += OnCreateNewAssetButtonClicked;
+            _newAssetButton = _root.Query<Button>("NewAssetButton").First();
+            _newAssetButton.clicked += OnCreateNewAssetButtonClicked;
             
-            _newObjectButton = root.Query<Button>("NewObject").First();
+            _newObjectButton = _root.Query<Button>("NewObject").First();
             _newObjectButton.clicked += OnCreateNewObjectClicked;
 
-            _databaseAssetField = root.Query<ObjectField>("DatabaseAssetField").First();
-            _objectList = root.Query<ScrollView>("ObjectList").First();
+            _databaseAssetField = _root.Query<ObjectField>("DatabaseAssetField").First();
+            _objectList = _root.Query<ScrollView>("ObjectList").First();
 
-            _objectEditorContainer = root.Query<GroupBox>("ObjectEditor").First();
+            _objectEditorContainer = _root.Query<GroupBox>("ObjectEditor").First();
 
-            _tabContainer = root.Query<GroupBox>("Tabs").First();
+            _tabContainer = _root.Query<GroupBox>("Tabs").First();
             
-            // TODO: This is a placeholder to test loading
             _objectEditorContainer.Add(_objectEditor.CreateUI());
-
             _objectEditor.OnSelectedObjectUpdated += OnSelectedObjectUpdated;
 
+            _saveButton = _root.Query<Button>("SaveButton").First();
+            _saveButton.clicked += () =>
+            {
+                _databaseFactory.SaveDatabase(_database, GetDatabasePath());
+            };
+            
             _database = _databaseFactory.GetDefaultDatabase(out _databaseAsset);
             if (_database != null)
             {
-                _databaseAssetField.SetValueWithoutNotify(_databaseAsset);
-                newAssetButton.SetEnabled(false);
-                var newTabButton = root.Query<Button>("NewTabButton").First();
-                newTabButton.clicked += AddTab;
-                PopulateObjectList();
-                CreateTabs();
+                Init();
             }
             else
             {
                 _newObjectButton.SetEnabled(false);
+                _saveButton.SetEnabled(false);
             }
+        }
+
+        private void Init()
+        {
+            //TODO: Also init when new database is selected
+            _databaseAssetField.SetValueWithoutNotify(_databaseAsset);
+            _newAssetButton.SetEnabled(false);
+            _newObjectButton.SetEnabled(true);
+            _saveButton.SetEnabled(true);
+            var newTabButton = _root.Query<Button>("NewTabButton").First();
+            newTabButton.clicked += AddTab;
+            PopulateObjectList();
+            CreateTabs();
         }
 
         private void PopulateObjectList()
@@ -143,6 +159,7 @@ namespace WolfRPG.Core
             {
                 obj.RemoveFromHierarchy();
             }
+            _objectButtons.Clear();
         }
 
         private void CreateTabs()
@@ -210,6 +227,8 @@ namespace WolfRPG.Core
             _currentTab = index;
             _tabs[_currentTab].AddToClassList("SelectedTab");
             
+            DeselectObject();
+            
             PopulateObjectList();
         }
 
@@ -270,33 +289,40 @@ namespace WolfRPG.Core
             if (_databaseAsset == null) return;
             
             _databaseAssetField.SetValueWithoutNotify(_databaseAsset);
-            _newObjectButton.SetEnabled(true);
+
+            Init();
         }
 
         private void OnCreateNewObjectClicked()
         {
-            var database = (RPGDatabase) _database;
+            var name = $"New Object {_database.Objects.Count + 1}";
             
-            var name = $"New Object {database.Objects.Count + 1}";
+            var newObject = _objectFactory.CreateNewObject(name, _currentTab);
             
-            // TODO: Apply category before first serialization
-            var newObject = _objectFactory.CreateNewObject(name);
-            newObject.Category = _currentTab;
-            
-            database.AddObjectInstance(newObject);
+            _database.AddObjectInstance(newObject);
 
             var label = new Label(newObject.Name);
             _objectButtons.Add(label);
-            var index = database.Objects.Count - 1;
+            var index = _objectButtons.Count - 1;
             label.RegisterCallback<ClickEvent>(_ => OnObjectSelected(index, newObject));
             _objectList.Add(label);
             
-            _databaseFactory.SaveDefaultDatabase();
+            _databaseFactory.SaveDatabase(_database, GetDatabasePath());
         }
 
         private void OnSelectedObjectUpdated()
         {
             _objectButtons[_selectedObjectId].text = _objectEditor.SelectedObject.Name;
+        }
+
+        private void DeselectObject()
+        {
+            if (_selectedObjectId != -1)
+            {
+                _objectButtons[_selectedObjectId].RemoveFromClassList("Selected");
+            }
+            _selectedObjectId = -1;
+            _objectEditor.Deselect();
         }
         
         private void OnObjectSelected(int objectIndex, IRPGObject rpgObject)
@@ -317,6 +343,12 @@ namespace WolfRPG.Core
             _selectedObjectId = objectIndex;
 
             _objectEditor.SelectObject(rpgObject);
+        }
+
+        private string GetDatabasePath()
+        {
+            var relativePath = AssetDatabase.GetAssetPath(_databaseAsset);
+            return $"{Path.GetDirectoryName(Application.dataPath)}/{relativePath}";
         }
     }
 }

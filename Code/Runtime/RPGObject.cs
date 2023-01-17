@@ -18,7 +18,6 @@ namespace WolfRPG.Core
 		[JsonProperty]
 		private Dictionary<Type, IRPGComponent> _components = new();
 
-
 		public T AddComponent<T>() where T : class, IRPGComponent, new()
 		{
 			var newComponent = new T();

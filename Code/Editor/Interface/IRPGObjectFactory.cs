@@ -2,6 +2,6 @@
 {
 	public interface IRPGObjectFactory
 	{
-		IRPGObject CreateNewObject(string name);
+		IRPGObject CreateNewObject(string name, int category);
 	}
 }

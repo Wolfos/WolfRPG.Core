@@ -14,6 +14,7 @@ namespace WolfRPG.Core
 
 		// List of GUIDs that point to the files for RPGObjects
 		public List<string> ObjectReferences { get; set; }
+		public List<string> Categories { get; set; }
 
 		public IRPGDatabase Get()
 		{
@@ -27,6 +28,7 @@ namespace WolfRPG.Core
 				database.AddObjectInstance(rpgObject);
 			}
 
+			database.Categories = Categories;
 			return database;
 		}
 
@@ -37,6 +39,8 @@ namespace WolfRPG.Core
 			{
 				ObjectReferences.Add(obj.Key);
 			}
+
+			Categories = database.Categories;
 		}
 	}
 }

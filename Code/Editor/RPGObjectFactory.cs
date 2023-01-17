@@ -11,7 +11,7 @@ namespace WolfRPG.Core
 		public static string DefaultRelativePath = "WolfRPG/Objects";
 		public string DefaultPath = $"{Application.dataPath}/{DefaultRelativePath}";
 		
-		public IRPGObject CreateNewObject(string name)
+		public IRPGObject CreateNewObject(string name, int category)
 		{
 			// Create folders
 			if (AssetDatabase.IsValidFolder("Assets/WolfRPG") == false)
@@ -32,7 +32,8 @@ namespace WolfRPG.Core
 
 			var newObject = new RPGObject
 			{
-				Name = name
+				Name = name,
+				Category = category
 			};
 
 			var json = JsonConvert.SerializeObject(newObject, Formatting.Indented);
