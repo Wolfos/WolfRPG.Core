@@ -53,6 +53,8 @@ namespace WolfRPG.Core
             
             _nameField.RegisterValueChangedCallback(changeEvent =>
             {
+                if (changeEvent.newValue == SelectedObject.Name) return;
+                
                 SelectedObject.Name = changeEvent.newValue;
                 OnSelectedObjectUpdated?.Invoke();
             });
@@ -84,6 +86,7 @@ namespace WolfRPG.Core
             {
                 var componentEditor = new ComponentEditor(component);
                 _objectList.Add(componentEditor);
+                componentEditor.OnComponentUpdated += OnSelectedObjectUpdated;
             }
         }
 

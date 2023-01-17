@@ -12,6 +12,8 @@ namespace WolfRPG.Core
 {
 	public class ComponentEditor: Foldout
 	{
+		public Action OnComponentUpdated { get; set; }
+		
 		public ComponentEditor(IRPGComponent component) : base()
 		{
 			var type = component.GetType();
@@ -26,7 +28,11 @@ namespace WolfRPG.Core
 					var field = new IntegerField();
 					field.label = property.Name;
 					field.value = (int)property.GetValue(component);
-					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
+					field.RegisterValueChangedCallback((evt) =>
+					{
+						property.SetValue(component, evt.newValue);
+						OnComponentUpdated?.Invoke();
+					});
 					this.Add(field);
 				}
 				// float
@@ -35,7 +41,11 @@ namespace WolfRPG.Core
 					var field = new FloatField();
 					field.label = property.Name;
 					field.value = (float)property.GetValue(component);
-					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
+					field.RegisterValueChangedCallback((evt) => 
+					{
+						property.SetValue(component, evt.newValue);
+						OnComponentUpdated?.Invoke();
+					});
 					this.Add(field);
 				}
 				// long
@@ -44,7 +54,11 @@ namespace WolfRPG.Core
 					var field = new LongField();
 					field.label = property.Name;
 					field.value = (long)property.GetValue(component);
-					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
+					field.RegisterValueChangedCallback((evt) => 
+					{
+						property.SetValue(component, evt.newValue);
+						OnComponentUpdated?.Invoke();
+					});
 					this.Add(field);
 				}
 				// String
@@ -53,7 +67,11 @@ namespace WolfRPG.Core
 					var field = new TextField();
 					field.label = property.Name;
 					field.value = (string)property.GetValue(component);
-					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
+					field.RegisterValueChangedCallback((evt) => 
+					{
+						property.SetValue(component, evt.newValue);
+						OnComponentUpdated?.Invoke();
+					});
 					this.Add(field);
 				}
 				// Vector2
@@ -62,7 +80,11 @@ namespace WolfRPG.Core
 					var field = new Vector2Field();
 					field.label = property.Name;
 					field.value = (Vector2)property.GetValue(component);
-					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
+					field.RegisterValueChangedCallback((evt) => 
+					{
+						property.SetValue(component, evt.newValue);
+						OnComponentUpdated?.Invoke();
+					});
 					this.Add(field);
 				}
 				// Vector3
@@ -71,7 +93,11 @@ namespace WolfRPG.Core
 					var field = new Vector3Field();
 					field.label = property.Name;
 					field.value = (Vector3)property.GetValue(component);
-					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
+					field.RegisterValueChangedCallback((evt) => 
+					{
+						property.SetValue(component, evt.newValue);
+						OnComponentUpdated?.Invoke();
+					});
 					this.Add(field);
 				}
 				// Vector4
@@ -80,7 +106,11 @@ namespace WolfRPG.Core
 					var field = new Vector4Field();
 					field.label = property.Name;
 					field.value = (Vector4)property.GetValue(component);
-					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
+					field.RegisterValueChangedCallback((evt) => 
+					{
+						property.SetValue(component, evt.newValue);
+						OnComponentUpdated?.Invoke();
+					});
 					this.Add(field);
 				}
 				// Vector2Int
@@ -89,7 +119,11 @@ namespace WolfRPG.Core
 					var field = new Vector2IntField();
 					field.label = property.Name;
 					field.value = (Vector2Int)property.GetValue(component);
-					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
+					field.RegisterValueChangedCallback((evt) => 
+					{
+						property.SetValue(component, evt.newValue);
+						OnComponentUpdated?.Invoke();
+					});
 					this.Add(field);
 				}
 				// Vector3Int
@@ -98,7 +132,11 @@ namespace WolfRPG.Core
 					var field = new Vector3IntField();
 					field.label = property.Name;
 					field.value = (Vector3Int)property.GetValue(component);
-					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
+					field.RegisterValueChangedCallback((evt) => 
+					{
+						property.SetValue(component, evt.newValue);
+						OnComponentUpdated?.Invoke();
+					});
 					this.Add(field);
 				}
 				// Rect
@@ -107,7 +145,11 @@ namespace WolfRPG.Core
 					var field = new RectField();
 					field.label = property.Name;
 					field.value = (Rect)property.GetValue(component);
-					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
+					field.RegisterValueChangedCallback((evt) => 
+					{
+						property.SetValue(component, evt.newValue);
+						OnComponentUpdated?.Invoke();
+					});
 					this.Add(field);
 				}
 				// Bounds
@@ -116,7 +158,11 @@ namespace WolfRPG.Core
 					var field = new BoundsField();
 					field.label = property.Name;
 					field.value = (Bounds)property.GetValue(component);
-					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
+					field.RegisterValueChangedCallback((evt) => 
+					{
+						property.SetValue(component, evt.newValue);
+						OnComponentUpdated?.Invoke();
+					});
 					this.Add(field);
 				}
 				// Color
@@ -125,7 +171,11 @@ namespace WolfRPG.Core
 					var field = new ColorField();
 					field.label = property.Name;
 					field.value = (Color)property.GetValue(component);
-					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
+					field.RegisterValueChangedCallback((evt) => 
+					{
+						property.SetValue(component, evt.newValue);
+						OnComponentUpdated?.Invoke();
+					});
 					this.Add(field);
 				}
 				// AnimationCurve
@@ -134,7 +184,11 @@ namespace WolfRPG.Core
 					var field = new CurveField();
 					field.label = property.Name;
 					field.value = (AnimationCurve)property.GetValue(component);
-					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
+					field.RegisterValueChangedCallback((evt) => 
+					{
+						property.SetValue(component, evt.newValue);
+						OnComponentUpdated?.Invoke();
+					});
 					this.Add(field);
 				}
 				// Gradient
@@ -143,7 +197,11 @@ namespace WolfRPG.Core
 					var field = new GradientField();
 					field.label = property.Name;
 					field.value = (Gradient)property.GetValue(component);
-					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
+					field.RegisterValueChangedCallback((evt) =>
+					{
+						property.SetValue(component, evt.newValue);
+						OnComponentUpdated?.Invoke();
+					});
 					this.Add(field);
 				}
 				// Enum
@@ -151,7 +209,11 @@ namespace WolfRPG.Core
 				{
 					var field = new EnumField((Enum)property.GetValue(component));
 					field.label = property.Name;
-					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
+					field.RegisterValueChangedCallback((evt) => 
+					{
+						property.SetValue(component, evt.newValue);
+						OnComponentUpdated?.Invoke();
+					});
 					this.Add(field);
 				}
 				// Enum
@@ -160,7 +222,11 @@ namespace WolfRPG.Core
 					var field = new LayerMaskField();
 					field.label = property.Name;
 					field.value = (LayerMask)property.GetValue(component);
-					field.RegisterValueChangedCallback((evt) => property.SetValue(component, evt.newValue));
+					field.RegisterValueChangedCallback((evt) => 
+					{
+						property.SetValue(component, evt.newValue);
+						OnComponentUpdated?.Invoke();
+					});
 					this.Add(field);
 				}
 				else if (propertyType == typeof(AssetReference))
@@ -202,6 +268,8 @@ namespace WolfRPG.Core
 								Guid = guid
 							};
 							property.SetValue(component, reference);
+							
+							OnComponentUpdated?.Invoke();
 						});
 						
 						this.Add(field);

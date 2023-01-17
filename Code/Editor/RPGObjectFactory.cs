@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace WolfRPG.Core
 {
@@ -61,6 +62,26 @@ namespace WolfRPG.Core
 			entry.labels.Add(RPGObject.Label);
 
 			return newObject;
+		}
+
+		public void SaveObject(IRPGObject rpgObject)
+		{
+			var path = $"Assets/{DefaultRelativePath}/{rpgObject.Name}.json";
+			var oldPath = AssetDatabase.GUIDToAssetPath(rpgObject.Guid);
+			path = path.Replace("\\", "/");
+			oldPath = oldPath.Replace("\\", "/");
+			if (path != oldPath)
+			{
+				AssetDatabase.MoveAsset(oldPath, path);
+			}
+			var json = JsonConvert.SerializeObject(rpgObject, Formatting.Indented, 
+				new JsonSerializerSettings
+				{
+					TypeNameHandling = TypeNameHandling.Auto
+				});
+			File.WriteAllText($"{DefaultPath}/{rpgObject.Name}.json", json);
+			
+			AssetDatabase.Refresh();
 		}
 	}
 }

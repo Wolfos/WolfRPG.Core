@@ -15,7 +15,7 @@ namespace WolfRPG.Core
         private IRPGDatabaseFactory _databaseFactory;
         private IRPGObjectFactory _objectFactory;
         private IRPGDatabase _database;
-        private ObjectEditor _objectEditor = new();
+        private readonly ObjectEditor _objectEditor = new();
         
         private AddressableAssetSettings _addressableSettings;
         private AddressableAssetGroup _assetGroup;
@@ -28,9 +28,11 @@ namespace WolfRPG.Core
         private Button _newAssetButton;
         private Button _saveButton;
         private GroupBox _objectEditorContainer;
-        private List<Label> _objectButtons = new();
+        private readonly List<Label> _objectButtons = new();
         private GroupBox _tabContainer;
-        private List<Label> _tabs = new();
+        private readonly List<Label> _tabs = new();
+
+        private readonly List<IRPGObject> _dirtyObjects = new();
 
         private int _selectedObjectId = -1;
         private int _currentTab;
@@ -94,11 +96,8 @@ namespace WolfRPG.Core
             _objectEditor.OnSelectedObjectUpdated += OnSelectedObjectUpdated;
 
             _saveButton = _root.Query<Button>("SaveButton").First();
-            _saveButton.clicked += () =>
-            {
-                _databaseFactory.SaveDatabase(_database, GetDatabasePath());
-            };
-            
+            _saveButton.clicked += Save;
+
             _database = _databaseFactory.GetDefaultDatabase(out _databaseAsset);
             if (_database != null)
             {
@@ -129,18 +128,27 @@ namespace WolfRPG.Core
             ClearObjectList();
             
             int i = 0;
-            foreach (var rpgObject in _database.Objects)
+            foreach (var kvp in _database.Objects)
             {
-                var newObject = rpgObject.Value;
-                if(newObject.Category != _currentTab) continue;
-                
-                
-                var label = new Label(newObject.Name);
+                var rpgObject = kvp.Value;
+                if(rpgObject.Category != _currentTab) continue;
+
+                var objectName = rpgObject.Name;
+                if (_dirtyObjects.Contains(rpgObject))
+                {
+                    objectName += "*";
+                }
+                var label = new Label(objectName);
                 
                 _objectButtons.Add(label);
                 var i1 = i;
-                label.RegisterCallback<ClickEvent>(_ => OnObjectSelected(i1, newObject));
+                label.RegisterCallback<ClickEvent>(_ => OnObjectSelected(i1, rpgObject));
                 _objectList.Add(label);
+
+                if (i == _selectedObjectId)
+                {
+                    label.AddToClassList("Selected");
+                }
 
                 i++;
             }
@@ -148,7 +156,6 @@ namespace WolfRPG.Core
 
         private void ClearObjectList()
         {
-            _selectedObjectId = -1;
             var toDelete = new List<VisualElement>();
             foreach (var obj in _objectButtons)
             {
@@ -229,6 +236,7 @@ namespace WolfRPG.Core
             
             DeselectObject();
             
+            _selectedObjectId = -1;
             PopulateObjectList();
         }
 
@@ -312,7 +320,12 @@ namespace WolfRPG.Core
 
         private void OnSelectedObjectUpdated()
         {
-            _objectButtons[_selectedObjectId].text = _objectEditor.SelectedObject.Name;
+            if (_dirtyObjects.Contains(_objectEditor.SelectedObject) == false)
+            {
+                _dirtyObjects.Add(_objectEditor.SelectedObject);
+            }
+            
+            PopulateObjectList();
         }
 
         private void DeselectObject()
@@ -323,6 +336,18 @@ namespace WolfRPG.Core
             }
             _selectedObjectId = -1;
             _objectEditor.Deselect();
+        }
+
+        private void Save()
+        {
+            _databaseFactory.SaveDatabase(_database, GetDatabasePath());
+            foreach (var rpgObject in _dirtyObjects)
+            {
+                _objectFactory.SaveObject(rpgObject);
+            }
+            
+            _dirtyObjects.Clear();
+            PopulateObjectList();
         }
         
         private void OnObjectSelected(int objectIndex, IRPGObject rpgObject)

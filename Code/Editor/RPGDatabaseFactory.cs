@@ -86,6 +86,8 @@ namespace WolfRPG.Core
 
 			var json = JsonConvert.SerializeObject(databaseAsset);
 			File.WriteAllText(path, json);
+			
+			AssetDatabase.Refresh();
 		}
 
 		public void SaveDefaultDatabase()
