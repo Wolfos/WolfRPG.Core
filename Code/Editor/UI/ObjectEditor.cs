@@ -18,11 +18,6 @@ namespace WolfRPG.Core
         private GroupBox _objectList;
         private bool _isAddingComponent;
 
-        public ObjectEditor()
-        {
-            OnSelectedObjectUpdated += BuildComponentsList;
-        }
-        
         public VisualElement CreateUI()
         {
             var visualTree =
@@ -103,6 +98,7 @@ namespace WolfRPG.Core
             SelectedObject.AddComponent(newComponent);
             
             OnSelectedObjectUpdated.Invoke();
+            BuildComponentsList();
         }
 
         private void OnNewComponentButtonPressed()
