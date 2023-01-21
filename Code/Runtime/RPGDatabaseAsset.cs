@@ -15,6 +15,7 @@ namespace WolfRPG.Core
 		// List of GUIDs that point to the files for RPGObjects
 		public List<string> ObjectReferences { get; set; }
 		public List<string> Categories { get; set; }
+		public int NumObjectsAdded { get; set; }
 
 		public IRPGDatabase Get()
 		{
@@ -32,6 +33,7 @@ namespace WolfRPG.Core
 			}
 
 			database.Categories = Categories;
+			database.NumObjectsAdded = NumObjectsAdded;
 			return database;
 		}
 
@@ -44,6 +46,7 @@ namespace WolfRPG.Core
 			}
 
 			Categories = database.Categories;
+			NumObjectsAdded = database.NumObjectsAdded;
 		}
 	}
 }

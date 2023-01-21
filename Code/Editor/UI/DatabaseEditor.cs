@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Timers;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEditor.UIElements;
@@ -31,7 +29,7 @@ namespace WolfRPG.Core
         private Button _newAssetButton;
         private Button _saveButton;
         private GroupBox _objectEditorContainer;
-        private readonly List<Label> _objectButtons = new();
+        private readonly List<GroupBox> _objectButtons = new();
         private GroupBox _tabContainer;
         private readonly List<Label> _tabs = new();
 
@@ -131,7 +129,7 @@ namespace WolfRPG.Core
         private void PopulateObjectList()
         {
             ClearObjectList();
-            
+
             int i = 0;
             foreach (var kvp in _database.Objects)
             {
@@ -144,11 +142,22 @@ namespace WolfRPG.Core
                     objectName += "*";
                 }
                 var label = new Label(objectName);
+                var groupbox = new GroupBox();
+                groupbox.AddToClassList("Horizontal");
+                var deleteButton = new Button(() =>
+                {
+                    DeleteObject(rpgObject);
+                });
+                deleteButton.name = "DeleteButton";
+                deleteButton.text = "x";
+                groupbox.Add(deleteButton);
                 
-                _objectButtons.Add(label);
+                _objectButtons.Add(groupbox);
                 var i1 = i;
-                label.RegisterCallback<ClickEvent>(_ => OnObjectSelected(i1, rpgObject));
-                _objectList.Add(label);
+                groupbox.RegisterCallback<ClickEvent>(_ => OnObjectSelected(i1, rpgObject));
+                groupbox.Add(label);
+                _objectList.Add(groupbox);
+                
 
                 if (i == _selectedObjectId)
                 {
@@ -159,8 +168,18 @@ namespace WolfRPG.Core
             }
         }
 
+        private void DeleteObject(IRPGObject rpgObject)
+        {
+            _objectFactory.DeleteObject(rpgObject);
+            PopulateObjectList();
+            // Save database only to remove the object reference, as the file was deleted
+            _databaseFactory.SaveDatabase(_database, GetDatabasePath());
+        }
+
         private void ClearObjectList()
         {
+            _selectedObjectId = -1;
+            
             var toDelete = new List<VisualElement>();
             foreach (var obj in _objectButtons)
             {
@@ -310,17 +329,30 @@ namespace WolfRPG.Core
 
         private void OnCreateNewObjectClicked()
         {
-            var name = $"New Object {_database.Objects.Count + 1}";
+            var name = $"New Object {_database.NumObjectsAdded + 1}";
+            _database.NumObjectsAdded++;
             
             var newObject = _objectFactory.CreateNewObject(name, _currentTab);
             
             _database.AddObjectInstance(newObject);
 
             var label = new Label(newObject.Name);
-            _objectButtons.Add(label);
+            var groupbox = new GroupBox();
+            groupbox.AddToClassList("Horizontal");
+            var deleteButton = new Button(() =>
+            {
+                DeleteObject(newObject);
+            });
+
+            deleteButton.name = "DeleteButton";
+            deleteButton.text = "x";
+            groupbox.Add(deleteButton);
+            
+            _objectButtons.Add(groupbox);
             var index = _objectButtons.Count - 1;
-            label.RegisterCallback<ClickEvent>(_ => OnObjectSelected(index, newObject));
-            _objectList.Add(label);
+            groupbox.RegisterCallback<ClickEvent>(_ => OnObjectSelected(index, newObject));
+            groupbox.Add(label);
+            _objectList.Add(groupbox);
             
             _databaseFactory.SaveDatabase(_database, GetDatabasePath());
         }
@@ -359,7 +391,7 @@ namespace WolfRPG.Core
         
         private void OnObjectSelected(int objectIndex, IRPGObject rpgObject)
         {
-            if (objectIndex == _selectedObjectId)
+            if (objectIndex == _selectedObjectId || objectIndex >= _objectButtons.Count)
             {
                 return;
             }

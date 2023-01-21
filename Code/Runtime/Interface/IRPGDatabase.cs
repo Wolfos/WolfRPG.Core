@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace WolfRPG.Core
 {
@@ -7,8 +6,10 @@ namespace WolfRPG.Core
 	{
 		Dictionary<string, IRPGObject> Objects { get; set; }
 		List<string> Categories { get; set; }
+		int NumObjectsAdded { get; set; }
 		
 		bool AddObjectInstance(IRPGObject rpgObject);
+		void RemoveObjectInstance(IRPGObject rpgObject);
 		IRPGObject GetObjectInstance(string guid);
 	}
 }

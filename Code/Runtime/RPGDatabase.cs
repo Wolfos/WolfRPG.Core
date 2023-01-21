@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -46,6 +45,8 @@ namespace WolfRPG.Core
 			"Default"
 		};
 
+		public int NumObjectsAdded { get; set; }
+
 		public static bool AddObject(IRPGObject rpgObject)
 		{
 			return DefaultDatabase.AddObjectInstance(rpgObject);
@@ -66,6 +67,16 @@ namespace WolfRPG.Core
 			Objects.Add(rpgObject.Guid, rpgObject);
 			
 			return true;
+		}
+
+		public void RemoveObjectInstance(IRPGObject rpgObject)
+		{
+			if (Objects.ContainsKey(rpgObject.Guid) == false)
+			{
+				return;
+			}
+
+			Objects.Remove(rpgObject.Guid);
 		}
 
 		public IRPGObject GetObjectInstance(string guid)

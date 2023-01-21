@@ -85,5 +85,13 @@ namespace WolfRPG.Core
 			
 			AssetDatabase.Refresh();
 		}
+
+		public void DeleteObject(IRPGObject rpgObject)
+		{
+			RPGDatabase.DefaultDatabase.RemoveObjectInstance(rpgObject);
+			
+			var path = $"Assets/{DefaultRelativePath}/{rpgObject.Name}.json";
+			AssetDatabase.DeleteAsset(path);
+		}
 	}
 }
