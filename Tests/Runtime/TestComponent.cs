@@ -2,6 +2,6 @@
 {
 	public class TestComponent: IRPGComponent
 	{
-		
+		public string TestValue { get; set; }
 	}
 }

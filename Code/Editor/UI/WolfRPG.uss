@@ -1,0 +1,41 @@
+.ObjectList
+{
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.Inspector
+{
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.Component
+{
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+#Tabs
+{
+    flex-direction: row;
+    background-color: rgba(0.5, 0.5, 0.5, 0.2);
+}
+
+.SelectedTab
+{
+    -unity-font-style: bold;
+    background-color: #383838;
+}
+
+.Horizontal
+{
+    flex-direction: row;
+}
+
+#DeleteButton
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 15px;
+    height: 15px;
+}
