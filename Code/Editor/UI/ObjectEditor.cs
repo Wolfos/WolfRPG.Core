@@ -89,10 +89,23 @@ namespace WolfRPG.Core
             var components = SelectedObject.GetAllComponents();
             foreach (var component in components)
             {
+                var deleteButton = new Button(() => RemoveComponent(component));
+                deleteButton.name = "DeleteButton";
+                deleteButton.text = "x";
+                _objectList.Add(deleteButton);
+                
                 var componentEditor = new ComponentEditor(component);
                 _objectList.Add(componentEditor);
                 componentEditor.OnComponentUpdated += OnSelectedObjectUpdated;
             }
+        }
+
+        private void RemoveComponent(IRPGComponent component)
+        {
+            SelectedObject.RemoveComponent(component);
+            OnSelectedObjectUpdated?.Invoke();
+            
+            BuildComponentsList();
         }
 
         public void Deselect()

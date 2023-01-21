@@ -31,6 +31,11 @@ namespace WolfRPG.Core
 			_components.Add(component.GetType(), component);
 		}
 
+		public void RemoveComponent(IRPGComponent component)
+		{
+			_components.Remove(component.GetType());
+		}
+
 		public T GetComponent<T>() where T : class, IRPGComponent, new()
 		{
 			if (_components.ContainsKey(typeof(T)))
