@@ -50,12 +50,14 @@ namespace WolfRPG.Core
 			
 			// Add to addressables
 			var addressableSettings = AddressableAssetSettingsDefaultObject.Settings;
-			var assetGroup = addressableSettings.FindGroup("WolfRPG");
-			if (assetGroup == null)
-			{
-				assetGroup = addressableSettings.CreateGroup("WolfRPG", false, false, false,
-					new() {addressableSettings.DefaultGroup.Schemas[0]});
-			}
+			var assetGroup = addressableSettings.DefaultGroup;
+			
+			// This was a nice idea, but new groups don't build by default. Might revisit this in the future.
+			// if (assetGroup == null)
+			// {
+			// 	assetGroup = addressableSettings.CreateGroup("WolfRPG", false, false, false,
+			// 		new() {addressableSettings.DefaultGroup.Schemas[0]});
+			// }
 
 			var entry = addressableSettings.CreateOrMoveEntry(guid.ToString(), assetGroup);
 			addressableSettings.AddLabel(RPGObject.Label);

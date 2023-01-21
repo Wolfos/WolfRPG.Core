@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace WolfRPG.Core
@@ -13,6 +14,7 @@ namespace WolfRPG.Core
         public IRPGObject SelectedObject { get; private set; }
         
         private TextField _nameField;
+        private TextField _guidField;
         private TemplateContainer _container;
         private GroupBox _bottomBox; // box that's located below the "add component" button. Gets cleared when object is deselected
         private GroupBox _objectList;
@@ -26,8 +28,9 @@ namespace WolfRPG.Core
             _container = visualTree.Instantiate();
             _container.style.display = DisplayStyle.None;
             _nameField = _container.Query<TextField>("NameField").First();
+            _guidField = _container.Query<TextField>("GuidField").First();
             _objectList = _container.Query<GroupBox>("ObjectList").First();
-            
+
             var newComponentButton = _container.Query<Button>("NewComponentButton").First();
             newComponentButton.clicked += OnNewComponentButtonPressed;
 
@@ -53,6 +56,10 @@ namespace WolfRPG.Core
                 SelectedObject.Name = changeEvent.newValue;
                 OnSelectedObjectUpdated?.Invoke();
             });
+
+            _guidField.value = SelectedObject.Guid;
+            // TODO: Display message "copied to clipboard"
+            _guidField.RegisterCallback<ClickEvent>(_ => GUIUtility.systemCopyBuffer = SelectedObject.Guid);
             
             BuildComponentsList();
         }

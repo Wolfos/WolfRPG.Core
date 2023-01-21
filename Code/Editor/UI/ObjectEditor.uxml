@@ -2,6 +2,7 @@
     <Style src="project://database/Assets/WolfRPG.uss?fileID=7433441132597879392&amp;guid=fc76d4011481ed44cab5d9bb0c5cf77c&amp;type=3#WolfRPG" />
     <ui:ScrollView style="flex-grow: 1;">
         <ui:TextField picking-mode="Ignore" label="Name" value="Mana Potion" text="Mana Potion" name="NameField" />
+        <ui:TextField picking-mode="Ignore" label="Object Reference ID" value="GUID" name="GuidField" readonly="true" style="width: auto;" />
         <ui:GroupBox name="ObjectList" />
         <ui:Button text="New Component" display-tooltip-when-elided="true" name="NewComponentButton" style="margin-top: 20px;" />
     </ui:ScrollView>

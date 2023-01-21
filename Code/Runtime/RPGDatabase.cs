@@ -1,11 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace WolfRPG.Core
 {
 	public class RPGDatabase: IRPGDatabase
 	{
-		public static IRPGDatabase DefaultDatabase { get; set; }
+		private static IRPGDatabase _defaultDatabase;
+
+		public static IRPGDatabase DefaultDatabase
+		{
+			get
+			{
+				if (_defaultDatabase == null)
+				{
+					var operation = Addressables.LoadResourceLocationsAsync(RPGDatabaseAsset.LabelDefault);
+					var x = operation.WaitForCompletion();
+					if (x.Count == 0)
+					{
+						Debug.LogWarning($"No default database found");
+						return null;
+					}
+
+					var loadOperation = Addressables.LoadAssetAsync<TextAsset>(RPGDatabaseAsset.LabelDefault);
+					var asset = loadOperation.WaitForCompletion();
+				
+					var databaseAsset = JsonConvert.DeserializeObject<RPGDatabaseAsset>(asset.text);
+					var database = databaseAsset.Get();
+					_defaultDatabase = database;
+				}
+
+				return _defaultDatabase;
+			}
+			set
+			{
+				_defaultDatabase = value;
+			}
+		}
+
 		public Dictionary<string, IRPGObject> Objects { get; set; } = new();
 		public List<string> Categories { get; set; } = new()
 		{

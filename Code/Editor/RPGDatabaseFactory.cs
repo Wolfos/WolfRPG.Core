@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
@@ -41,12 +40,14 @@ namespace WolfRPG.Core
 			
 			// Add to addressables
 			var addressableSettings = AddressableAssetSettingsDefaultObject.Settings;
-			var assetGroup = addressableSettings.FindGroup("WolfRPG");
-			if (assetGroup == null)
-			{
-				assetGroup = addressableSettings.CreateGroup("WolfRPG", false, false, false,
-					new() {addressableSettings.DefaultGroup.Schemas[0]});
-			}
+			var assetGroup = addressableSettings.DefaultGroup;
+			
+			// This was a nice idea, but new groups don't build by default. Might revisit this in the future.
+			// if (assetGroup == null)
+			// {
+			// 	assetGroup = addressableSettings.CreateGroup("WolfRPG", false, false, false,
+			// 		new() {addressableSettings.DefaultGroup.Schemas[0]});
+			// }
 
 			var entry = addressableSettings.CreateOrMoveEntry(guid.ToString(), assetGroup);
 			addressableSettings.AddLabel(RPGDatabaseAsset.LabelDefault);
@@ -96,9 +97,7 @@ namespace WolfRPG.Core
 			var asset = operation.WaitForCompletion();
 			var relativePath = AssetDatabase.GetAssetPath(asset);
 			var absolutePath = $"{Path.GetDirectoryName(Application.dataPath)}/{relativePath}";
-			
-			if (RPGDatabase.DefaultDatabase == null) GetDefaultDatabase(out _);
-			
+
 			SaveDatabase(RPGDatabase.DefaultDatabase, absolutePath);
 		}
 	}
