@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Timers;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
-using UnityEditor.AddressableAssets.Settings;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -12,13 +13,15 @@ namespace WolfRPG.Core
 {
     public class DatabaseEditor : EditorWindow
     {
+        private static DatabaseEditor _instance;
+        
         private IRPGDatabaseFactory _databaseFactory;
         private IRPGObjectFactory _objectFactory;
         private IRPGDatabase _database;
         private readonly ObjectEditor _objectEditor = new();
         
-        private AddressableAssetSettings _addressableSettings;
-        private AddressableAssetGroup _assetGroup;
+        private double _messageStartTime;
+        private float _messageDuration;
 
         private VisualElement _root;
         private ScrollView _objectList;
@@ -48,6 +51,8 @@ namespace WolfRPG.Core
 
         public void CreateGUI()
         {
+            _instance = this;
+            
             _databaseFactory = new RPGDatabaseFactory();
             _objectFactory = new RPGObjectFactory();
 
@@ -70,11 +75,11 @@ namespace WolfRPG.Core
             
             if (AddressableAssetSettingsDefaultObject.SettingsExists)
             {
-                _addressableSettings = AddressableAssetSettingsDefaultObject.Settings;
+                //_addressableSettings = AddressableAssetSettingsDefaultObject.Settings;
             }
             else
             {
-                DisplayWarning("Addressables has not been setup for this project. Please create the addressables settings from the Addressables Groups window and reopen the WolfRPG editor");
+                DisplayMessage("Addressables has not been setup for this project. Please create the addressables settings from the Addressables Groups window and reopen the WolfRPG editor", 0);
                 _root.Query<GroupBox>("Editor").First().SetEnabled(false);
                 return;
             }
@@ -264,31 +269,33 @@ namespace WolfRPG.Core
             tab.style.display = DisplayStyle.None;
         }
 
-        private void DisplayWarning(string text)
+        public static void DisplayMessage(string text, float duration = 5.0f)
         {
-            var warning = rootVisualElement.Query<Label>("Warning").First();
-            warning.text = text;
-            warning.style.display = DisplayStyle.Flex;
+            var label = _instance.rootVisualElement.Query<Label>("Message").First();
+            label.text = text;
+            label.style.display = DisplayStyle.Flex;
+
+            if (duration != 0)
+            {
+                _instance._messageDuration = duration;
+                _instance._messageStartTime = EditorApplication.timeSinceStartup;
+            }
+            else
+            {
+                _instance._messageDuration = Mathf.Infinity;
+            }
         }
 
-        private void HideWarning()
+        private void OnInspectorUpdate()
         {
-            var warning = rootVisualElement.Query<Label>("Warning").First();
-            warning.style.display = DisplayStyle.None;
+            if (_messageStartTime < EditorApplication.timeSinceStartup - _messageDuration)
+            {
+                var label = rootVisualElement.Query<Label>("Message").First();
+                label.text = "";
+                label.style.display = DisplayStyle.None;
+            }
         }
         
-        private void DisplayError(string text)
-        {
-            var error = rootVisualElement.Query<Label>("Error").First();
-            error.text = text;
-            error.style.display = DisplayStyle.Flex;
-        }
-
-        private void HideError()
-        {
-            var error = rootVisualElement.Query<Label>("Error").First();
-            error.style.display = DisplayStyle.None;
-        }
 
         private void OnCreateNewAssetButtonClicked()
         {

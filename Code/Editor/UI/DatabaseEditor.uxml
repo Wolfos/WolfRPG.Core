@@ -1,12 +1,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/WolfRPG.uss?fileID=7433441132597879392&amp;guid=fc76d4011481ed44cab5d9bb0c5cf77c&amp;type=3#WolfRPG" />
-    <ui:GroupBox name="WarningsAndErrors" style="padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0;">
-        <ui:Label text="Addressables has not yet been enabled for this project. Please open &quot;Window&gt;Asset Management&gt;Addressables&gt;Groups&quot; and generate the data" display-tooltip-when-elided="true" name="Warning" style="color: rgb(255, 197, 0); display: none; margin-top: 5px;" />
-        <ui:Label text="Addressables has not yet been enabled for this project. Please open &quot;Window&gt;Asset Management&gt;Addressables&gt;Groups&quot; and generate the data" display-tooltip-when-elided="true" name="Error" style="color: rgb(255, 30, 0); display: none; margin-top: 5px; visibility: visible;" />
-    </ui:GroupBox>
     <ui:GroupBox name="Editor" style="height: 100%; width: 100%; min-width: 100%; min-height: 100%; flex-grow: 1; flex-shrink: 1; margin-top: 0; margin-left: 0; padding-left: 0;">
-        <ui:GroupBox name="Buttons" style="flex-direction: row; align-items: flex-start; opacity: 1; visibility: visible; overflow: visible; margin-top: 0; height: auto; padding-top: 0; padding-bottom: 0; margin-left: 0; padding-left: 0;">
+        <ui:GroupBox name="Buttons" class="Horizontal" style="flex-direction: row; align-items: flex-start; opacity: 1; visibility: visible; overflow: visible; margin-top: 0; height: auto; padding-top: 0; padding-bottom: 0; margin-left: 0; padding-left: 0;">
             <ui:Button text="Save" display-tooltip-when-elided="true" name="SaveButton" focusable="true" style="height: 34px; width: 93px; margin-left: 0; padding-left: 6px;" />
+            <ui:GroupBox name="WarningsAndErrors" style="padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0;">
+                <ui:Label display-tooltip-when-elided="true" name="Message" text="test" style="color: rgb(255, 255, 255); display: none; margin-top: 5px;" />
+            </ui:GroupBox>
         </ui:GroupBox>
         <ui:GroupBox name="GroupBox" style="flex-direction: row; align-items: flex-start; opacity: 1; visibility: visible; overflow: visible; margin-top: 1px; height: auto; padding-top: 0; padding-bottom: 0; margin-left: 0; padding-left: 0;">
             <uie:ObjectField label="Database Asset" type="UnityEngine.TextAsset, UnityEngine.CoreModule" name="DatabaseAssetField" style="width: 355px; margin-left: 0;" />

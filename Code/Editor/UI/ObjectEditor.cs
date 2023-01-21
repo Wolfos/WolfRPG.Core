@@ -58,8 +58,11 @@ namespace WolfRPG.Core
             });
 
             _guidField.value = SelectedObject.Guid;
-            // TODO: Display message "copied to clipboard"
-            _guidField.RegisterCallback<ClickEvent>(_ => GUIUtility.systemCopyBuffer = SelectedObject.Guid);
+            _guidField.RegisterCallback<ClickEvent>(_ =>
+            {
+                GUIUtility.systemCopyBuffer = SelectedObject.Guid;
+                DatabaseEditor.DisplayMessage("Copied to clipboard");
+            });
             
             BuildComponentsList();
         }
