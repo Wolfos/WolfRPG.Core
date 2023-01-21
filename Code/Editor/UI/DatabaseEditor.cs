@@ -23,7 +23,6 @@ namespace WolfRPG.Core
 
         private VisualElement _root;
         private ScrollView _objectList;
-        private ObjectField _databaseAssetField;
         private TextAsset _databaseAsset;
         private Button _newObjectButton;
         private Button _newAssetButton;
@@ -87,8 +86,7 @@ namespace WolfRPG.Core
             
             _newObjectButton = _root.Query<Button>("NewObject").First();
             _newObjectButton.clicked += OnCreateNewObjectClicked;
-
-            _databaseAssetField = _root.Query<ObjectField>("DatabaseAssetField").First();
+            
             _objectList = _root.Query<ScrollView>("ObjectList").First();
 
             _objectEditorContainer = _root.Query<GroupBox>("ObjectEditor").First();
@@ -115,12 +113,13 @@ namespace WolfRPG.Core
 
         private void Init()
         {
-            _databaseAssetField.SetValueWithoutNotify(_databaseAsset);
-            _newAssetButton.SetEnabled(false);
+            _newAssetButton.style.display = DisplayStyle.None;
             _newObjectButton.SetEnabled(true);
             _saveButton.SetEnabled(true);
+            
             var newTabButton = _root.Query<Button>("NewTabButton").First();
             newTabButton.clicked += AddTab;
+            
             PopulateObjectList();
             CreateTabs();
         }
@@ -320,8 +319,6 @@ namespace WolfRPG.Core
             _database = _databaseFactory.CreateNewDatabase(out _databaseAsset);
 
             if (_databaseAsset == null) return;
-            
-            _databaseAssetField.SetValueWithoutNotify(_databaseAsset);
 
             Init();
         }
