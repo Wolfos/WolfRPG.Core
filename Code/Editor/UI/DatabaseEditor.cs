@@ -115,7 +115,6 @@ namespace WolfRPG.Core
 
         private void Init()
         {
-            //TODO: Also init when new database is selected
             _databaseAssetField.SetValueWithoutNotify(_databaseAsset);
             _newAssetButton.SetEnabled(false);
             _newObjectButton.SetEnabled(true);

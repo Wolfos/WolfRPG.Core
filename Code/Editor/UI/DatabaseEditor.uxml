@@ -8,7 +8,7 @@
             </ui:GroupBox>
         </ui:GroupBox>
         <ui:GroupBox name="GroupBox" style="flex-direction: row; align-items: flex-start; opacity: 1; visibility: visible; overflow: visible; margin-top: 1px; height: auto; padding-top: 0; padding-bottom: 0; margin-left: 0; padding-left: 0;">
-            <uie:ObjectField label="Database Asset" type="UnityEngine.TextAsset, UnityEngine.CoreModule" name="DatabaseAssetField" style="width: 355px; margin-left: 0;" />
+            <uie:ObjectField label="Database Asset" type="UnityEngine.TextAsset, UnityEngine.CoreModule" name="DatabaseAssetField" allow-scene-objects="false" focusable="true" style="width: 355px; margin-left: 0;" />
             <ui:Button text="New" display-tooltip-when-elided="true" name="NewAssetButton" focusable="true" />
         </ui:GroupBox>
         <ui:GroupBox name="Tabs" style="padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 5px; margin-bottom: 5px;">
