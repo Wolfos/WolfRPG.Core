@@ -258,7 +258,7 @@ namespace WolfRPG.Core
 
 							if (entry == null)
 							{
-								Debug.LogError("Asset needs to be addressable");
+								DatabaseEditor.DisplayMessage("Asset needs to be addressable");
 								field.SetValueWithoutNotify(null);
 								return;
 							}
