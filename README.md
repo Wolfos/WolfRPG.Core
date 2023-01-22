@@ -1,2 +1,11 @@
 # WolfRPG.Core
-Work In Progress
+WolfRPG.Core handles basic data storage and editing. It is intended as a base for the other WolfRPG libraries to build upon, but can be used by itself.
+
+# Documentation
+[Installation](https://github.com/Wolfos/WolfRPG.Core/wiki/Installation)
+
+[Tutorial: Basic usage](https://github.com/Wolfos/WolfRPG.Core/wiki/Tutorial:-basic-usage)
+
+[Components](https://github.com/Wolfos/WolfRPG.Core/wiki/Components)
+
+[Referencing RPGObjects from Unity code](https://github.com/Wolfos/WolfRPG.Core/wiki/Referencing-RPGObjects-from-Unity-code)
