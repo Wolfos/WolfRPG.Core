@@ -1,14 +1,13 @@
 {
   "name": "nl.eestudio.wolfrpg.core",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "displayName": "WolfRPG.Core",
   "description": "WolfRPG Core Module",
   "unity": "2021.3",
   "documentationUrl": "",
-  "changelogUrl": "",
+  "changelogUrl": "https://github.com/Wolfos/WolfRPG.Core/wiki/Changelog",
   "licensesUrl": "",
   "dependencies": {
-	"com.unity.settings-manager": "2.0.1",
     "com.unity.nuget.newtonsoft-json": "3.0.2",
     "com.unity.test-framework": "1.1.31",
 	"com.unity.addressables": "1.21.2"
