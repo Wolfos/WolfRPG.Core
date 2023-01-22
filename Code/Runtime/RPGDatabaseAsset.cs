@@ -25,11 +25,18 @@ namespace WolfRPG.Core
 				var operation = Addressables.LoadAssetAsync<TextAsset>(guid);
 				var asset = operation.WaitForCompletion();
 
-				var rpgObject = JsonConvert.DeserializeObject<RPGObject>(asset.text, new JsonSerializerSettings
+				try
 				{
-					TypeNameHandling = TypeNameHandling.Auto
-				});
-				database.AddObjectInstance(rpgObject);
+					var rpgObject = JsonConvert.DeserializeObject<RPGObject>(asset.text, new JsonSerializerSettings
+					{
+						TypeNameHandling = TypeNameHandling.Auto
+					});
+					database.AddObjectInstance(rpgObject);
+				}
+				catch
+				{
+					Debug.LogError($"Could not load object {asset.name}");
+				}
 			}
 
 			database.Categories = Categories;
