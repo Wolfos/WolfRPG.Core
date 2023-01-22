@@ -1,10 +1,10 @@
 {
   "name": "nl.eestudio.wolfrpg.core",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "displayName": "WolfRPG.Core",
   "description": "WolfRPG Core Module",
   "unity": "2021.3",
-  "documentationUrl": "",
+  "documentationUrl": "https://github.com/Wolfos/WolfRPG.Core/wiki",
   "changelogUrl": "https://github.com/Wolfos/WolfRPG.Core/wiki/Changelog",
   "licensesUrl": "",
   "dependencies": {
