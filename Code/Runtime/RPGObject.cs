@@ -14,6 +14,7 @@ namespace WolfRPG.Core
 		public string Name { get; set; }
 		public string Guid { get; set; }
 		public int Category { get; set; }
+		public bool IncludedInSavedGame { get; set; }
 		
 		[JsonProperty]
 		private Dictionary<Type, IRPGComponent> _components = new();

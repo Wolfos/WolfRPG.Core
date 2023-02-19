@@ -8,6 +8,8 @@ namespace WolfRPG.Core
 		string Name { get; set; }
 		string Guid { get; set; }
 		int Category { get; set; }
+		bool IncludedInSavedGame { get; set; } 
+			
 		T AddComponent<T>() where T : class, IRPGComponent, new();
 		void AddComponent(IRPGComponent component);
 		void RemoveComponent(IRPGComponent component);

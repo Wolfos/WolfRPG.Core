@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using Moq;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace WolfRPG.Core.Tests.Runtime
@@ -93,6 +95,102 @@ namespace WolfRPG.Core.Tests.Runtime
 			var actual = target.GetObjectInstance(Guid.NewGuid().ToString());
 			Assert.IsNull(actual);
 		}
+
+		[Test]
+		public void GetSaveData_ReturnsValidJson()
+		{
+			var target = new RPGDatabase();
+
+			var json = target.GetSaveData();
+			var actual = JsonConvert.DeserializeObject<RPGDatabaseAsset>(json);
+			
+			Assert.IsNotNull(actual);
+		}
 		
+		[Test]
+		public void GetSaveData_IncludesMarkedObjects()
+		{
+			var target = new RPGDatabase();
+			var rpgObject = new RPGObject
+			{
+				Guid = Guid.NewGuid().ToString(),
+				IncludedInSavedGame = true
+			};
+
+			target.AddObjectInstance(rpgObject);
+
+			var json = target.GetSaveData();
+			var savedGame = JsonConvert.DeserializeObject<RPGSavedGame>(json);
+			var actual = savedGame.RpgObjects.FirstOrDefault(obj => obj.Guid == rpgObject.Guid);
+			Assert.IsNotNull(actual);
+		}
+		
+		[Test]
+		public void GetSaveData_DoesNotIncludeUnmarkedObjects()
+		{
+			var target = new RPGDatabase();
+			var rpgObject = new RPGObject
+			{
+				Guid = Guid.NewGuid().ToString(),
+				IncludedInSavedGame = false
+			};
+
+			target.AddObjectInstance(rpgObject);
+
+			var json = target.GetSaveData();
+			var savedGame = JsonConvert.DeserializeObject<RPGSavedGame>(json);
+			var actual = savedGame.RpgObjects.FirstOrDefault(obj => obj.Guid == rpgObject.Guid);
+			Assert.IsNull(actual);
+		}
+
+		[Test]
+		public void ApplySaveData_AddsNewObjects()
+		{
+			var target = new RPGDatabase();
+			
+			var savedGame = new RPGSavedGame();
+			var rpgObject = new RPGObject
+			{
+				Guid = Guid.NewGuid().ToString()
+			};
+			
+			savedGame.RpgObjects.Add(rpgObject);
+
+			var json = JsonConvert.SerializeObject(savedGame, Formatting.None, new JsonSerializerSettings
+			{
+				TypeNameHandling = TypeNameHandling.Auto
+			});
+			
+			target.ApplySaveData(json);
+			var actual = target.GetObjectInstance(rpgObject.Guid);
+			
+			Assert.IsNotNull(actual);
+		}
+		
+		[Test]
+		public void ApplySaveData_IncludesChanges()
+		{
+			var target = new RPGDatabase();
+			
+			var rpgObject = new RPGObject
+			{
+				Guid = Guid.NewGuid().ToString()
+			};
+
+			var testComponent = rpgObject.AddComponent<TestComponent>();
+			testComponent.TestValue = "I like cheese";
+			
+			target.AddObjectInstance(rpgObject);
+
+			var json =
+				$"{{\"RpgObjects\":[{{\"_components\":{{\"WolfRPG.Core.Tests.Runtime.TestComponent, WolfRPG.Core.Tests, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\":{{\"$type\":\"WolfRPG.Core.Tests.Runtime.TestComponent, WolfRPG.Core.Tests\",\"TestValue\":\"I like pizza\"}}}},\"Name\":null,\"Guid\":\"{rpgObject.Guid}\",\"Category\":0,\"IncludedInSavedGame\":false}}]}}";
+
+			target.ApplySaveData(json);
+
+			rpgObject = (RPGObject)target.GetObjectInstance(rpgObject.Guid);
+			testComponent = rpgObject.GetComponent<TestComponent>();
+			
+			Assert.AreEqual("I like pizza", testComponent.TestValue);
+		}
 	}
 }

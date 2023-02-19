@@ -15,6 +15,7 @@ namespace WolfRPG.Core
         
         private TextField _nameField;
         private TextField _guidField;
+        private Toggle _includedInSavedGameToggle;
         private TemplateContainer _container;
         private GroupBox _bottomBox; // box that's located below the "add component" button. Gets cleared when object is deselected
         private GroupBox _objectList;
@@ -29,6 +30,7 @@ namespace WolfRPG.Core
             _container.style.display = DisplayStyle.None;
             _nameField = _container.Query<TextField>("NameField").First();
             _guidField = _container.Query<TextField>("GuidField").First();
+            _includedInSavedGameToggle = _container.Query<Toggle>("IncludedInSavedGame").First();
             _objectList = _container.Query<GroupBox>("ObjectList").First();
 
             var newComponentButton = _container.Query<Button>("NewComponentButton").First();
@@ -62,6 +64,15 @@ namespace WolfRPG.Core
             {
                 GUIUtility.systemCopyBuffer = SelectedObject.Guid;
                 DatabaseEditor.DisplayMessage("Copied to clipboard");
+            });
+
+            _includedInSavedGameToggle.value = SelectedObject.IncludedInSavedGame;
+            _includedInSavedGameToggle.RegisterValueChangedCallback(changeEvent =>
+            {
+                if (changeEvent.newValue == SelectedObject.IncludedInSavedGame) return;
+                
+                SelectedObject.IncludedInSavedGame = changeEvent.newValue;
+                OnSelectedObjectUpdated?.Invoke();
             });
             
             BuildComponentsList();
