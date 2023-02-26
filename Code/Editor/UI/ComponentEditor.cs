@@ -6,6 +6,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
+using WolfRPG.Core.Localization;
 using Object = UnityEngine.Object;
 
 namespace WolfRPG.Core
@@ -229,6 +230,7 @@ namespace WolfRPG.Core
 					});
 					this.Add(field);
 				}
+				// AssetReference
 				else if (propertyType == typeof(AssetReference))
 				{
 					// AssetReferenceAttribute is required to set the type
@@ -273,6 +275,40 @@ namespace WolfRPG.Core
 						});
 						
 						this.Add(field);
+					}
+				}
+				// LocalizedString
+				else if (propertyType == typeof(LocalizedString))
+				{
+					var field = new TextField();
+					field.label = property.Name;
+					var reference = (LocalizedString) property.GetValue(component);
+					if (reference != null)
+					{
+						field.value = reference.Identifier;
+					}
+
+					field.RegisterValueChangedCallback((evt) =>
+					{
+						var newString = new LocalizedString
+						{
+							Identifier = evt.newValue
+						};
+						property.SetValue(component, newString);
+						OnComponentUpdated?.Invoke();
+					});
+					this.Add(field);
+					
+					if (string.IsNullOrEmpty(field.value) == false && LocalizationFile.HasIdentifier(field.value))
+					{
+						var localized = LocalizationFile.Get(field.value, LocalizationFile.DefaultLanguage);
+						var label = new Label($"Text: {localized}");
+						this.Add(label);
+					}
+					else
+					{
+						var label = new Label("Text: Not found");
+						this.Add(label);
 					}
 				}
 			}

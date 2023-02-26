@@ -27,6 +27,11 @@ namespace WolfRPG.Core.Localization
 				return;
 			}
 			
+			if (AssetDatabase.IsValidFolder("Assets/WolfRPG") == false)
+			{
+				AssetDatabase.CreateFolder("Assets", "WolfRPG");
+			}
+			
 			const string text = "Identifier;English;Dutch\nExampleID;Example;Voorbeeld";
 			File.WriteAllText(DefaultPath, text);
 			AssetDatabase.Refresh();

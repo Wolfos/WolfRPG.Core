@@ -16,6 +16,8 @@ namespace WolfRPG.Core.Localization
 		private static Dictionary<string, LocalizationString> _loadedStrings;
 		private static List<SystemLanguage> _languages;
 
+		public static SystemLanguage DefaultLanguage { get; set; } = SystemLanguage.English;
+
 		private static void Load()
 		{
 			// No caching in the editor
@@ -26,7 +28,7 @@ namespace WolfRPG.Core.Localization
 			var operation = Addressables.LoadAssetAsync<TextAsset>(Label);
 			var asset = operation.WaitForCompletion();
 			
-			var lines = asset.text.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+			var lines = asset.text.Split(new[] { "\r\n", "\r", "\n"}, StringSplitOptions.RemoveEmptyEntries);
 			_loadedStrings = new();
 			
 			var splitString = lines[0].Split(';');
@@ -69,9 +71,15 @@ namespace WolfRPG.Core.Localization
 			}
 		}
 
+		public static bool HasIdentifier(string identifier)
+		{
+			Load();
+			return _loadedStrings.ContainsKey(identifier);
+		}
+
 		public static string Get(string identifier, SystemLanguage language)
 		{
-			// Load will only run once during runtime
+			// Load will only run once during runtime, but every time in-editor so that changes will show without having to restart the editor
 			Load();
 
 			if (_loadedStrings.ContainsKey(identifier) == false)
@@ -80,7 +88,14 @@ namespace WolfRPG.Core.Localization
 				return "";
 			}
 
-			return _loadedStrings[identifier].LocalizedString[language];
+			var str = _loadedStrings[identifier];
+			if (str.LocalizedString.ContainsKey(language))
+			{
+				return str.LocalizedString[language];
+			}
+
+			return str.LocalizedString[DefaultLanguage];
+			
 		}
 	}
 }
