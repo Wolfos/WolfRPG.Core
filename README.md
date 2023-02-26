@@ -11,3 +11,5 @@ WolfRPG.Core handles basic data storage and editing. It is intended as a base fo
 [Referencing RPGObjects from Unity code](https://github.com/Wolfos/WolfRPG.Core/wiki/Referencing-RPGObjects-from-Unity-code)
 
 [Renaming or deleting component classes](https://github.com/Wolfos/WolfRPG.Core/wiki/Renaming-or-deleting-component-classes)
+
+[Localization](https://github.com/Wolfos/WolfRPG.Core/wiki/Localization)
