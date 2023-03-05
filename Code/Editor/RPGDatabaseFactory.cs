@@ -72,6 +72,7 @@ namespace WolfRPG.Core
 
 			var loadOperation = Addressables.LoadAssetAsync<TextAsset>(RPGDatabaseAsset.LabelDefault);
 			asset = loadOperation.WaitForCompletion();
+			Addressables.Release(loadOperation);
 				
 			var databaseAsset = JsonConvert.DeserializeObject<RPGDatabaseAsset>(asset.text);
 			var database = databaseAsset.Get();
@@ -95,6 +96,8 @@ namespace WolfRPG.Core
 		{
 			var operation = Addressables.LoadAssetAsync<TextAsset>(RPGDatabaseAsset.LabelDefault);
 			var asset = operation.WaitForCompletion();
+			Addressables.Release(operation);
+			
 			var relativePath = AssetDatabase.GetAssetPath(asset);
 			var absolutePath = $"{Path.GetDirectoryName(Application.dataPath)}/{relativePath}";
 

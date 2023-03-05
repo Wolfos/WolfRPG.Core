@@ -24,6 +24,7 @@ namespace WolfRPG.Core
 			{
 				var operation = Addressables.LoadAssetAsync<TextAsset>(guid);
 				var asset = operation.WaitForCompletion();
+				Addressables.Release(operation);
 
 				try
 				{

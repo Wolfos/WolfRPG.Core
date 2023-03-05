@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace WolfRPG.Core
 {
@@ -19,7 +20,7 @@ namespace WolfRPG.Core
 		public string Guid { get; set; }
 
 		private object _cachedAsset;
-		
+
 		/// <summary>
 		/// Get referenced asset. First time use loads the asset synchronously. The asset is cached afterwards
 		/// </summary>
@@ -30,8 +31,10 @@ namespace WolfRPG.Core
 				return (T) _cachedAsset;
 			}
 			
-			var operation = Addressables.LoadAssetAsync<T>(Guid);
-			var asset = operation.WaitForCompletion();
+			var handle = Addressables.LoadAssetAsync<T>(Guid);
+			var asset = handle.WaitForCompletion();
+			Addressables.Release(handle);
+			
 			_cachedAsset = asset;
 			return asset;
 		}

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -9,7 +8,7 @@ namespace WolfRPG.Core.Localization
 	public class LocalizationFile
 	{
 		// Label to identify the file in Addressables
-		public static string Label = "WolfRPG Localization File";
+		public const string Label = "WolfRPG Localization File";
 
 		private static readonly List<string> LanguageLookUpTable = new() {"Afrikaans","Arabic","Basque","Belarusian","Bulgarian","Catalan","Chinese","Czech","Danish","Dutch","English","Estonian","Faroese","Finnish","French","German","Greek","Hebrew","Hungarian","Icelandic","Indonesian","Italian","Japanese","Korean","Latvian","Lithuanian","Norwegian","Polish","Portuguese","Romanian","Russian","SerboCroatian","Slovak","Slovenian","Spanish","Swedish","Thai","Turkish","Ukrainian","Vietnamese","ChineseSimplified","ChineseTraditional","Hindi" };
 		
@@ -27,6 +26,7 @@ namespace WolfRPG.Core.Localization
 
 			var operation = Addressables.LoadAssetAsync<TextAsset>(Label);
 			var asset = operation.WaitForCompletion();
+			Addressables.Release(operation);
 			
 			var lines = asset.text.Split(new[] { "\r\n", "\r", "\n"}, StringSplitOptions.RemoveEmptyEntries);
 			_loadedStrings = new();

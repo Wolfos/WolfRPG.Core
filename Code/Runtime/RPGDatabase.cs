@@ -26,6 +26,7 @@ namespace WolfRPG.Core
 
 					var loadOperation = Addressables.LoadAssetAsync<TextAsset>(RPGDatabaseAsset.LabelDefault);
 					var asset = loadOperation.WaitForCompletion();
+					Addressables.Release(loadOperation);
 				
 					var databaseAsset = JsonConvert.DeserializeObject<RPGDatabaseAsset>(asset.text);
 					var database = databaseAsset.Get();
