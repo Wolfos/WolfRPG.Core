@@ -90,7 +90,7 @@ namespace WolfRPG.Core
 		{
 			RPGDatabase.DefaultDatabase.RemoveObjectInstance(rpgObject);
 			
-			var path = $"Assets/{DefaultRelativePath}/{rpgObject.Name}.json";
+			var path = AssetDatabase.GUIDToAssetPath(rpgObject.Guid);
 			AssetDatabase.DeleteAsset(path);
 		}
 	}
