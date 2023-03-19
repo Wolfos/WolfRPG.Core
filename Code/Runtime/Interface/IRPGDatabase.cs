@@ -11,6 +11,7 @@ namespace WolfRPG.Core
 		bool AddObjectInstance(IRPGObject rpgObject);
 		void RemoveObjectInstance(IRPGObject rpgObject);
 		IRPGObject GetObjectInstance(string guid);
+		IRPGObject GetObjectByName(string name);
 		string GetSaveData();
 		void ApplySaveData(string json);
 	}

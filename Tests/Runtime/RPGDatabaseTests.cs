@@ -192,5 +192,46 @@ namespace WolfRPG.Core.Tests.Runtime
 			
 			Assert.AreEqual("I like pizza", testComponent.TestValue);
 		}
+
+		[Test]
+		public void GetObjectByName_HasObject_ReturnsCorrectObject()
+		{
+			var target = new RPGDatabase();
+			
+			var notExpected = new RPGObject
+			{
+				Guid = Guid.NewGuid().ToString(),
+				Name = "Not Bob"
+			};
+			
+			var expected = new RPGObject
+			{
+				Guid = Guid.NewGuid().ToString(),
+				Name = "Bob"
+			};
+
+			target.AddObjectInstance(notExpected);
+			target.AddObjectInstance(expected);
+
+			var actual = target.GetObjectByName("Bob");
+			Assert.AreEqual(expected, actual);
+		}
+		
+		[Test]
+		public void GetObjectByName_DoesNotHaveObject_ReturnsNull()
+		{
+			var target = new RPGDatabase();
+			
+			var notExpected = new RPGObject
+			{
+				Guid = Guid.NewGuid().ToString(),
+				Name = "Not Bob"
+			};
+
+			target.AddObjectInstance(notExpected);
+
+			var actual = target.GetObjectByName("Bob");
+			Assert.IsNull(actual);
+		}
 	}
 }

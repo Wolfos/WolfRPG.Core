@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -93,7 +92,6 @@ namespace WolfRPG.Core
 
             _tabContainer = _root.Query<GroupBox>("Tabs").First();
             
-            _objectEditorContainer.Add(_objectEditor.CreateUI());
             _objectEditor.OnSelectedObjectUpdated += OnSelectedObjectUpdated;
 
             _saveButton = _root.Query<Button>("SaveButton").First();
@@ -109,6 +107,8 @@ namespace WolfRPG.Core
                 _newObjectButton.SetEnabled(false);
                 _saveButton.SetEnabled(false);
             }
+            
+            _objectEditorContainer.Add(_objectEditor.CreateUI(_database));
         }
 
         private void Init()
@@ -370,7 +370,7 @@ namespace WolfRPG.Core
                 _objectButtons[_selectedObjectId].RemoveFromClassList("Selected");
             }
             _selectedObjectId = -1;
-            _objectEditor.Deselect();
+            _objectEditor.DeselectObject();
         }
 
         private void Save()

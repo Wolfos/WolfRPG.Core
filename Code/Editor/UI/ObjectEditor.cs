@@ -12,7 +12,8 @@ namespace WolfRPG.Core
     {
         public Action OnSelectedObjectUpdated { get; set; }
         public IRPGObject SelectedObject { get; private set; }
-        
+
+        private IRPGDatabase _database;
         private TextField _nameField;
         private TextField _guidField;
         private Toggle _includedInSavedGameToggle;
@@ -21,8 +22,10 @@ namespace WolfRPG.Core
         private GroupBox _objectList;
         private bool _isAddingComponent;
 
-        public VisualElement CreateUI()
+        public VisualElement CreateUI(IRPGDatabase database)
         {
+            _database = database;
+            
             var visualTree =
                 AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
                     "Packages/nl.eestudio.wolfrpg.core/Code/Editor/UI/ObjectEditor.uxml");
@@ -45,37 +48,68 @@ namespace WolfRPG.Core
         public void SelectObject(IRPGObject rpgObject)
         {
             Clear();
+            ClearCallbacks();
             
             SelectedObject = rpgObject;
 
             _container.style.display = DisplayStyle.Flex;
             _nameField.value = SelectedObject.Name;
             
-            _nameField.RegisterValueChangedCallback(changeEvent =>
-            {
-                if (changeEvent.newValue == SelectedObject.Name) return;
-                
-                SelectedObject.Name = changeEvent.newValue;
-                OnSelectedObjectUpdated?.Invoke();
-            });
+            _nameField.RegisterValueChangedCallback(OnNameFieldChanged);
 
             _guidField.value = SelectedObject.Guid;
-            _guidField.RegisterCallback<ClickEvent>(_ =>
-            {
-                GUIUtility.systemCopyBuffer = SelectedObject.Guid;
-                DatabaseEditor.DisplayMessage("Copied to clipboard");
-            });
+            _guidField.RegisterCallback<ClickEvent>( OnGuidFieldClicked);
 
             _includedInSavedGameToggle.value = SelectedObject.IncludedInSavedGame;
-            _includedInSavedGameToggle.RegisterValueChangedCallback(changeEvent =>
-            {
-                if (changeEvent.newValue == SelectedObject.IncludedInSavedGame) return;
-                
-                SelectedObject.IncludedInSavedGame = changeEvent.newValue;
-                OnSelectedObjectUpdated?.Invoke();
-            });
+            _includedInSavedGameToggle.RegisterValueChangedCallback(OnIncludedOnSaveGameToggleChanged);
             
             BuildComponentsList();
+        }
+        
+        public void DeselectObject()
+        {
+            SelectedObject = null;
+            _container.style.display = DisplayStyle.None;
+            Clear();
+        }
+
+        #region Callbacks
+        private void OnNameFieldChanged(ChangeEvent<string> changeEvent)
+        {
+            if (changeEvent.newValue == SelectedObject.Name) return;
+
+            // Because object name == file name, duplicates are not allowed
+            var hasObject = _database.GetObjectByName(changeEvent.newValue);
+            if (hasObject != null && hasObject != SelectedObject)
+            {
+                DatabaseEditor.DisplayMessage("Name already exists");
+                return;
+            }
+
+            SelectedObject.Name = changeEvent.newValue;
+            OnSelectedObjectUpdated?.Invoke();
+        }
+
+        private void OnGuidFieldClicked(ClickEvent evt)
+        {
+            GUIUtility.systemCopyBuffer = SelectedObject.Guid;
+            DatabaseEditor.DisplayMessage("Copied to clipboard");
+        }
+
+        private void OnIncludedOnSaveGameToggleChanged(ChangeEvent<bool> changeEvent)
+        {
+            if (changeEvent.newValue == SelectedObject.IncludedInSavedGame) return;
+
+            SelectedObject.IncludedInSavedGame = changeEvent.newValue;
+            OnSelectedObjectUpdated?.Invoke();
+        }
+        #endregion
+
+        private void ClearCallbacks()
+        {
+            _nameField.UnregisterValueChangedCallback(OnNameFieldChanged);
+            _guidField.UnregisterCallback<ClickEvent>(OnGuidFieldClicked);
+            _includedInSavedGameToggle.UnregisterValueChangedCallback(OnIncludedOnSaveGameToggleChanged); 
         }
 
         private void Clear()
@@ -117,13 +151,6 @@ namespace WolfRPG.Core
             OnSelectedObjectUpdated?.Invoke();
             
             BuildComponentsList();
-        }
-
-        public void Deselect()
-        {
-            SelectedObject = null;
-            _container.style.display = DisplayStyle.None;
-            Clear();
         }
 
         private void AddNewComponent(Type type)

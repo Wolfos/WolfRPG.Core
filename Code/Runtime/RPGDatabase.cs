@@ -117,6 +117,16 @@ namespace WolfRPG.Core
 			return null;
 		}
 
+		public IRPGObject GetObjectByName(string name)
+		{
+			foreach (var kvp in Objects)
+			{
+				if (kvp.Value.Name == name) return kvp.Value;
+			}
+
+			return null;
+		}
+
 		/// <summary>
 		/// Retrieve save data in JSON format
 		/// </summary>
