@@ -168,6 +168,11 @@ namespace WolfRPG.Core
 
         private void DeleteObject(IRPGObject rpgObject)
         {
+            if (_objectEditor.SelectedObject == rpgObject)
+            {
+                DeselectObject();
+            }
+            
             _objectFactory.DeleteObject(rpgObject);
             PopulateObjectList();
             // Save database only to remove the object reference, as the file was deleted
