@@ -51,7 +51,7 @@ namespace WolfRPG.Core.Localization
 				splitString = lines[i].Split(';');
 				var localizationString = new LocalizationString
 				{
-					LocalizedString = new Dictionary<SystemLanguage, string>()
+					LocalizedString = new()
 				};
 				var identifier = "";
 				for (var ii = 0; ii < splitString.Length; ii++)

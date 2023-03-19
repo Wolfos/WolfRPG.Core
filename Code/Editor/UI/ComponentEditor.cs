@@ -36,6 +36,19 @@ namespace WolfRPG.Core
 					});
 					this.Add(field);
 				}
+				// bool
+				else if (propertyType == typeof(bool))
+				{
+					var field = new Toggle();
+					field.label = property.Name;
+					field.value = (bool)property.GetValue(component);
+					field.RegisterValueChangedCallback((evt) =>
+					{
+						property.SetValue(component, evt.newValue);
+						OnComponentUpdated?.Invoke();
+					});
+					this.Add(field);
+				}
 				// float
 				else if (propertyType == typeof(float))
 				{
