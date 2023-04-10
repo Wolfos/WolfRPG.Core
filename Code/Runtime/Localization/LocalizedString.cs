@@ -13,7 +13,7 @@ namespace WolfRPG.Core.Localization
 
 		public string Get()
 		{
-			return Get(Application.systemLanguage);
+			return Get(LocalizationFile.TargetLanguage);
 		}
 
 		public string Get(SystemLanguage language)

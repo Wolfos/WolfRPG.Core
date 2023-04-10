@@ -16,6 +16,7 @@ namespace WolfRPG.Core.Localization
 		private static List<SystemLanguage> _languages;
 
 		public static SystemLanguage DefaultLanguage { get; set; } = SystemLanguage.English;
+		public static SystemLanguage TargetLanguage { get; set; } = Application.systemLanguage;
 
 		private static void Load()
 		{
@@ -75,6 +76,11 @@ namespace WolfRPG.Core.Localization
 		{
 			Load();
 			return _loadedStrings.ContainsKey(identifier);
+		}
+
+		public static string Get(string identifier)
+		{
+			return Get(identifier, TargetLanguage);
 		}
 
 		public static string Get(string identifier, SystemLanguage language)

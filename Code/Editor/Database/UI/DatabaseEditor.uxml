@@ -1,4 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/WolfRPG.uss?fileID=7433441132597879392&amp;guid=fc76d4011481ed44cab5d9bb0c5cf77c&amp;type=3#WolfRPG" />
     <ui:GroupBox name="Editor" style="height: 100%; width: 100%; min-width: 100%; min-height: 100%; flex-grow: 1; flex-shrink: 1; margin-top: 0; margin-left: 0; padding-left: 0;">
         <ui:GroupBox name="Buttons" class="Horizontal" style="flex-direction: row; align-items: flex-start; opacity: 1; visibility: visible; overflow: visible; margin-top: 0; height: auto; padding-top: 0; padding-bottom: 0; margin-left: 0; padding-left: 0;">
             <ui:Button text="Initialize WolfRPG" display-tooltip-when-elided="true" name="NewAssetButton" focusable="true" style="height: 34px;" />

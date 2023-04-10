@@ -57,12 +57,12 @@ namespace WolfRPG.Core
             // Workaround because you can't add stylesheets from a package path in the editor
            var styleSheet =
                AssetDatabase.LoadAssetAtPath<StyleSheet>(
-                   "Packages/nl.eestudio.wolfrpg.core/Code/Editor/UI/WolfRPG.uss");
+                   "Packages/nl.eestudio.wolfrpg.core/Code/Editor/Database/UI/WolfRPG.uss");
 
             // Import UXML
             var visualTree =
                 AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                    "Packages/nl.eestudio.wolfrpg.core/Code/Editor/UI/DatabaseEditor.uxml");
+                    "Packages/nl.eestudio.wolfrpg.core/Code/Editor/Database/UI/DatabaseEditor.uxml");
             VisualElement uxml = visualTree.Instantiate();
             uxml.style.flexGrow = 1;
             uxml.style.flexShrink = 1;
