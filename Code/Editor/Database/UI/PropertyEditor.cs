@@ -13,7 +13,7 @@ namespace WolfRPG.Core
 {
 	public class PropertyEditor: VisualElement
 	{
-		public PropertyEditor(PropertyInfo property, IRPGComponent component, ComponentEditor editor)
+		public PropertyEditor(PropertyInfo property, object component, ComponentEditor editor)
 		{
 			var propertyType = property.PropertyType;
 			// int
@@ -317,9 +317,39 @@ namespace WolfRPG.Core
 					this.Add(label);
 				}
 			}
+			// Complex types
+			else if(propertyType.IsClass)
+			{
+				var label = new Label(property.Name);
+				Add(label);
+				foreach (var prop in propertyType.GetProperties())
+				{
+					var type = prop.PropertyType;
+					var classInstance = property.GetValue(component);
+					if (classInstance == null)
+					{
+						classInstance = Activator.CreateInstance(propertyType);
+						property.SetValue(component, classInstance);
+					}
+					if (type.IsArray)
+					{
+						var arrayEditor = new ArrayEditor(classInstance, prop, type, editor);
+						arrayEditor.style.marginLeft = new (10);
+						Add(arrayEditor);
+					}
+					else
+					{
+						var propertyEditor = new PropertyEditor(prop, classInstance, editor);
+						propertyEditor.style.marginLeft = new (10);
+						Add(propertyEditor);
+					}
+				}
+			}
 		}
 		public PropertyEditor(Type propertyType, Array array, int index, ComponentEditor editor)
 		{
+			var indexLabel = new Label(index.ToString());
+			Add(indexLabel);
 			var value = array.GetValue(index);
 			// int
 			if (propertyType == typeof(int))
@@ -601,6 +631,32 @@ namespace WolfRPG.Core
 				{
 					var label = new Label("Text: Not found");
 					this.Add(label);
+				}
+			}
+			// Complex types
+			else if(propertyType.IsClass)
+			{
+				foreach (var prop in propertyType.GetProperties())
+				{
+					var type = prop.PropertyType;
+					var classInstance = array.GetValue(index);
+					if (classInstance == null)
+					{
+						classInstance = Activator.CreateInstance(propertyType);
+						array.SetValue(classInstance, index);
+					}
+					if (type.IsArray)
+					{
+						var arrayEditor = new ArrayEditor(classInstance, prop, type, editor);
+						arrayEditor.style.marginLeft = new (10);
+						Add(arrayEditor);
+					}
+					else
+					{
+						var propertyEditor = new PropertyEditor(prop, classInstance, editor);
+						propertyEditor.style.marginLeft = new (10);
+						Add(propertyEditor);
+					}
 				}
 			}
 		}

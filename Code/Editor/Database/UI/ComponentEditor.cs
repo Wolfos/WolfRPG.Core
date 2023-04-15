@@ -17,12 +17,15 @@ namespace WolfRPG.Core
 				var propertyType = property.PropertyType;
 				if (propertyType.IsArray)
 				{
-					Add(new ArrayEditor(component, property, propertyType, this));
+					var arrayEditor = new ArrayEditor(component, property, propertyType, this);
+					arrayEditor.style.marginLeft = new (10);
+					Add(arrayEditor);
 				}
 				else
 				{
-					var editor = new PropertyEditor(property, component, this);
-					Add(editor);
+					var propertyEditor = new PropertyEditor(property, component, this);
+					propertyEditor.style.marginLeft = new (10);
+					Add(propertyEditor);
 				}
 			}
 		}

@@ -7,10 +7,11 @@ namespace WolfRPG.Core
 	public class ArrayEditor: VisualElement
 	{
 		private GroupBox _propertyEditors;
-		public ArrayEditor(IRPGComponent component, PropertyInfo property, Type propertyType, ComponentEditor componentEditor)
+		public ArrayEditor(object component, PropertyInfo property, Type propertyType, ComponentEditor componentEditor)
 		{
 			var foldout = new Foldout();
 			foldout.text = property.Name;
+			foldout.SetValueWithoutNotify(false); // Close the foldout by default
 
 			var array = (Array) property.GetValue(component) ?? Array.CreateInstance(propertyType.GetElementType(), 0);
 
@@ -69,6 +70,7 @@ namespace WolfRPG.Core
 				var index = i;
 				var propertyEditor =
 					new PropertyEditor(propertyType.GetElementType(), array, index, componentEditor);
+				propertyEditor.style.marginBottom = new (10);
 				_propertyEditors.Add(propertyEditor);
 			}
 		}
