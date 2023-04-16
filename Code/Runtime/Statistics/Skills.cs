@@ -2,6 +2,6 @@
 {
 	public enum Skills
 	{
-		Swordplay, Archery, Defense, Elemental, Restoration, Athletics
+		DEFAULT, Swordplay, Archery, Defense, Elemental, Restoration, Athletics, MAX
 	}
 }
