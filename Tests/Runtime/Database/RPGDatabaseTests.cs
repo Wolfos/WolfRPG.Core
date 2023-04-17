@@ -97,6 +97,23 @@ namespace WolfRPG.Core.Tests.Runtime
 		}
 
 		[Test]
+		public void SetObjectInstance_ReplacesObject()
+		{
+			var target = new RPGDatabase();
+			var rpgObject = new RPGObject();
+			rpgObject.Guid = Guid.NewGuid().ToString();
+
+			var expected = new RPGObject();
+			expected.Guid = rpgObject.Guid;
+
+			target.AddObjectInstance(rpgObject);
+			target.SetObjectInstance(expected);
+
+			var actual = target.GetObjectInstance(rpgObject.Guid);
+			Assert.AreEqual(expected, actual);
+		}
+
+		[Test]
 		public void GetSaveData_ReturnsValidJson()
 		{
 			var target = new RPGDatabase();

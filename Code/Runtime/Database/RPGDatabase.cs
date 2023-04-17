@@ -117,6 +117,10 @@ namespace WolfRPG.Core
 			return null;
 		}
 
+		/// <summary>
+		/// Replaces an object if one with the same GUID already exists
+		/// </summary>
+		/// <param name="rpgObject">The new RPGObject</param>
 		public void SetObjectInstance(IRPGObject rpgObject)
 		{
 			if (Objects.ContainsKey(rpgObject.Guid))
