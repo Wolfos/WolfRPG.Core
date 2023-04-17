@@ -117,6 +117,14 @@ namespace WolfRPG.Core
 			return null;
 		}
 
+		public void SetObjectInstance(IRPGObject rpgObject)
+		{
+			if (Objects.ContainsKey(rpgObject.Guid))
+			{
+				Objects[rpgObject.Guid] = rpgObject;
+			}
+		}
+
 		public IRPGObject GetObjectByName(string name)
 		{
 			foreach (var kvp in Objects)

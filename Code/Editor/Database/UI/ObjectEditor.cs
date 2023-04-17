@@ -10,6 +10,7 @@ namespace WolfRPG.Core
 {
     public class ObjectEditor
     {
+        public Action OnBeforeSelectedObjectUpdated { get; set; }
         public Action OnSelectedObjectUpdated { get; set; }
         public IRPGObject SelectedObject { get; private set; }
 
@@ -86,6 +87,7 @@ namespace WolfRPG.Core
                 return;
             }
 
+            OnBeforeSelectedObjectUpdated?.Invoke();
             SelectedObject.Name = changeEvent.newValue;
             OnSelectedObjectUpdated?.Invoke();
         }
@@ -100,6 +102,7 @@ namespace WolfRPG.Core
         {
             if (changeEvent.newValue == SelectedObject.IncludedInSavedGame) return;
 
+            OnBeforeSelectedObjectUpdated?.Invoke();
             SelectedObject.IncludedInSavedGame = changeEvent.newValue;
             OnSelectedObjectUpdated?.Invoke();
         }
@@ -141,12 +144,14 @@ namespace WolfRPG.Core
                 
                 var componentEditor = new ComponentEditor(component);
                 _objectList.Add(componentEditor);
+                componentEditor.OnBeforeComponentUpdated += OnBeforeSelectedObjectUpdated;
                 componentEditor.OnComponentUpdated += OnSelectedObjectUpdated;
             }
         }
 
         private void RemoveComponent(IRPGComponent component)
         {
+            OnBeforeSelectedObjectUpdated?.Invoke();
             SelectedObject.RemoveComponent(component);
             OnSelectedObjectUpdated?.Invoke();
             
@@ -155,6 +160,7 @@ namespace WolfRPG.Core
 
         private void AddNewComponent(Type type)
         {
+            OnBeforeSelectedObjectUpdated?.Invoke();
             var newComponent = (IRPGComponent)Activator.CreateInstance(type);
             SelectedObject.AddComponent(newComponent);
             

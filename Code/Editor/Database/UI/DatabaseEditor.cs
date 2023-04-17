@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEngine;
@@ -26,6 +28,7 @@ namespace WolfRPG.Core
         private Button _newObjectButton;
         private Button _newAssetButton;
         private Button _saveButton;
+        private Button _undoButton;
         private GroupBox _objectEditorContainer;
         private readonly List<GroupBox> _objectButtons = new();
         private GroupBox _tabContainer;
@@ -35,7 +38,10 @@ namespace WolfRPG.Core
 
         private int _selectedObjectId = -1;
         private int _currentTab;
-        
+
+        private const int _undoBufferMaxSize = 1000;
+        // Item1 is a copy of the IRPGObject at that time, Item2 is whether it was dirtied at that point
+        private readonly List<Tuple<IRPGObject, bool>> _undoBuffer = new();
 
 
         [MenuItem("WolfRPG/Database Editor")]
@@ -92,10 +98,14 @@ namespace WolfRPG.Core
 
             _tabContainer = _root.Query<GroupBox>("Tabs").First();
             
+            _objectEditor.OnBeforeSelectedObjectUpdated += OnBeforeSelectedObjectUpdated;
             _objectEditor.OnSelectedObjectUpdated += OnSelectedObjectUpdated;
 
             _saveButton = _root.Query<Button>("SaveButton").First();
             _saveButton.clicked += Save;
+            
+            _undoButton = _root.Query<Button>("UndoButton").First();
+            _undoButton.clicked += Undo;
 
             _database = _databaseFactory.GetDefaultDatabase(out _databaseAsset);
             if (_database != null)
@@ -358,6 +368,29 @@ namespace WolfRPG.Core
             _databaseFactory.SaveDatabase(_database, GetDatabasePath());
         }
 
+        private void OnBeforeSelectedObjectUpdated()
+        {
+            var selectedObject = _objectEditor.SelectedObject;
+            // Serialize to JSON and back to create a copy for the undo buffer
+            var json = JsonConvert.SerializeObject(selectedObject, Formatting.None, 
+                new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Auto
+                });
+
+            var deserialized = JsonConvert.DeserializeObject<RPGObject>(json, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            });
+            var isDirty = _dirtyObjects.Contains(selectedObject);
+            _undoBuffer.Add(new(deserialized, !isDirty));
+
+            if (_undoBuffer.Count > _undoBufferMaxSize)
+            {
+                _undoBuffer.RemoveAt(0);
+            }
+        }
+
         private void OnSelectedObjectUpdated()
         {
             if (_dirtyObjects.Contains(_objectEditor.SelectedObject) == false)
@@ -387,6 +420,38 @@ namespace WolfRPG.Core
             }
             
             _dirtyObjects.Clear();
+            PopulateObjectList();
+        }
+
+        private void Undo()
+        {
+            if (_undoBuffer.Count == 0) return;
+            
+            var undoState = _undoBuffer.Last();
+            var rpgObject = undoState.Item1;
+            var unDirty = undoState.Item2;
+            // Object was deleted
+            if (_database.GetObjectInstance(rpgObject.Guid) == null)
+            {
+                _undoBuffer.RemoveAt(_undoBuffer.Count - 1);
+                Undo();
+                return;
+            }
+            
+            _database.SetObjectInstance(rpgObject);
+            if (_objectEditor.SelectedObject.Guid == rpgObject.Guid)
+            {
+                _objectEditor.SelectObject(rpgObject);
+            }
+
+            _dirtyObjects.RemoveAll(x => x.Guid == rpgObject.Guid);
+            if (unDirty == false)
+            {
+                _dirtyObjects.Add(rpgObject);
+            }
+
+            _undoBuffer.RemoveAt(_undoBuffer.Count - 1);
+            
             PopulateObjectList();
         }
         

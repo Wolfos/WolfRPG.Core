@@ -24,6 +24,7 @@ namespace WolfRPG.Core
 				field.value = (int)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) =>
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					property.SetValue(component, evt.newValue);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -37,6 +38,7 @@ namespace WolfRPG.Core
 				field.value = (bool)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) =>
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					property.SetValue(component, evt.newValue);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -50,6 +52,7 @@ namespace WolfRPG.Core
 				field.value = (float)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					property.SetValue(component, evt.newValue);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -63,6 +66,7 @@ namespace WolfRPG.Core
 				field.value = (long)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					property.SetValue(component, evt.newValue);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -72,10 +76,12 @@ namespace WolfRPG.Core
 			else if (propertyType == typeof(string))
 			{
 				var field = new TextField();
+				field.isDelayed = true; // Value changed event isn't called until user submits text
 				field.label = property.Name;
 				field.value = (string)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					property.SetValue(component, evt.newValue);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -89,6 +95,7 @@ namespace WolfRPG.Core
 				field.value = (Vector2)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					property.SetValue(component, evt.newValue);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -102,6 +109,7 @@ namespace WolfRPG.Core
 				field.value = (Vector3)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					property.SetValue(component, evt.newValue);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -115,6 +123,7 @@ namespace WolfRPG.Core
 				field.value = (Vector4)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					property.SetValue(component, evt.newValue);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -128,6 +137,7 @@ namespace WolfRPG.Core
 				field.value = (Vector2Int)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					property.SetValue(component, evt.newValue);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -141,6 +151,7 @@ namespace WolfRPG.Core
 				field.value = (Vector3Int)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					property.SetValue(component, evt.newValue);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -154,6 +165,7 @@ namespace WolfRPG.Core
 				field.value = (Rect)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					property.SetValue(component, evt.newValue);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -167,6 +179,7 @@ namespace WolfRPG.Core
 				field.value = (Bounds)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					property.SetValue(component, evt.newValue);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -180,6 +193,7 @@ namespace WolfRPG.Core
 				field.value = (Color)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					property.SetValue(component, evt.newValue);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -193,6 +207,7 @@ namespace WolfRPG.Core
 				field.value = (AnimationCurve)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					property.SetValue(component, evt.newValue);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -206,6 +221,7 @@ namespace WolfRPG.Core
 				field.value = (Gradient)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) =>
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					property.SetValue(component, evt.newValue);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -218,6 +234,7 @@ namespace WolfRPG.Core
 				field.label = property.Name;
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					property.SetValue(component, evt.newValue);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -231,6 +248,7 @@ namespace WolfRPG.Core
 				field.value = (LayerMask)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					property.SetValue(component, evt.newValue);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -275,6 +293,7 @@ namespace WolfRPG.Core
 						{
 							Guid = guid
 						};
+						editor.OnBeforeComponentUpdated?.Invoke();
 						property.SetValue(component, reference);
 						
 						editor.OnComponentUpdated?.Invoke();
@@ -287,6 +306,7 @@ namespace WolfRPG.Core
 			else if (propertyType == typeof(LocalizedString))
 			{
 				var field = new TextField();
+				field.isDelayed = true; // Value changed event isn't called until user submits text
 				field.label = property.Name;
 				var reference = (LocalizedString) property.GetValue(component);
 				if (reference != null)
@@ -300,6 +320,7 @@ namespace WolfRPG.Core
 					{
 						Identifier = evt.newValue
 					};
+					editor.OnBeforeComponentUpdated?.Invoke();
 					property.SetValue(component, newString);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -358,6 +379,7 @@ namespace WolfRPG.Core
 				field.value = (int)value;
 				field.RegisterValueChangedCallback((evt) =>
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					array.SetValue(evt.newValue, index);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -370,6 +392,7 @@ namespace WolfRPG.Core
 				field.value = (bool)value;
 				field.RegisterValueChangedCallback((evt) =>
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					array.SetValue(evt.newValue, index);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -382,6 +405,7 @@ namespace WolfRPG.Core
 				field.value = (float)value;
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					array.SetValue(evt.newValue, index);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -394,6 +418,7 @@ namespace WolfRPG.Core
 				field.value = (long)value;
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					array.SetValue(evt.newValue, index);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -403,9 +428,11 @@ namespace WolfRPG.Core
 			else if (propertyType == typeof(string))
 			{
 				var field = new TextField();
+				field.isDelayed = true; // Value changed event isn't called until user submits text
 				field.value = (string)value;
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					array.SetValue(evt.newValue, index);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -418,6 +445,7 @@ namespace WolfRPG.Core
 				field.value = (Vector2)value;
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					array.SetValue(evt.newValue, index);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -430,6 +458,7 @@ namespace WolfRPG.Core
 				field.value = (Vector3)value;
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					array.SetValue(evt.newValue, index);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -442,6 +471,7 @@ namespace WolfRPG.Core
 				field.value = (Vector4)value;
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					array.SetValue(evt.newValue, index);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -454,6 +484,7 @@ namespace WolfRPG.Core
 				field.value = (Vector2Int)value;
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					array.SetValue(evt.newValue, index);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -466,6 +497,7 @@ namespace WolfRPG.Core
 				field.value = (Vector3Int)value;
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					array.SetValue(evt.newValue, index);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -478,6 +510,7 @@ namespace WolfRPG.Core
 				field.value = (Rect)value;
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					array.SetValue(evt.newValue, index);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -490,6 +523,7 @@ namespace WolfRPG.Core
 				field.value = (Bounds)value;
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					array.SetValue(evt.newValue, index);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -502,6 +536,7 @@ namespace WolfRPG.Core
 				field.value = (Color)value;
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					array.SetValue(evt.newValue, index);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -514,6 +549,7 @@ namespace WolfRPG.Core
 				field.value = (AnimationCurve)value;
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					array.SetValue(evt.newValue, index);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -526,6 +562,7 @@ namespace WolfRPG.Core
 				field.value = (Gradient)value;
 				field.RegisterValueChangedCallback((evt) =>
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					array.SetValue(evt.newValue, index);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -537,6 +574,7 @@ namespace WolfRPG.Core
 				var field = new EnumField((Enum)value);
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					array.SetValue(evt.newValue, index);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -549,6 +587,7 @@ namespace WolfRPG.Core
 				field.value = (LayerMask)value;
 				field.RegisterValueChangedCallback((evt) => 
 				{
+					editor.OnBeforeComponentUpdated?.Invoke();
 					array.SetValue(evt.newValue, index);
 					editor.OnComponentUpdated?.Invoke();
 				});
@@ -604,6 +643,7 @@ namespace WolfRPG.Core
 			else if (propertyType == typeof(LocalizedString))
 			{
 				var field = new TextField();
+				field.isDelayed = true; // Value changed event isn't called until user submits text
 				var reference = (LocalizedString) value;
 				if (reference != null)
 				{
@@ -616,6 +656,7 @@ namespace WolfRPG.Core
 					{
 						Identifier = evt.newValue
 					};
+					editor.OnBeforeComponentUpdated?.Invoke();
 					array.SetValue(evt.newValue, index);
 					editor.OnComponentUpdated?.Invoke();
 				});

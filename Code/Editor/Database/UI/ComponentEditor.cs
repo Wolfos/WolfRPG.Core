@@ -5,6 +5,7 @@ namespace WolfRPG.Core
 {
 	public class ComponentEditor: Foldout
 	{
+		public Action OnBeforeComponentUpdated { get; set; }
 		public Action OnComponentUpdated { get; set; }
 		
 		public ComponentEditor(IRPGComponent component) : base()

@@ -25,6 +25,7 @@ namespace WolfRPG.Core
 			// Add new element
 			var addButton = new Button(() =>
 			{
+				componentEditor.OnBeforeComponentUpdated?.Invoke();
 				Resize(ref array, array.Length + 1);
 				property.SetValue(component, array);
 				componentEditor.OnComponentUpdated?.Invoke();
@@ -39,6 +40,7 @@ namespace WolfRPG.Core
 			// Remove last element
 			var removeButton = new Button(() =>
 			{
+				componentEditor.OnBeforeComponentUpdated?.Invoke();
 				Resize(ref array, array.Length - 1);
 				property.SetValue(component, array);
 				componentEditor.OnComponentUpdated?.Invoke();

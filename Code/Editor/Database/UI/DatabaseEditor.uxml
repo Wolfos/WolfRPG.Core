@@ -4,6 +4,7 @@
         <ui:GroupBox name="Buttons" class="Horizontal" style="flex-direction: row; align-items: flex-start; opacity: 1; visibility: visible; overflow: visible; margin-top: 0; height: auto; padding-top: 0; padding-bottom: 0; margin-left: 0; padding-left: 0;">
             <ui:Button text="Initialize WolfRPG" display-tooltip-when-elided="true" name="NewAssetButton" focusable="true" style="height: 34px;" />
             <ui:Button text="Save" display-tooltip-when-elided="true" name="SaveButton" focusable="true" style="height: 34px; width: 93px; margin-left: 0; padding-left: 6px;" />
+            <ui:Button text="Undo" display-tooltip-when-elided="true" name="UndoButton" focusable="true" style="height: 34px; width: 93px; margin-left: 0; padding-left: 6px;" />
             <ui:GroupBox name="WarningsAndErrors" style="padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0;">
                 <ui:Label display-tooltip-when-elided="true" name="Message" text="test" style="color: rgb(255, 255, 255); display: none; margin-top: 5px;" />
             </ui:GroupBox>
