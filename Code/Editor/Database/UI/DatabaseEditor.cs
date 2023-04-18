@@ -159,9 +159,9 @@ namespace WolfRPG.Core
                 deleteButton.name = "DeleteButton";
                 deleteButton.text = "x";
                 groupbox.Add(deleteButton);
-                
-                _objectButtons.Add(groupbox);
                 var i1 = i;
+
+                _objectButtons.Add(groupbox);
                 groupbox.RegisterCallback<ClickEvent>(_ => OnObjectSelected(i1, rpgObject));
                 groupbox.Add(label);
                 _objectList.Add(groupbox);
@@ -346,26 +346,9 @@ namespace WolfRPG.Core
             var newObject = _objectFactory.CreateNewObject(name, _currentTab);
             
             _database.AddObjectInstance(newObject);
-
-            var label = new Label(newObject.Name);
-            var groupbox = new GroupBox();
-            groupbox.AddToClassList("Horizontal");
-            var deleteButton = new Button(() =>
-            {
-                DeleteObject(newObject);
-            });
-
-            deleteButton.name = "DeleteButton";
-            deleteButton.text = "x";
-            groupbox.Add(deleteButton);
-            
-            _objectButtons.Add(groupbox);
-            var index = _objectButtons.Count - 1;
-            groupbox.RegisterCallback<ClickEvent>(_ => OnObjectSelected(index, newObject));
-            groupbox.Add(label);
-            _objectList.Add(groupbox);
-            
             _databaseFactory.SaveDatabase(_database, GetDatabasePath());
+            
+            PopulateObjectList();
         }
 
         private void OnBeforeSelectedObjectUpdated()

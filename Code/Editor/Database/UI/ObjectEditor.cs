@@ -18,6 +18,7 @@ namespace WolfRPG.Core
         private TextField _nameField;
         private TextField _guidField;
         private Toggle _includedInSavedGameToggle;
+        private DropdownField _category;
         private TemplateContainer _container;
         private GroupBox _bottomBox; // box that's located below the "add component" button. Gets cleared when object is deselected
         private GroupBox _objectList;
@@ -36,6 +37,8 @@ namespace WolfRPG.Core
             _guidField = _container.Query<TextField>("GuidField").First();
             _includedInSavedGameToggle = _container.Query<Toggle>("IncludedInSavedGame").First();
             _objectList = _container.Query<GroupBox>("ObjectList").First();
+            _category = _container.Query<DropdownField>("Category").First();
+            _category.choices = database.Categories;
 
             var newComponentButton = _container.Query<Button>("NewComponentButton").First();
             newComponentButton.clicked += OnNewComponentButtonPressed;
@@ -57,12 +60,14 @@ namespace WolfRPG.Core
             _nameField.value = SelectedObject.Name;
             
             _nameField.RegisterValueChangedCallback(OnNameFieldChanged);
+            _category.RegisterValueChangedCallback(OnCategoryChanged);
 
             _guidField.value = SelectedObject.Guid;
             _guidField.RegisterCallback<ClickEvent>( OnGuidFieldClicked);
 
             _includedInSavedGameToggle.value = SelectedObject.IncludedInSavedGame;
             _includedInSavedGameToggle.RegisterValueChangedCallback(OnIncludedOnSaveGameToggleChanged);
+            _category.index = rpgObject.Category;
             
             BuildComponentsList();
         }
@@ -91,6 +96,16 @@ namespace WolfRPG.Core
             SelectedObject.Name = changeEvent.newValue;
             OnSelectedObjectUpdated?.Invoke();
         }
+        
+        private void OnCategoryChanged(ChangeEvent<string> changeEvent)
+        {
+            var category = _database.Categories.IndexOf(changeEvent.newValue);
+            if (category == SelectedObject.Category) return;
+            
+            OnBeforeSelectedObjectUpdated?.Invoke();
+            SelectedObject.Category = category;
+            OnSelectedObjectUpdated?.Invoke();
+        }
 
         private void OnGuidFieldClicked(ClickEvent evt)
         {
@@ -111,6 +126,7 @@ namespace WolfRPG.Core
         private void ClearCallbacks()
         {
             _nameField.UnregisterValueChangedCallback(OnNameFieldChanged);
+            _category.UnregisterValueChangedCallback(OnCategoryChanged);
             _guidField.UnregisterCallback<ClickEvent>(OnGuidFieldClicked);
             _includedInSavedGameToggle.UnregisterValueChangedCallback(OnIncludedOnSaveGameToggleChanged); 
         }
