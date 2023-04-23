@@ -51,6 +51,11 @@ namespace WolfRPG.Core.CommandConsole
 			_log.Add(label);
 		}
 
+		public static void RegisterCommand(IConsoleCommand command)
+		{
+			_instance._parser.RegisterCommand(command);
+		}
+
 		public static void LogMessage(string message)
 		{
 			if (_instance == null) return;
