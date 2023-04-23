@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,19 +18,24 @@ namespace WolfRPG.Core.CommandConsole
 		{
 			_instance = this;
 			_parser = new();
-			
-			_uiDocument = GetComponent<UIDocument>();
+		}
 
+		private void OnEnable()
+		{
+			// UI elements stop existing when the object is disabled
+			_uiDocument = GetComponent<UIDocument>();
 			var root = _uiDocument.rootVisualElement;
 			_log = root.Query<ScrollView>("Log").First();
 
 			_inputField = root.Query<TextField>("TextInput").First();
 			_inputField.RegisterCallback<KeyDownEvent>(OnSubmit);
+			
+			_inputField.Focus();
 		}
 
-		private void OnEnable()
+		private void OnDisable()
 		{
-			_inputField.Focus();
+			_inputField.UnregisterCallback<KeyDownEvent>(OnSubmit);
 		}
 
 		private void OnSubmit(KeyDownEvent e)
