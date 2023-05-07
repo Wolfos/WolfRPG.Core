@@ -6,7 +6,12 @@ namespace WolfRPG.Core.Statistics
 		public Attribute Attribute { get; set; }
 		public int Effect { get; set; }
 		public bool Permanent { get; set; }
+		public bool ApplyEverySecond { get; set; }
 		public float Duration { get; set; }
+		// Time effect was added
+		public float AddedTimeStamp { get; set; }
+		// Last time effect was applied
+		public float ApplyTimeStamp { get; set; }
 	}
 	
 	public class SkillStatusEffect
@@ -16,5 +21,10 @@ namespace WolfRPG.Core.Statistics
 		public int Effect { get; set; }
 		public bool Permanent { get; set; }
 		public float Duration { get; set; }
+		// Time effect was added
+		public float AddedTimeStamp { get; set; }
+		// Last time effect was applied
+		public float ApplyTimeStamp { get; set; }
+		
 	}
 }
