@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace WolfRPG.Core.Statistics
 {
 	public class AttributeStatusEffect
@@ -9,8 +11,10 @@ namespace WolfRPG.Core.Statistics
 		public bool ApplyEverySecond { get; set; }
 		public float Duration { get; set; }
 		// Time effect was added
+		[JsonIgnore]
 		public float AddedTimeStamp { get; set; }
 		// Last time effect was applied
+		[JsonIgnore]
 		public float ApplyTimeStamp { get; set; }
 	}
 	
@@ -22,8 +26,10 @@ namespace WolfRPG.Core.Statistics
 		public bool Permanent { get; set; }
 		public float Duration { get; set; }
 		// Time effect was added
+		[JsonIgnore]
 		public float AddedTimeStamp { get; set; }
 		// Last time effect was applied
+		[JsonIgnore]
 		public float ApplyTimeStamp { get; set; }
 		
 	}

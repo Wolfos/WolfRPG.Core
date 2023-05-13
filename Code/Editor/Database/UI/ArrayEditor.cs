@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Newtonsoft.Json;
 using UnityEngine.UIElements;
 
 namespace WolfRPG.Core
@@ -9,6 +10,12 @@ namespace WolfRPG.Core
 		private GroupBox _propertyEditors;
 		public ArrayEditor(object component, PropertyInfo property, Type propertyType, ComponentEditor componentEditor)
 		{
+			// Don't show if property has JSON ignore attribute, it won't be saved anyway
+			if (property.GetCustomAttributes(typeof(JsonIgnoreAttribute), true).Length > 0)
+			{
+				return;
+			}
+			
 			var foldout = new Foldout();
 			foldout.text = property.Name;
 			foldout.SetValueWithoutNotify(false); // Close the foldout by default

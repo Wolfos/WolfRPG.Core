@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using Newtonsoft.Json;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEditor.UIElements;
@@ -15,6 +16,12 @@ namespace WolfRPG.Core
 	{
 		public PropertyEditor(PropertyInfo property, object component, ComponentEditor editor)
 		{
+			// Don't show if property has JSON ignore attribute, it won't be saved anyway
+			if (property.GetCustomAttributes(typeof(JsonIgnoreAttribute), true).Length > 0)
+			{
+				return;
+			}
+			
 			var propertyType = property.PropertyType;
 			// int
 			if (propertyType == typeof(int))
