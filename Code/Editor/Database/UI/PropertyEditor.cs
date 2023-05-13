@@ -16,8 +16,9 @@ namespace WolfRPG.Core
 	{
 		public PropertyEditor(PropertyInfo property, object component, ComponentEditor editor)
 		{
-			// Don't show if property has JSON ignore attribute, it won't be saved anyway
-			if (property.GetCustomAttributes(typeof(JsonIgnoreAttribute), true).Length > 0)
+			// Don't show if property has JsonIgnore or HideInInspector attribute
+			if (property.GetCustomAttributes(typeof(JsonIgnoreAttribute), true).Length > 0
+			    || property.GetCustomAttributes(typeof(HideInInspector), true).Length > 0)
 			{
 				return;
 			}

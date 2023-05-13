@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Newtonsoft.Json;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace WolfRPG.Core
@@ -10,8 +11,9 @@ namespace WolfRPG.Core
 		private GroupBox _propertyEditors;
 		public ArrayEditor(object component, PropertyInfo property, Type propertyType, ComponentEditor componentEditor)
 		{
-			// Don't show if property has JSON ignore attribute, it won't be saved anyway
-			if (property.GetCustomAttributes(typeof(JsonIgnoreAttribute), true).Length > 0)
+			// Don't show if property has JsonIgnore or HideInInspector attribute
+			if (property.GetCustomAttributes(typeof(JsonIgnoreAttribute), true).Length > 0
+			    || property.GetCustomAttributes(typeof(HideInInspector), true).Length > 0)
 			{
 				return;
 			}
