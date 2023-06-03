@@ -44,7 +44,6 @@ namespace WolfRPG.Core
 				return (T)_components[typeof(T)];
 			}
 			
-			Debug.LogError($"No component of type {typeof(T)} was present on object {Name}");
 			return null;
 		}
 

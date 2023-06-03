@@ -28,10 +28,7 @@ namespace WolfRPG.Core
 
 				try
 				{
-					var rpgObject = JsonConvert.DeserializeObject<RPGObject>(asset.text, new JsonSerializerSettings
-					{
-						TypeNameHandling = TypeNameHandling.Auto
-					});
+					var rpgObject = JsonConvert.DeserializeObject<RPGObject>(asset.text, Settings.JsonSerializerSettings);
 					database.AddObjectInstance(rpgObject);
 				}
 				catch(Exception e)

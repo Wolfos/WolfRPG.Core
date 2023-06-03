@@ -173,10 +173,7 @@ namespace WolfRPG.Core.Tests.Runtime
 			
 			savedGame.RpgObjects.Add(rpgObject);
 
-			var json = JsonConvert.SerializeObject(savedGame, Formatting.None, new JsonSerializerSettings
-			{
-				TypeNameHandling = TypeNameHandling.Auto
-			});
+			var json = JsonConvert.SerializeObject(savedGame, Formatting.None, Settings.JsonSerializerSettings);
 			
 			target.ApplySaveData(json);
 			var actual = target.GetObjectInstance(rpgObject.Guid);

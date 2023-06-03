@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.UnityConverters.Math;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEngine;
@@ -356,15 +358,9 @@ namespace WolfRPG.Core
             var selectedObject = _objectEditor.SelectedObject;
             // Serialize to JSON and back to create a copy for the undo buffer
             var json = JsonConvert.SerializeObject(selectedObject, Formatting.None, 
-                new JsonSerializerSettings
-                {
-                    TypeNameHandling = TypeNameHandling.Auto
-                });
+                Settings.JsonSerializerSettings);
 
-            var deserialized = JsonConvert.DeserializeObject<RPGObject>(json, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto
-            });
+            var deserialized = JsonConvert.DeserializeObject<RPGObject>(json, Settings.JsonSerializerSettings);
             var isDirty = _dirtyObjects.Contains(selectedObject);
             _undoBuffer.Add(new(deserialized, !isDirty));
 
