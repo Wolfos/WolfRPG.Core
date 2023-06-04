@@ -2,7 +2,7 @@
 WolfRPG.Core handles basic data storage and editing. It is intended as a base for the other WolfRPG libraries to build upon, but can be used by itself.
 
 # State of development
-WolfRPG.Core should be usable, but is still under active development and minor breaking changes are likely to occur
+WolfRPG.Core is currently usable, but is still under active development and minor breaking changes are likely to occur
 
 # Documentation
 [Installation](https://github.com/Wolfos/WolfRPG.Core/wiki/Installation)
