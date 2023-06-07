@@ -214,6 +214,7 @@ namespace WolfRPG.Core
             foreach (var category in _database.Categories)
             {
                 var tab = new Label(category);
+                tab.AddToClassList("Tab");
                 _tabContainer.Add(tab);
                 if (i == 0)
                 {
