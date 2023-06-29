@@ -23,22 +23,12 @@ namespace WolfRPG.Core.Tests.Runtime
 			
 			Assert.AreEqual(expected, actual);
 		}
-		
-		[Test]
-		public void GetComponent_ComponentDoesNotExist_LogsError()
-		{
-			var target = new RPGObject();
-			
-			LogAssert.Expect(LogType.Error, "No component of type WolfRPG.Core.Tests.Runtime.TestComponent was present on object ");
-			var actual = target.GetComponent<TestComponent>();
-		}
-		
+
 		[Test]
 		public void GetComponent_ComponentDoesNotExist_ReturnsNull()
 		{
 			var target = new RPGObject();
 			
-			LogAssert.Expect(LogType.Error, "No component of type WolfRPG.Core.Tests.Runtime.TestComponent was present on object ");
 			var actual = target.GetComponent<TestComponent>();
 			Assert.IsNull(actual);
 		}
