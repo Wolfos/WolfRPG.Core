@@ -22,6 +22,7 @@ namespace WolfRPG.Core
 					AsyncOperationHandle<IList<IResourceLocation>> operation;
 					try
 					{
+
 						operation = Addressables.LoadResourceLocationsAsync(RPGDatabaseAsset.LabelDefault);
 					}
 					catch // Unity will sometimes attempt a load during assembly reload. This is harmless though
@@ -36,9 +37,11 @@ namespace WolfRPG.Core
 						return null;
 					}
 
+					Debug.Log("Loading RPG Database");
 					var loadOperation = Addressables.LoadAssetAsync<TextAsset>(RPGDatabaseAsset.LabelDefault);
 					var asset = loadOperation.WaitForCompletion();
-					Addressables.Release(loadOperation);
+					//Addressables.Release(loadOperation);
+					Debug.Log("Successfully loaded RPG Database");
 				
 					var databaseAsset = JsonConvert.DeserializeObject<RPGDatabaseAsset>(asset.text);
 					var database = databaseAsset.Get();

@@ -22,9 +22,14 @@ namespace WolfRPG.Core
 			var database = new RPGDatabase();
 			foreach (var guid in ObjectReferences)
 			{
+				Debug.Log($"Loading {guid}");
 				var operation = Addressables.LoadAssetAsync<TextAsset>(guid);
+				Debug.Log($"Wait for completion");
 				var asset = operation.WaitForCompletion();
-				Addressables.Release(operation);
+				Debug.Log($"Release");
+				//Addressables.Release(operation);
+				
+				Debug.Log($"Successfully loaded {asset.name}");
 
 				try
 				{
@@ -35,6 +40,7 @@ namespace WolfRPG.Core
 				{
 					Debug.LogError($"Could not load object {asset.name}, error: {e.Message}");
 				}
+				Debug.Log($"Deserialized {asset.name}");
 			}
 
 			database.Categories = Categories;

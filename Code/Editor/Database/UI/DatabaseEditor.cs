@@ -31,6 +31,7 @@ namespace WolfRPG.Core
         private Button _newAssetButton;
         private Button _saveButton;
         private Button _undoButton;
+        private DropdownField _templateDropdown;
         private GroupBox _objectEditorContainer;
         private readonly List<GroupBox> _objectButtons = new();
         private GroupBox _tabContainer;
@@ -44,6 +45,8 @@ namespace WolfRPG.Core
         private const int _undoBufferMaxSize = 1000;
         // Item1 is a copy of the IRPGObject at that time, Item2 is whether it was dirtied at that point
         private readonly List<Tuple<IRPGObject, bool>> _undoBuffer = new();
+
+        private List<IWolfRPGTemplate> _templates;
 
 
         [MenuItem("WolfRPG/Database Editor")]
@@ -100,6 +103,8 @@ namespace WolfRPG.Core
 
             _tabContainer = _root.Query<GroupBox>("Tabs").First();
             
+            _templateDropdown = _root.Query<DropdownField>("Template").First();
+            
             _objectEditor.OnBeforeSelectedObjectUpdated += OnBeforeSelectedObjectUpdated;
             _objectEditor.OnSelectedObjectUpdated += OnSelectedObjectUpdated;
 
@@ -121,6 +126,8 @@ namespace WolfRPG.Core
             }
             
             _objectEditorContainer.Add(_objectEditor.CreateUI(_database));
+            
+            AddTemplates();
         }
 
         private void Init()
@@ -134,6 +141,33 @@ namespace WolfRPG.Core
             
             PopulateObjectList();
             CreateTabs();
+        }
+
+        private void AddTemplates()
+        {
+            var templateList = new List<string>();
+            // Use reflection to build a list of every class implementing IWolfRPGTemplate
+            var types = AppDomain
+                .CurrentDomain
+                .GetAssemblies()
+                .SelectMany(assembly => assembly.GetTypes())
+                .Where(type => typeof(IWolfRPGTemplate).IsAssignableFrom(type));
+            
+            templateList.Add("None");
+
+            _templates = new();
+            foreach (var type in types)
+            {
+                // Exclude IWolfRPGTemplate itself
+                if(type == typeof(IWolfRPGTemplate)) continue;
+                var template = (IWolfRPGTemplate) Activator.CreateInstance(type);
+
+                templateList.Add(template.Name);
+                _templates.Add(template);
+            }
+
+            _templateDropdown.choices = templateList;
+            _templateDropdown.index = 0;
         }
 
         private void PopulateObjectList()
@@ -347,6 +381,15 @@ namespace WolfRPG.Core
             _database.NumObjectsAdded++;
             
             var newObject = _objectFactory.CreateNewObject(name, _currentTab);
+
+            if (_templateDropdown.index != 0)
+            {
+                var template = _templates[_templateDropdown.index - 1];
+                foreach (var component in template.GetComponents())
+                {
+                    newObject.AddComponent(component);
+                }
+            }
             
             _database.AddObjectInstance(newObject);
             _databaseFactory.SaveDatabase(_database, GetDatabasePath());

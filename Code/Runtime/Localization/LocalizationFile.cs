@@ -25,6 +25,7 @@ namespace WolfRPG.Core.Localization
 			if (_loadedStrings != null && _loadedStrings.Count > 0) return;
 			#endif
 
+			Debug.Log("Loading localization file");
 			var operation = Addressables.LoadAssetAsync<TextAsset>(Label);
 			var asset = operation.WaitForCompletion();
 			Addressables.Release(operation);
