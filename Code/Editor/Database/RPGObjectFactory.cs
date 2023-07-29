@@ -77,10 +77,7 @@ namespace WolfRPG.Core
 				AssetDatabase.MoveAsset(oldPath, path);
 			}
 			var json = JsonConvert.SerializeObject(rpgObject, Formatting.Indented, 
-				new JsonSerializerSettings
-				{
-					TypeNameHandling = TypeNameHandling.Auto
-				});
+				Settings.JsonSerializerSettings);
 			File.WriteAllText($"{DefaultPath}/{rpgObject.Name}.json", json);
 			
 			AssetDatabase.Refresh();

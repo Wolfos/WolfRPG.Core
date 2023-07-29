@@ -24,6 +24,12 @@
     background-color: rgba(0.5, 0.5, 0.5, 0.2);
 }
 
+.Tab
+{
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
 .SelectedTab
 {
     -unity-font-style: bold;

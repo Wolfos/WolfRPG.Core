@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceLocations;
 
 namespace WolfRPG.Core
 {
@@ -16,7 +19,17 @@ namespace WolfRPG.Core
 			{
 				if (_defaultDatabase == null)
 				{
-					var operation = Addressables.LoadResourceLocationsAsync(RPGDatabaseAsset.LabelDefault);
+					AsyncOperationHandle<IList<IResourceLocation>> operation;
+					try
+					{
+
+						operation = Addressables.LoadResourceLocationsAsync(RPGDatabaseAsset.LabelDefault);
+					}
+					catch // Unity will sometimes attempt a load during assembly reload. This is harmless though
+					{
+						return null;
+					}
+					
 					var x = operation.WaitForCompletion();
 					if (x.Count == 0)
 					{
@@ -24,9 +37,11 @@ namespace WolfRPG.Core
 						return null;
 					}
 
+					Debug.Log("Loading RPG Database");
 					var loadOperation = Addressables.LoadAssetAsync<TextAsset>(RPGDatabaseAsset.LabelDefault);
 					var asset = loadOperation.WaitForCompletion();
-					Addressables.Release(loadOperation);
+					//Addressables.Release(loadOperation);
+					Debug.Log("Successfully loaded RPG Database");
 				
 					var databaseAsset = JsonConvert.DeserializeObject<RPGDatabaseAsset>(asset.text);
 					var database = databaseAsset.Get();
@@ -151,10 +166,7 @@ namespace WolfRPG.Core
 			}
 			
 			return JsonConvert.SerializeObject(savedGame, Formatting.None, 
-				new JsonSerializerSettings
-				{
-					TypeNameHandling = TypeNameHandling.Auto
-				});
+				Settings.JsonSerializerSettings);
 		}
 
 		/// <summary>
@@ -162,10 +174,7 @@ namespace WolfRPG.Core
 		/// </summary>
 		public void ApplySaveData(string json)
 		{
-			var savedGame = JsonConvert.DeserializeObject<RPGSavedGame>(json, new JsonSerializerSettings
-			{
-				TypeNameHandling = TypeNameHandling.Auto
-			});
+			var savedGame = JsonConvert.DeserializeObject<RPGSavedGame>(json, Settings.JsonSerializerSettings);
 			
 			if (savedGame == null)
 			{
