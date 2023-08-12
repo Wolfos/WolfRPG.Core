@@ -186,6 +186,7 @@ namespace WolfRPG.Core
                     objectName += "*";
                 }
                 var label = new Label(objectName);
+                label.AddToClassList("ObjectName");
                 var groupbox = new GroupBox();
                 groupbox.AddToClassList("Horizontal");
                 var deleteButton = new Button(() =>

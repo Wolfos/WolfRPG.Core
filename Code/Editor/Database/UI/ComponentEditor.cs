@@ -19,14 +19,17 @@ namespace WolfRPG.Core
 				if (propertyType.IsArray)
 				{
 					var arrayEditor = new ArrayEditor(component, property, propertyType, this);
-					arrayEditor.style.marginLeft = new (10);
+					arrayEditor.AddToClassList("Array");
 					Add(arrayEditor);
 				}
 				else
 				{
 					var propertyEditor = new PropertyEditor(property, component, this);
-					propertyEditor.style.marginLeft = new (10);
-					Add(propertyEditor);
+					if (propertyEditor.Hidden == false)
+					{
+						propertyEditor.AddToClassList("Property");
+						Add(propertyEditor);
+					}
 				}
 			}
 		}

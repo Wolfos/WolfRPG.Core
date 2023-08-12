@@ -19,6 +19,7 @@ namespace WolfRPG.Core
 			}
 			
 			var foldout = new Foldout();
+			foldout.AddToClassList("ArrayFoldout");
 			foldout.text = property.Name;
 			foldout.SetValueWithoutNotify(false); // Close the foldout by default
 
@@ -81,8 +82,11 @@ namespace WolfRPG.Core
 				var index = i;
 				var propertyEditor =
 					new PropertyEditor(propertyType.GetElementType(), array, index, componentEditor);
-				propertyEditor.style.marginBottom = new (10);
-				_propertyEditors.Add(propertyEditor);
+				if (propertyEditor.Hidden == false)
+				{
+					propertyEditor.style.marginBottom = new(10);
+					_propertyEditors.Add(propertyEditor);
+				}
 			}
 		}
 

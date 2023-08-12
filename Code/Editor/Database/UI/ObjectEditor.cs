@@ -159,6 +159,7 @@ namespace WolfRPG.Core
                 _objectList.Add(deleteButton);
                 
                 var componentEditor = new ComponentEditor(component);
+                componentEditor.name = "ComponentEditor";
                 _objectList.Add(componentEditor);
                 componentEditor.OnBeforeComponentUpdated += OnBeforeSelectedObjectUpdated;
                 componentEditor.OnComponentUpdated += OnSelectedObjectUpdated;

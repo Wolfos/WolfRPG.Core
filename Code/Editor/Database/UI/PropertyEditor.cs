@@ -14,12 +14,14 @@ namespace WolfRPG.Core
 {
 	public class PropertyEditor: VisualElement
 	{
+		public bool Hidden = false;
 		public PropertyEditor(PropertyInfo property, object component, ComponentEditor editor)
 		{
 			// Don't show if property has JsonIgnore or HideInInspector attribute
 			if (property.GetCustomAttributes(typeof(JsonIgnoreAttribute), true).Length > 0
 			    || property.GetCustomAttributes(typeof(HideInInspector), true).Length > 0)
 			{
+				Hidden = true;
 				return;
 			}
 			
@@ -29,6 +31,7 @@ namespace WolfRPG.Core
 			{
 				var field = new IntegerField();
 				field.label = property.Name;
+				field.labelElement.AddToClassList("PropertyLabel");
 				field.value = (int)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) =>
 				{
@@ -43,6 +46,7 @@ namespace WolfRPG.Core
 			{
 				var field = new Toggle();
 				field.label = property.Name;
+				field.labelElement.AddToClassList("PropertyLabel");
 				field.value = (bool)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) =>
 				{
@@ -57,6 +61,7 @@ namespace WolfRPG.Core
 			{
 				var field = new FloatField();
 				field.label = property.Name;
+				field.labelElement.AddToClassList("PropertyLabel");
 				field.value = (float)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
@@ -71,6 +76,7 @@ namespace WolfRPG.Core
 			{
 				var field = new LongField();
 				field.label = property.Name;
+				field.labelElement.AddToClassList("PropertyLabel");
 				field.value = (long)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
@@ -86,6 +92,7 @@ namespace WolfRPG.Core
 				var field = new TextField();
 				field.isDelayed = true; // Value changed event isn't called until user submits text
 				field.label = property.Name;
+				field.labelElement.AddToClassList("PropertyLabel");
 				field.value = (string)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
@@ -100,6 +107,7 @@ namespace WolfRPG.Core
 			{
 				var field = new Vector2Field();
 				field.label = property.Name;
+				field.labelElement.AddToClassList("PropertyLabel");
 				field.value = (Vector2)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
@@ -114,6 +122,7 @@ namespace WolfRPG.Core
 			{
 				var field = new Vector3Field();
 				field.label = property.Name;
+				field.labelElement.AddToClassList("PropertyLabel");
 				field.value = (Vector3)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
@@ -128,6 +137,7 @@ namespace WolfRPG.Core
 			{
 				var field = new Vector4Field();
 				field.label = property.Name;
+				field.labelElement.AddToClassList("PropertyLabel");
 				field.value = (Vector4)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
@@ -142,6 +152,7 @@ namespace WolfRPG.Core
 			{
 				var field = new Vector2IntField();
 				field.label = property.Name;
+				field.labelElement.AddToClassList("PropertyLabel");
 				field.value = (Vector2Int)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
@@ -156,6 +167,7 @@ namespace WolfRPG.Core
 			{
 				var field = new Vector3IntField();
 				field.label = property.Name;
+				field.labelElement.AddToClassList("PropertyLabel");
 				field.value = (Vector3Int)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
@@ -170,6 +182,7 @@ namespace WolfRPG.Core
 			{
 				var field = new RectField();
 				field.label = property.Name;
+				field.labelElement.AddToClassList("PropertyLabel");
 				field.value = (Rect)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
@@ -184,6 +197,7 @@ namespace WolfRPG.Core
 			{
 				var field = new BoundsField();
 				field.label = property.Name;
+				field.labelElement.AddToClassList("PropertyLabel");
 				field.value = (Bounds)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
@@ -198,6 +212,7 @@ namespace WolfRPG.Core
 			{
 				var field = new ColorField();
 				field.label = property.Name;
+				field.labelElement.AddToClassList("PropertyLabel");
 				field.value = (Color)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
@@ -212,6 +227,7 @@ namespace WolfRPG.Core
 			{
 				var field = new CurveField();
 				field.label = property.Name;
+				field.labelElement.AddToClassList("PropertyLabel");
 				field.value = (AnimationCurve)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
@@ -226,6 +242,7 @@ namespace WolfRPG.Core
 			{
 				var field = new GradientField();
 				field.label = property.Name;
+				field.labelElement.AddToClassList("PropertyLabel");
 				field.value = (Gradient)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) =>
 				{
@@ -240,6 +257,7 @@ namespace WolfRPG.Core
 			{
 				var field = new EnumField((Enum)property.GetValue(component));
 				field.label = property.Name;
+				field.labelElement.AddToClassList("PropertyLabel");
 				field.RegisterValueChangedCallback((evt) => 
 				{
 					editor.OnBeforeComponentUpdated?.Invoke();
@@ -253,6 +271,7 @@ namespace WolfRPG.Core
 			{
 				var field = new LayerMaskField();
 				field.label = property.Name;
+				field.labelElement.AddToClassList("PropertyLabel");
 				field.value = (LayerMask)property.GetValue(component);
 				field.RegisterValueChangedCallback((evt) => 
 				{
@@ -272,6 +291,7 @@ namespace WolfRPG.Core
 					var attribute = (AssetReferenceAttribute)attributes.First();
 					var field = new ObjectField();
 					field.label = property.Name;
+					field.labelElement.AddToClassList("PropertyLabel");
 					var reference = (AssetReference)property.GetValue(component);
 					if (reference != null && reference.Guid != String.Empty)
 					{
@@ -316,6 +336,7 @@ namespace WolfRPG.Core
 				var field = new TextField();
 				field.isDelayed = true; // Value changed event isn't called until user submits text
 				field.label = property.Name;
+				field.labelElement.AddToClassList("PropertyLabel");
 				var reference = (LocalizedString) property.GetValue(component);
 				if (reference != null)
 				{
@@ -337,12 +358,14 @@ namespace WolfRPG.Core
 				if (string.IsNullOrEmpty(field.value) == false && LocalizationFile.HasIdentifier(field.value))
 				{
 					var localized = LocalizationFile.Get(field.value, LocalizationFile.DefaultLanguage);
-					var label = new Label($"Text: {localized}");
+					var label = new Label($"{localized}");
+					label.AddToClassList("Description");
 					this.Add(label);
 				}
 				else
 				{
-					var label = new Label("Text: Not found");
+					var label = new Label("Text not found");
+					label.AddToClassList("Description");
 					this.Add(label);
 				}
 			}
@@ -350,6 +373,7 @@ namespace WolfRPG.Core
 			else if(propertyType.IsClass)
 			{
 				var label = new Label(property.Name);
+				label.AddToClassList("PropertyLabel");
 				Add(label);
 				foreach (var prop in propertyType.GetProperties())
 				{
@@ -369,10 +393,17 @@ namespace WolfRPG.Core
 					else
 					{
 						var propertyEditor = new PropertyEditor(prop, classInstance, editor);
-						propertyEditor.style.marginLeft = new (10);
-						Add(propertyEditor);
+						if (propertyEditor.Hidden == false)
+						{
+							propertyEditor.style.marginLeft = new(10);
+							Add(propertyEditor);
+						}
 					}
 				}
+			}
+			else
+			{
+				Hidden = true;
 			}
 		}
 		public PropertyEditor(Type propertyType, Array array, int index, ComponentEditor editor)
@@ -674,11 +705,13 @@ namespace WolfRPG.Core
 				{
 					var localized = LocalizationFile.Get(field.value, LocalizationFile.DefaultLanguage);
 					var label = new Label($"Text: {localized}");
+					label.AddToClassList("Description");
 					this.Add(label);
 				}
 				else
 				{
 					var label = new Label("Text: Not found");
+					label.AddToClassList("Description");
 					this.Add(label);
 				}
 			}
@@ -703,10 +736,17 @@ namespace WolfRPG.Core
 					else
 					{
 						var propertyEditor = new PropertyEditor(prop, classInstance, editor);
-						propertyEditor.style.marginLeft = new (10);
-						Add(propertyEditor);
+						if (propertyEditor.Hidden == false)
+						{
+							propertyEditor.style.marginLeft = new(10);
+							Add(propertyEditor);
+						}
 					}
 				}
+			}
+			else
+			{
+				Hidden = true;
 			}
 		}
 	}
