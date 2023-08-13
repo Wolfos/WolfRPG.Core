@@ -85,7 +85,7 @@
 .Property
 {
     margin-left: 5;
-    padding-bottom: 7;
+    padding-bottom: 1;
 }
 
 .Description
