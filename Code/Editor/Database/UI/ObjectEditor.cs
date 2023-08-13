@@ -44,6 +44,7 @@ namespace WolfRPG.Core
             newComponentButton.clicked += OnNewComponentButtonPressed;
 
             _bottomBox = new();
+            _bottomBox.AddToClassList("Invisible");
             _container.Add(_bottomBox);
 
             return _container;
@@ -138,6 +139,7 @@ namespace WolfRPG.Core
             var toRemove = new List<VisualElement>();
             toRemove.AddRange(_bottomBox.Children());
             toRemove.AddRange(_componentList.Children());
+            _bottomBox.AddToClassList("Invisible");
 
             foreach (var element in toRemove)
             {
@@ -238,6 +240,7 @@ namespace WolfRPG.Core
             
             button.text = "Add";
             _bottomBox.Add(button);
+            _bottomBox.RemoveFromClassList("Invisible");
         }
     }
 }
