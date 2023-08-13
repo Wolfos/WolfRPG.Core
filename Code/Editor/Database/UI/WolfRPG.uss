@@ -140,3 +140,36 @@
     margin-top: 0;
     margin-bottom: 0;
 }
+
+.ArrayButtons
+{
+    flex-direction: row;
+    padding-top: 0;
+    padding-left: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-left: 3;
+}
+
+.ArrayElementContainer
+{
+    margin-top: 0;
+}
+
+.ArrayIndexLabel
+{
+    -unity-font-style: bold;
+}
+
+.ArrayButton
+{
+    width: 20px;
+}
+
+.ArrayElement
+{
+    margin-bottom: 0px;
+    border-color: rgba(00, 00, 00, 0.35);
+    border-width: 1.5;
+    background-color: rgba(255, 255, 255, 0.07);
+}

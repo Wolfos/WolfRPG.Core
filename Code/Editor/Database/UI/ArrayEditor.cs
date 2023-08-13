@@ -26,11 +26,12 @@ namespace WolfRPG.Core
 			var array = (Array) property.GetValue(component) ?? Array.CreateInstance(propertyType.GetElementType(), 0);
 
 			var buttonGroup = new GroupBox();
-			buttonGroup.AddToClassList("Horizontal");
+			buttonGroup.AddToClassList("ArrayButtons");
 			
 			foldout.Add(buttonGroup);
 
 			var length = new Label(array.Length.ToString());
+			length.style.unityTextAlign = new(TextAnchor.MiddleCenter);
 
 			// Add new element
 			var addButton = new Button(() =>
@@ -46,6 +47,7 @@ namespace WolfRPG.Core
 
 			});
 			addButton.text = "+";
+			addButton.AddToClassList("ArrayButton");
 			
 			// Remove last element
 			var removeButton = new Button(() =>
@@ -60,12 +62,15 @@ namespace WolfRPG.Core
 				RefreshPropertyEditors(propertyType, componentEditor, array);
 			});
 			removeButton.text = "-";
-
-			buttonGroup.Add(addButton);
+			removeButton.AddToClassList("ArrayButton");
+			
 			buttonGroup.Add(removeButton);
 			buttonGroup.Add(length);
+			buttonGroup.Add(addButton);
+
 
 			_propertyEditors = new();
+			_propertyEditors.AddToClassList("ArrayElementContainer");
 			foldout.Add(_propertyEditors);
 
 			RefreshPropertyEditors(propertyType, componentEditor, array);
@@ -82,9 +87,9 @@ namespace WolfRPG.Core
 				var index = i;
 				var propertyEditor =
 					new PropertyEditor(propertyType.GetElementType(), array, index, componentEditor);
+				propertyEditor.AddToClassList("ArrayElement");
 				if (propertyEditor.Hidden == false)
 				{
-					propertyEditor.style.marginBottom = new(10);
 					_propertyEditors.Add(propertyEditor);
 				}
 			}

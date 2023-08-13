@@ -408,8 +408,9 @@ namespace WolfRPG.Core
 		}
 		public PropertyEditor(Type propertyType, Array array, int index, ComponentEditor editor)
 		{
-			var indexLabel = new Label(index.ToString());
+			var indexLabel = new Label($"Element {index.ToString()}");
 			Add(indexLabel);
+			indexLabel.AddToClassList("ArrayIndexLabel");
 			var value = array.GetValue(index);
 			// int
 			if (propertyType == typeof(int))
