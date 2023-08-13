@@ -1,4 +1,7 @@
-
+#Editor
+{
+    padding-top: 0;
+}
 .ObjectList
 {
     background-color: rgba(0, 0, 0, 0.2);
@@ -23,6 +26,26 @@
 {
     flex-direction: row;
     background-color: rgba(0.5, 0.5, 0.5, 0.2);
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+#NewAssetButton
+{
+    height: 25px;
+    margin-bottom: 0;
+}
+
+#SaveButton
+{
+    height: 25px;
+    margin-bottom: 0;
+}
+
+#UndoButton
+{
+    height: 25px;
+    margin-bottom: 0;
 }
 
 .Tab
@@ -52,9 +75,16 @@
     height: 15px;
 }
 
+#ComponentEditorContainer #DeleteButton
+{
+    margin-right: 0;
+    background-color: rgba(255, 255, 255, 0.07);
+    height: 18px;
+}
+
 .Property
 {
-    margin-left: 18;
+    margin-left: 5;
     padding-bottom: 7;
 }
 
@@ -81,10 +111,32 @@
 
 .unity-foldout--depth-0 .unity-foldout__toggle
 {
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: rgba(255, 255, 255, 0.07);
 }
 
 .ArrayFoldout .unity-foldout__toggle
 {
     background-color: rgba(255, 255, 255, 0) !important;
+}
+
+#ComponentEditor
+{
+    flex-grow: 1;
+    flex-shrink: 1;
+    
+}
+
+#ComponentEditorContainer
+{
+    margin-left: 0;
+    padding-left: 0;
+    margin-top: 0;
+}
+
+#ComponentList
+{
+    margin-left: 0;
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
 }

@@ -4,7 +4,7 @@
         <ui:TextField picking-mode="Ignore" label="Object Reference ID" value="GUID" name="GuidField" readonly="true" style="width: auto;" />
         <ui:DropdownField label="Category" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="Category" />
         <ui:Toggle label="Included in saved game" name="IncludedInSavedGame" />
-        <ui:GroupBox name="ObjectList" />
+        <ui:GroupBox name="ComponentList" />
         <ui:Button text="New Component" display-tooltip-when-elided="true" name="NewComponentButton" style="margin-top: 20px;" />
     </ui:ScrollView>
 </ui:UXML>

@@ -2,14 +2,14 @@
     <Style src="project://database/Assets/WolfRPG.uss?fileID=7433441132597879392&amp;guid=fc76d4011481ed44cab5d9bb0c5cf77c&amp;type=3#WolfRPG" />
     <ui:GroupBox name="Editor" style="height: 100%; width: 100%; min-width: 100%; min-height: 100%; flex-grow: 1; flex-shrink: 1; margin-top: 0; margin-left: 0; padding-left: 0;">
         <ui:GroupBox name="Buttons" class="Horizontal" style="flex-direction: row; align-items: flex-start; opacity: 1; visibility: visible; overflow: visible; margin-top: 0; height: auto; padding-top: 0; padding-bottom: 0; margin-left: 0; padding-left: 0;">
-            <ui:Button text="Initialize WolfRPG" display-tooltip-when-elided="true" name="NewAssetButton" focusable="true" style="height: 34px;" />
-            <ui:Button text="Save" display-tooltip-when-elided="true" name="SaveButton" focusable="true" style="height: 34px; width: 93px; margin-left: 0; padding-left: 6px;" />
-            <ui:Button text="Undo" display-tooltip-when-elided="true" name="UndoButton" focusable="true" style="height: 34px; width: 93px; margin-left: 0; padding-left: 6px;" />
+            <ui:Button text="Initialize WolfRPG" display-tooltip-when-elided="true" name="NewAssetButton" focusable="true" style="" />
+            <ui:Button text="Save" display-tooltip-when-elided="true" name="SaveButton" focusable="true" style="margin-left: 0; padding-left: 6px;" />
+            <ui:Button text="Undo" display-tooltip-when-elided="true" name="UndoButton" focusable="true" style="margin-left: 0; padding-left: 6px;" />
             <ui:GroupBox name="WarningsAndErrors" style="padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0;">
                 <ui:Label display-tooltip-when-elided="true" name="Message" text="test" style="color: rgb(255, 255, 255); display: none; margin-top: 5px;" />
             </ui:GroupBox>
         </ui:GroupBox>
-        <ui:GroupBox name="Tabs" style="padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 5px; margin-bottom: 5px;">
+        <ui:GroupBox name="Tabs" style="padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-left: 0; margin-right: 0; ">
             <ui:Button text="+" display-tooltip-when-elided="true" name="NewTabButton" style="background-color: rgba(88, 88, 88, 0); margin-left: 0;" />
         </ui:GroupBox>
         <ui:GroupBox style="align-items: flex-start; flex-direction: row; left: 0; top: auto; right: 0; bottom: 0; height: auto; width: auto; position: relative; flex-grow: 1; max-height: none; opacity: 1; flex-wrap: nowrap; flex-shrink: 1; margin-left: 0; padding-left: 0; margin-top: 0;">

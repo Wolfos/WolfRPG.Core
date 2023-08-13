@@ -21,7 +21,7 @@ namespace WolfRPG.Core
         private DropdownField _category;
         private TemplateContainer _container;
         private GroupBox _bottomBox; // box that's located below the "add component" button. Gets cleared when object is deselected
-        private GroupBox _objectList;
+        private GroupBox _componentList;
         private bool _isAddingComponent;
 
         public VisualElement CreateUI(IRPGDatabase database)
@@ -36,7 +36,7 @@ namespace WolfRPG.Core
             _nameField = _container.Query<TextField>("NameField").First();
             _guidField = _container.Query<TextField>("GuidField").First();
             _includedInSavedGameToggle = _container.Query<Toggle>("IncludedInSavedGame").First();
-            _objectList = _container.Query<GroupBox>("ObjectList").First();
+            _componentList = _container.Query<GroupBox>("ComponentList").First();
             _category = _container.Query<DropdownField>("Category").First();
             _category.choices = database.Categories;
 
@@ -137,7 +137,7 @@ namespace WolfRPG.Core
 
             var toRemove = new List<VisualElement>();
             toRemove.AddRange(_bottomBox.Children());
-            toRemove.AddRange(_objectList.Children());
+            toRemove.AddRange(_componentList.Children());
 
             foreach (var element in toRemove)
             {
@@ -153,16 +153,20 @@ namespace WolfRPG.Core
             var components = SelectedObject.GetAllComponents();
             foreach (var component in components)
             {
+                var groupBox = new GroupBox();
+                groupBox.name = "ComponentEditorContainer";
+                groupBox.style.flexDirection = new(FlexDirection.Row);
                 var deleteButton = new Button(() => RemoveComponent(component));
                 deleteButton.name = "DeleteButton";
                 deleteButton.text = "x";
-                _objectList.Add(deleteButton);
+                groupBox.Add(deleteButton);
                 
                 var componentEditor = new ComponentEditor(component);
                 componentEditor.name = "ComponentEditor";
-                _objectList.Add(componentEditor);
+                groupBox.Add(componentEditor);
                 componentEditor.OnBeforeComponentUpdated += OnBeforeSelectedObjectUpdated;
                 componentEditor.OnComponentUpdated += OnSelectedObjectUpdated;
+                _componentList.Add(groupBox);
             }
         }
 
