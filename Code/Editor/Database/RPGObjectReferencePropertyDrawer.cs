@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
@@ -31,6 +32,43 @@ namespace WolfRPG.Core
 			
 			EditorGUI.LabelField(nameRect, objectName);
 			EditorGUI.EndProperty();
+		}
+	}
+
+	[CustomPropertyDrawer(typeof(ObjectReferenceAttribute))]
+	public class ObjectReferenceAttributePropertyDrawer : PropertyDrawer
+	{
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+		{
+			var refAttribute = (ObjectReferenceAttribute) attribute;
+			var guidField = property.FindPropertyRelative("Guid");
+
+			var database = RPGDatabase.DefaultDatabase;
+			var names = new List<string>();
+			var guids = new List<string>();
+			names.Add("NONE");
+			guids.Add(string.Empty);
+
+			foreach (var obj in database.Objects)
+			{
+				if(obj.Value.Category != refAttribute.Category) continue;
+				
+				names.Add(obj.Value.Name);
+				guids.Add(obj.Value.Guid);
+			}
+
+			int index = 0;
+			if (guidField.stringValue != string.Empty)
+			{
+				index = guids.IndexOf(guidField.stringValue);
+			}
+
+			EditorGUI.LabelField(position, label);
+			var newPosition = position;
+			newPosition.x += position.width * 0.4f;
+			newPosition.width = position.width * 0.6f;
+			index = EditorGUI.Popup(newPosition, index, names.ToArray());
+			guidField.stringValue = guids[index];
 		}
 	}
 }

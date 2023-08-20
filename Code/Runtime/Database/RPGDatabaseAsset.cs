@@ -28,6 +28,8 @@ namespace WolfRPG.Core
 				var asset = operation.WaitForCompletion();
 				//Debug.Log($"Release");
 				//Addressables.Release(operation);
+
+				if (asset == null) continue;
 				
 				Debug.Log($"Loaded object {asset.name}");
 

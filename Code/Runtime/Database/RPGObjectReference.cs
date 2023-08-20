@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace WolfRPG.Core
 {
@@ -34,6 +35,27 @@ namespace WolfRPG.Core
 		public T GetComponent<T>() where T : class, IRPGComponent, new()
 		{
 			return GetObject().GetComponent<T>();
+		}
+	}
+	
+	public class ObjectReferenceAttribute: PropertyAttribute
+	{
+		public int Category;
+
+		public ObjectReferenceAttribute(int category)
+		{
+			Category = category;
+		}
+	}
+	
+	[AttributeUsage(AttributeTargets.Property)]
+	public class DBReferenceAttribute: Attribute
+	{
+		public int Category;
+
+		public DBReferenceAttribute(int category)
+		{
+			Category = category;
 		}
 	}
 }

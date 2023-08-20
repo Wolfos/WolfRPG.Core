@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
@@ -318,6 +319,62 @@ namespace WolfRPG.Core
 						}
 						
 						var reference = new AssetReference
+						{
+							Guid = guid
+						};
+						editor.OnBeforeComponentUpdated?.Invoke();
+						property.SetValue(component, reference);
+						
+						editor.OnComponentUpdated?.Invoke();
+					});
+					
+					this.Add(field);
+				}
+			}
+			else if (propertyType == typeof(RPGObjectReference))
+			{
+				// DBReferenceAttribute has a neat dropdown
+				var attributes = property.GetCustomAttributes(typeof(DBReferenceAttribute), true);
+				if (attributes.Any())
+				{
+					var attribute = (DBReferenceAttribute)attributes.First();
+					var field = new DropdownField();
+					field.label = property.Name;
+					field.labelElement.AddToClassList("PropertyLabel");
+					var reference = (RPGObjectReference)property.GetValue(component);
+					
+					var names = new List<string>();
+					var guids = new List<string>();
+					names.Add("NONE");
+					guids.Add(string.Empty);
+
+					var database = RPGDatabase.DefaultDatabase;
+					foreach (var obj in database.Objects)
+					{
+						if(obj.Value.Category != attribute.Category) continue;
+				
+						names.Add(obj.Value.Name);
+						guids.Add(obj.Value.Guid);
+					}
+					int index = 0;
+					if (reference != null && reference.Guid != String.Empty)
+					{
+						index = guids.IndexOf(reference.Guid);
+					}
+					if(index == -1 || index > names.Count - 1) index = 0;
+
+					field.choices = names;
+					field.SetValueWithoutNotify(names[index]);
+					
+					field.RegisterValueChangedCallback((evt) =>
+					{
+						var choice = evt.newValue;
+						if (string.IsNullOrEmpty(choice)) return;
+
+						var choiceIndex = names.IndexOf(choice);
+						var guid = guids[choiceIndex];
+
+						var reference = new RPGObjectReference
 						{
 							Guid = guid
 						};
