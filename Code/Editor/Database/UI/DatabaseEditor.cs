@@ -199,7 +199,14 @@ namespace WolfRPG.Core
                 var i1 = i;
 
                 _objectButtons.Add(groupbox);
-                groupbox.RegisterCallback<ClickEvent>(_ => OnObjectSelected(i1, rpgObject));
+                groupbox.RegisterCallback<ClickEvent>(_ =>
+                {
+                    // Check if object wasn't just deleted
+                    if (_database.Objects.ContainsKey(rpgObject.Guid))
+                    {
+                        OnObjectSelected(i1, rpgObject);
+                    }
+                });
                 groupbox.Add(label);
                 _objectList.Add(groupbox);
                 

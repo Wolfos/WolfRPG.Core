@@ -74,7 +74,12 @@ namespace WolfRPG.Core
 			oldPath = oldPath.Replace("\\", "/");
 			if (path != oldPath)
 			{
-				AssetDatabase.MoveAsset(oldPath, path);
+				var error = AssetDatabase.MoveAsset(oldPath, path);
+				if (string.IsNullOrEmpty(error) == false)
+				{
+					DatabaseEditor.DisplayMessage(error);
+					return;
+				}
 			}
 			var json = JsonConvert.SerializeObject(rpgObject, Formatting.Indented, 
 				Settings.JsonSerializerSettings);
