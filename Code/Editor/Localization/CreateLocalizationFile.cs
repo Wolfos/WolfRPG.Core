@@ -1,6 +1,7 @@
 using System.IO;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 namespace WolfRPG.Core.Localization
@@ -44,6 +45,13 @@ namespace WolfRPG.Core.Localization
 			var entry = addressableSettings.CreateOrMoveEntry(guid.ToString(), assetGroup);
 			addressableSettings.AddLabel(LocalizationFile.Label);
 			entry.labels.Add(LocalizationFile.Label);
+		}
+
+		[MenuItem("WolfRPG/Open Localization File")]
+		public static void OpenFile()
+		{
+			var asset = AssetDatabase.LoadMainAssetAtPath($"Assets/{DefaultRelativePath}");
+			AssetDatabase.OpenAsset(asset);
 		}
 	}
 }
