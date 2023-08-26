@@ -2,6 +2,6 @@
 {
 	public enum Attribute
 	{
-		DEFAULT, Strength, Dexterity, Agility, Attunement, Health, MaxHealth, Mana, MaxMana, MAX
+		DEFAULT, Strength, Dexterity, Agility, Attunement, Health, MaxHealth, Mana, MaxMana, MaxCarryWeight, MAX
 	}
 }
