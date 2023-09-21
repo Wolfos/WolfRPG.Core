@@ -43,7 +43,7 @@ namespace WolfRPG.Core.Quests
 	{
 		public LocalizedString QuestName { get; set; }
 		public QuestStage[] Stages { get; set; }
-		[JsonIgnore] public QuestProgress Progress { get; set; } = new();
+		[HideInInspector] public QuestProgress Progress { get; set; } = new();
 		
 		public QuestStage CurrentStage => Stages[Progress.CurrentStage];
 	}
