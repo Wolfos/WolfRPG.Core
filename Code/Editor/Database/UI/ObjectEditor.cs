@@ -16,8 +16,8 @@ namespace WolfRPG.Core
 
         private IRPGDatabase _database;
         private TextField _nameField;
-        private TextField _guidField;
-        private Toggle _includedInSavedGameToggle;
+        //private TextField _guidField;
+        //private Toggle _includedInSavedGameToggle;
         private DropdownField _category;
         private TemplateContainer _container;
         private GroupBox _bottomBox; // box that's located below the "add component" button. Gets cleared when object is deselected
@@ -34,8 +34,14 @@ namespace WolfRPG.Core
             _container = visualTree.Instantiate();
             _container.style.display = DisplayStyle.None;
             _nameField = _container.Query<TextField>("NameField").First();
-            _guidField = _container.Query<TextField>("GuidField").First();
-            _includedInSavedGameToggle = _container.Query<Toggle>("IncludedInSavedGame").First();
+            
+            // Obsolete, kept for debugging purposes
+            //_guidField = _container.Query<TextField>("GuidField").First();
+            _container.Query<TextField>("GuidField").First().visible = false;
+            // I found it undesirable to put mutable data in WolfRPG, so removing this
+            //_includedInSavedGameToggle = _container.Query<Toggle>("IncludedInSavedGame").First();
+            _container.Query<Toggle>("IncludedInSavedGame").First().visible = false;
+            
             _componentList = _container.Query<GroupBox>("ComponentList").First();
             _category = _container.Query<DropdownField>("Category").First();
             _category.choices = database.Categories;
@@ -63,11 +69,11 @@ namespace WolfRPG.Core
             _nameField.RegisterValueChangedCallback(OnNameFieldChanged);
             _category.RegisterValueChangedCallback(OnCategoryChanged);
 
-            _guidField.value = SelectedObject.Guid;
-            _guidField.RegisterCallback<ClickEvent>( OnGuidFieldClicked);
+            //_guidField.value = SelectedObject.Guid;
+            //_guidField.RegisterCallback<ClickEvent>( OnGuidFieldClicked);
 
-            _includedInSavedGameToggle.value = SelectedObject.IncludedInSavedGame;
-            _includedInSavedGameToggle.RegisterValueChangedCallback(OnIncludedOnSaveGameToggleChanged);
+            //_includedInSavedGameToggle.value = SelectedObject.IncludedInSavedGame;
+            //_includedInSavedGameToggle.RegisterValueChangedCallback(OnIncludedOnSaveGameToggleChanged);
             _category.index = rpgObject.Category;
             
             BuildComponentsList();
@@ -128,8 +134,8 @@ namespace WolfRPG.Core
         {
             _nameField.UnregisterValueChangedCallback(OnNameFieldChanged);
             _category.UnregisterValueChangedCallback(OnCategoryChanged);
-            _guidField.UnregisterCallback<ClickEvent>(OnGuidFieldClicked);
-            _includedInSavedGameToggle.UnregisterValueChangedCallback(OnIncludedOnSaveGameToggleChanged); 
+            //_guidField.UnregisterCallback<ClickEvent>(OnGuidFieldClicked);
+            //_includedInSavedGameToggle.UnregisterValueChangedCallback(OnIncludedOnSaveGameToggleChanged); 
         }
 
         private void Clear()
