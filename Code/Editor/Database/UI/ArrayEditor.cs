@@ -97,9 +97,12 @@ namespace WolfRPG.Core
 
 		private static void Resize(ref Array array, int newSize) {        
 			var elementType = array.GetType().GetElementType();
-			var newArray = Array.CreateInstance(elementType, newSize);
-			Array.Copy(array, newArray, Math.Min(array.Length, newArray.Length));
-			array = newArray;
+			if (elementType != null)
+			{
+				var newArray = Array.CreateInstance(elementType, newSize);
+				Array.Copy(array, newArray, Math.Min(array.Length, newArray.Length));
+				array = newArray;
+			}
 		}
 	}
 }

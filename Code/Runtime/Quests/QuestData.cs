@@ -14,15 +14,18 @@ namespace WolfRPG.Core.Quests
 	public class QuestProgress
 	{
 		public string Guid { get; set; }
+		// Whether quest is complete
 		public bool Complete { get; set; }
+		// Current quest stage
 		public int CurrentStage { get; set; }
+		// Optional, for when a stage has more than one task to complete
+		public int StageProgress { get; set; }
 
 		public QuestData GetQuest()
 		{
 			var questObject = RPGDatabase.GetObject(Guid);
 			var questData = questObject.GetComponent<QuestData>();
-				
-			questData.Progress = this;
+			
 			return questData;
 		}
 	}
@@ -43,8 +46,5 @@ namespace WolfRPG.Core.Quests
 	{
 		public LocalizedString QuestName { get; set; }
 		public QuestStage[] Stages { get; set; }
-		[HideInInspector] public QuestProgress Progress { get; set; } = new();
-		
-		public QuestStage CurrentStage => Stages[Progress.CurrentStage];
 	}
 }

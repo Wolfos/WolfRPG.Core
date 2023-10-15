@@ -4,30 +4,32 @@ namespace WolfRPG.Core.Quests
 {
 	public static class Quest
 	{
-		public static void ProgressToNextStage(QuestData data)
+		public static void ProgressToNextStage(QuestProgress progress)
 		{
-			if (data.CurrentStage.Type == QuestStageType.Finished) return;
-			 
 			Debug.Log("Quest progress");
-			data.CurrentStage.Progress++;
-			if (data.CurrentStage.Progress >= data.CurrentStage.Number)
+			progress.CurrentStage++;
+
+			var data = progress.GetQuest();
+			if (data.Stages[progress.CurrentStage].Type == QuestStageType.Finished)
 			{
-				data.CurrentStage.Complete = true;
-				Debug.Log("Completed quest stage");
-				data.Progress.CurrentStage++;
-				if (data.CurrentStage.Type == QuestStageType.Finished) data.Progress.Complete = true;
+				progress.Complete = true;
 			}
 		}
 
-		public static void SetStage(QuestData data, int newStage, bool failed = false)
+		public static QuestData GetQuest(string guid)
 		{
-			data.CurrentStage.Complete = failed == false;
-			
-			data.Progress.CurrentStage = newStage;
-			if (data.CurrentStage.Type == QuestStageType.Finished)
+			var questObject = RPGDatabase.GetObject(guid);
+			return questObject.GetComponent<QuestData>();
+		}
+
+		public static void SetStage(QuestProgress progress, int newStage)
+		{
+			var data = progress.GetQuest();
+
+			progress.CurrentStage = newStage;
+			if (data.Stages[progress.CurrentStage].Type == QuestStageType.Finished)
 			{
-				data.Progress.Complete = true;
-				data.CurrentStage.Complete = true;
+				progress.Complete = true;
 			}
 		}
 	}
