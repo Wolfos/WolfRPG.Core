@@ -34,7 +34,7 @@ namespace WolfRPG.Core.Quests
 	public class QuestStage
 	{
 		public QuestStageType Type { get; set; }
-		public string Target { get; set; }
+		[DBReference(2)] public RPGObjectReference Target { get; set; }
 		public int Number { get; set; }
 		public string Description { get; set; }
 		
