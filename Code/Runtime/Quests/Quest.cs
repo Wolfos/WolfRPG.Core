@@ -8,6 +8,7 @@ namespace WolfRPG.Core.Quests
 		{
 			Debug.Log("Quest progress");
 			progress.CurrentStage++;
+			progress.StageProgress = 0;
 
 			var data = progress.GetQuest();
 			if (data.Stages[progress.CurrentStage].Type == QuestStageType.Finished)

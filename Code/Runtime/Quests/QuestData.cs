@@ -36,9 +36,9 @@ namespace WolfRPG.Core.Quests
 		public QuestStageType Type { get; set; }
 		[DBReference(2)] public RPGObjectReference Target { get; set; }
 		public int Number { get; set; }
+		// TODO: Localize
 		public string Description { get; set; }
 		
-		[HideInInspector] public int Progress { get; set; }
 		[HideInInspector] public bool Complete { get; set; }
 	}
 	
