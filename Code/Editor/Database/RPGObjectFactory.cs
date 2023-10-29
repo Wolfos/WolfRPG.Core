@@ -88,9 +88,9 @@ namespace WolfRPG.Core
 			AssetDatabase.Refresh();
 		}
 
-		public void DeleteObject(IRPGObject rpgObject)
+		public void DeleteObject(IRPGObject rpgObject, IRPGDatabase database)
 		{
-			RPGDatabase.DefaultDatabase.RemoveObjectInstance(rpgObject);
+			database.RemoveObjectInstance(rpgObject);
 			
 			var path = AssetDatabase.GUIDToAssetPath(rpgObject.Guid);
 			AssetDatabase.DeleteAsset(path);

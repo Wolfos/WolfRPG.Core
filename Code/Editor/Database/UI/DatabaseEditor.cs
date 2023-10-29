@@ -229,7 +229,7 @@ namespace WolfRPG.Core
                 DeselectObject();
             }
             
-            _objectFactory.DeleteObject(rpgObject);
+            _objectFactory.DeleteObject(rpgObject, _database);
             PopulateObjectList();
             // Save database only to remove the object reference, as the file was deleted
             _databaseFactory.SaveDatabase(_database, GetDatabasePath());
