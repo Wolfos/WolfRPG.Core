@@ -222,6 +222,8 @@ namespace WolfRPG.Core
 
         private void DeleteObject(IRPGObject rpgObject)
         {
+            if (EditorApplication.isPlaying) return;
+            
             if (_objectEditor.SelectedObject == rpgObject)
             {
                 DeselectObject();
@@ -385,6 +387,8 @@ namespace WolfRPG.Core
 
         private void OnCreateNewObjectClicked()
         {
+            if (EditorApplication.isPlaying) return;
+            
             var name = $"New Object {_database.NumObjectsAdded + 1}";
             _database.NumObjectsAdded++;
             
